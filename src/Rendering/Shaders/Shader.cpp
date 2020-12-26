@@ -1,8 +1,7 @@
 #pragma once
 #include "Shader.h"
-
 #include <sstream>
-#include <GL/glew.h>
+#include <GL\glew.h>
 
 #define ASSERT(x) if (!(x)) assert(false)
 
