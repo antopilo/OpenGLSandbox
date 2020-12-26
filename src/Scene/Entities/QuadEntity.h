@@ -15,6 +15,7 @@ private:
 	Shader* m_Shader;
 public:
 	QuadEntity();
+	glm::mat4 GetTransform();
 	~QuadEntity();
 
 	void Update(Timestep ts);

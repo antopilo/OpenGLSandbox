@@ -13,5 +13,7 @@ public:
 
 	void Update(Timestep ts);
 
+	Camera* GetCurrentCamera();
+
 	void Draw();
 };

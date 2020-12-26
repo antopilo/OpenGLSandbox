@@ -1,5 +1,6 @@
 #include "QuadEntity.h"
 #include <GL\glew.h>
+#include <wtypes.h>
 
 QuadEntity::QuadEntity()
 {
@@ -40,6 +41,17 @@ QuadEntity::QuadEntity()
     Scale       = glm::vec3(1, 1, 1);
 }
 
+glm::mat4 QuadEntity::GetTransform()
+{
+    glm::mat4 transform = glm::mat4(1.0f);
+    transform = glm::translate(transform, Translation);
+
+    //transform = glm::rotate(transform, Rotation);
+    //transform = glm::scale(transform, Scale);
+   
+    return transform;
+}
+
 QuadEntity::~QuadEntity()
 {
     delete m_Shader;
@@ -53,9 +65,9 @@ void QuadEntity::Update(Timestep ts)
 void QuadEntity::Draw(glm::mat4 projection, glm::mat4 transform)
 {
     m_Shader->Bind();
-    //m_Shader->SetUniformMat4f("u_Projection", projection);
-    //m_Shader->SetUniformMat4f("u_View", transform);
-
+    m_Shader->SetUniformMat4f("u_Projection", projection);
+    m_Shader->SetUniformMat4f("u_View", transform);
+    m_Shader->SetUniformMat4f("u_Model", glm::mat4(1.0f));
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

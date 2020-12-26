@@ -105,43 +105,21 @@ void Window::Draw()
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
+
+    Camera* cam = m_Scene->GetCurrentCamera();
 	ImGui::NewFrame();
 	{
-		static float f = 0.0f;
-		static int counter = 0;
-
 		ImGui::Begin("Debugging!");                          // Create a window called "Hello, world!" and append into it.
 
-		// CAMERA
-		// position
 		ImGui::Text("Camera:");
+        std::string msg = "X: " + std::to_string(cam->GetTranslation().x) + " Y:" + std::to_string(cam->GetTranslation().y) + " Z:" + std::to_string(cam->GetTranslation().z);
 
 		ImGui::Text("Position:");
-		
-
+        ImGui::Text(msg.c_str());
 		// Direction
 		ImGui::Text("Direction:");
-		
-		//ImGui::Text(d.c_str());
-
-		// TYPE
-		//ImGui::Text("Type:");
-		//const char* items[] = { "Orthographic", "Perspective" };
-		//static int item = 0;
-		//ImGui::Combo("Type", &item, items, IM_ARRAYSIZE(items));
-
-		//if (item == 0)
-		//	m_Cam->SetType(ORTHO);
-		//else if (item == 1)
-		//	m_Cam->SetType(PERSPECTIVE);
-
-		// FOV
-		//ImGui::SliderFloat("FOV", &m_Scene->GetCamera()->Fov, 1.0f, 120.0f);
-
-
-		//std::string drawcall = "Draw calls: " + std::to_string(Renderer::DrawCalls);
-		//ImGui::Text(drawcall.c_str());
-		// Edit 1 float using a slider from 0.0f to 1.0f
+        msg = "X: " + std::to_string(cam->GetDirection().x) + " Y:" + std::to_string(cam->GetDirection().y) + " Z:" + std::to_string(cam->GetDirection().z);
+        ImGui::Text(msg.c_str());
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();

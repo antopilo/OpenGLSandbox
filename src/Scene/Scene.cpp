@@ -3,7 +3,7 @@
 
 Scene::Scene()
 {
-	m_Camera = new Camera(PERSPECTIVE, glm::vec3(0, 0, -2));
+	m_Camera = new Camera(PERSPECTIVE, glm::vec3(-1, 0, -1));
 	m_Entity = new QuadEntity();
 }
 
@@ -14,6 +14,11 @@ Scene::~Scene() {
 void Scene::Update(Timestep ts)
 {
 	m_Camera->Update(ts);
+}
+
+Camera* Scene::GetCurrentCamera()
+{
+	return m_Camera;
 }
 
 void Scene::Draw()
