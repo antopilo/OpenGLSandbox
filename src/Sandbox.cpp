@@ -1,20 +1,30 @@
-// Sandbox.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
-
+#include "glfw3.h"
 int main()
 {
-    std::cout << "Hello World!\n";
+    if (!glfwInit())
+        std::cout << "glfw initialization failed." << std::endl;
+
+
+    int width, height;
+
+    // Create window
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Sandbox", NULL, NULL);
+
+    if (!window) 
+        std::cout << "Window creation failed." << std::endl;
+
+    glfwMakeContextCurrent(window);
+
+    // Loop
+    while (!glfwWindowShouldClose(window))
+    {
+        glfwPollEvents();
+        glfwGetFramebufferSize(window, &width, &height);
+        glViewport(0, 0, width, height);
+
+        glfwSwapBuffers(window);
+    }
+
+    glfwTerminate();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
