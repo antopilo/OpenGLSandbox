@@ -63,6 +63,9 @@
     <ClCompile Include="src\Vendors\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\Lighting\Environment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering\Shaders\Shader.h">
@@ -971,6 +974,9 @@
     <ClInclude Include="src\Vendors\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scene\Lighting\Environment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Vendors\glm\detail\func_common.inl">
@@ -1388,5 +1394,13 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Res\Shaders\basic.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\Textures\0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Textures\1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

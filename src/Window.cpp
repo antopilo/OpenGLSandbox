@@ -65,8 +65,8 @@ int Window::Init()
 
 
     glClearColor(0.019f, 0.501f, 1.0f, 1.0f);
-    glDepthFunc(GL_LEQUAL);
-    glEnable(GL_MULTISAMPLE);
+
+    glEnable(GL_DEPTH_TEST);
 
     ImGui::CreateContext();
 
@@ -96,9 +96,11 @@ void Window::Update(Timestep ts)
     m_Scene->Update(ts);
 }
 
+glm::vec4 m_Color;
+
 void Window::Draw()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glfwGetFramebufferSize(m_Window, &Width, &Height);
     glViewport(0, 0, Width, Height);
@@ -121,9 +123,16 @@ void Window::Draw()
         msg = "X: " + std::to_string(cam->GetDirection().x) + " Y:" + std::to_string(cam->GetDirection().y) + " Z:" + std::to_string(cam->GetDirection().z);
         ImGui::Text(msg.c_str());
 
+
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}
+
+    {
+        ImGui::Begin("Lighting");
+        ImGui::ColorEdit4("Color", (float*)&m_Scene->GetEnvironment()->m_AmbientColor);
+        ImGui::End();
+    }
 
 	ImGui::Render();
 

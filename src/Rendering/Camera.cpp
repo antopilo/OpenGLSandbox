@@ -126,7 +126,7 @@ glm::vec3 Camera::GetDirection() {
 glm::mat4 Camera::GetPerspective()
 {
 
-	m_Perspective = glm::perspectiveFov(glm::radians(Fov), 16.0f, 9.0f, 0.0f, 2000.0f);
+	m_Perspective = glm::perspectiveFov(glm::radians(Fov), 16.0f, 9.0f, 0.1f, 2000.0f);
 	//m_Perspective = glm::ortho(-8.0f, 8.0f, -4.5f, 4.5f, -1.0f, 1.0f);
 	return m_Perspective;
 }

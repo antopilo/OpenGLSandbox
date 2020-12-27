@@ -165,6 +165,7 @@
     <ClCompile Include="src\Rendering\Shaders\Texture.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
     <ClCompile Include="src\Scene\Entities\QuadEntity.cpp" />
+    <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Vendors\glm\detail\glm.cpp" />
     <ClCompile Include="src\Vendors\imgui\imgui.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
     <ClInclude Include="src\Rendering\Shaders\Texture.h" />
     <ClInclude Include="src\Scene\Entities\QuadEntity.h" />
+    <ClInclude Include="src\Scene\Lighting\Environment.h" />
     <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Vendors\glm\common.hpp" />
     <ClInclude Include="src\Vendors\glm\detail\compute_common.hpp" />
@@ -620,6 +622,10 @@
     <None Include="src\Vendors\glm\gtx\vector_angle.inl" />
     <None Include="src\Vendors\glm\gtx\vector_query.inl" />
     <None Include="src\Vendors\glm\gtx\wrap.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\Textures\0.png" />
+    <Image Include="Res\Textures\1.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

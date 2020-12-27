@@ -5,7 +5,7 @@
 #include <glm\ext\matrix_float4x4.hpp>
 #include "../../Rendering/Shaders/Shader.h"
 
-
+class Scene;
 class QuadEntity
 {
 private:
@@ -13,9 +13,10 @@ private:
 	unsigned int VBO;
 	unsigned int EBO;
 	Shader* m_Shader;
+	Scene* m_Scene;
+	
 public:
-	QuadEntity();
-	glm::mat4 GetTransform();
+	QuadEntity(Scene* scene);
 	~QuadEntity();
 
 	void Update(Timestep ts);
@@ -24,4 +25,8 @@ public:
 	glm::vec3 Translation;
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
+
+
+	glm::mat4 GetTransform();
+
 };
