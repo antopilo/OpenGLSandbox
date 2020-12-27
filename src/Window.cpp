@@ -98,6 +98,10 @@ void Window::Update(Timestep ts)
 
 glm::vec4 m_Color;
 
+float x = 0.0f;
+float y = 0.0f;
+float z = 0.0f;
+
 void Window::Draw()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -109,6 +113,7 @@ void Window::Draw()
 	ImGui_ImplGlfw_NewFrame();
 
     Camera* cam = m_Scene->GetCurrentCamera();
+
 	ImGui::NewFrame();
 	{
 		ImGui::Begin("Debugging!");                          // Create a window called "Hello, world!" and append into it.
@@ -126,13 +131,25 @@ void Window::Draw()
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
-	}
+	} 
 
     {
         ImGui::Begin("Lighting");
-        ImGui::ColorEdit4("Color", (float*)&m_Scene->GetEnvironment()->m_AmbientColor);
+        ImGui::ColorEdit4("Ambient Color", (float*)&m_Scene->GetEnvironment()->m_AmbientColor);
+        ImGui::Text("Directional Light:");
+        ImGui::SliderFloat("Strength", &m_Scene->GetEnvironment()->m_DirectionalStrength, 0.0f, 100.0f);
+        ImGui::ColorEdit4("Directional Color", (float*)&m_Scene->GetEnvironment()->m_DirectionalLightColor);
+        ImGui::Text("Directional direction:");
+        ImGui::SliderFloat("X", &x, -1.0f, 1.0f);
+        ImGui::SliderFloat("Y", &y, -1.0f, 1.0f);
+        ImGui::SliderFloat("Z", &z, -1.0f, 1.0f);
+        m_Scene->GetEnvironment()->SetDirectionalLight(x, y, z);
+        ImGui::Text("Material");
+        ImGui::SliderFloat("Shininess", &m_Scene->m_Entity->Shininess, 0.0f, 100.0f);
         ImGui::End();
     }
+
+    m_Scene->GetEnvironment()->SetDirectionalLight(x, y, z);
 
 	ImGui::Render();
 

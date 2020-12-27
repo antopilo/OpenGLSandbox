@@ -3,53 +3,53 @@
 #include <wtypes.h>
 #include "../../Rendering/Shaders/Texture.h"
 #include "../Scene.h"
-
+#include "../../Rendering/Vertex.h"
 QuadEntity::QuadEntity(Scene* scene)
 {
     m_Scene = scene;
 
-    float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  1.0f,
+    Vertex vertices[] = {
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, -1), 0.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 0, -1), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, -1), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, -1), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 0, -1), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, -1), 0.0f},
                                            
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f,
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, 1), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 0, 1), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, 1), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, 1), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 0, 1), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, 1), 0.0f},
                                            
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 1.0f, 0.0f), glm::vec3(-1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 1.0f, 1.0f), glm::vec3(-1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(-1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(-1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(-1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 1.0f, 0.0f), glm::vec3(-1, 0, 0), 0.0f},
                                            
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 0.0f, 1.0f), glm::vec3(1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 0.0f, 1.0f), glm::vec3(1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 0.0f, 0.0f), glm::vec3(1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(1, 0, 0), 0.0f},
                                            
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, -1, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, -1, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, -1, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, -1, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, -1, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, -1, 0), 0.0f},
                                            
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,  1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 1, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 1, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 1, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 1, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 1, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 1, 0), 0.0f},
     };
 
 	// Setup buffers
@@ -66,20 +66,23 @@ QuadEntity::QuadEntity(Scene* scene)
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(sizeof(GL_FLOAT) * 3));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 3));
     glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(sizeof(GL_FLOAT) * 5));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 5));
     glEnableVertexAttribArray(2);
+
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 8));
+    glEnableVertexAttribArray(3);
 
     m_Shader = new Shader("Res/Shaders/basic.shader");
     m_Shader->Bind();
 
     int samplers[2] = { 0, 1 };
-    //m_Shader->SetUniform1iv("u_Textures", 2, samplers);
+    m_Shader->SetUniform1iv("u_Textures", 2, samplers);
     Texture* texture = new Texture("Res/Textures/0.png");
     texture->Bind(0);
     Texture* texture2 = new Texture("Res/Textures/1.png");
@@ -119,6 +122,18 @@ void QuadEntity::Draw(glm::mat4 projection, glm::mat4 transform)
     m_Shader->SetUniformMat4f("u_Model", glm::mat4(1.0f));
     glm::vec4 ambientColor = m_Scene->GetEnvironment()->GetAmbientColor();
     m_Shader->SetUniform4f("u_AmbientColor", ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
+
+    glm::vec4 lightColor = m_Scene->GetEnvironment()->GetDirectionalLightColor();
+    m_Shader->SetUniform4f("u_LightColor", lightColor.r, lightColor.g, lightColor.b, 1.0f);
+
+    glm::vec3 lightDir = m_Scene->GetEnvironment()->GetDirectionalLight();
+    m_Shader->SetUniform3f("u_LightDirection", lightDir.x, lightDir.y, lightDir.z);
+
+    m_Shader->SetUniform1f("u_Strength", m_Scene->GetEnvironment()->GetDirectionalStrength());
+    m_Shader->SetUniform1f("u_Shininess", Shininess);
+    glm::vec3 eyePos = m_Scene->GetCurrentCamera()->GetTranslation();
+    m_Shader->SetUniform3f("u_EyePosition", eyePos.x, eyePos.y, eyePos.z);
+
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }

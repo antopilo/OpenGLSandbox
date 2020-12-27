@@ -14,6 +14,7 @@ private:
 	unsigned int EBO;
 	Shader* m_Shader;
 	Scene* m_Scene;
+
 	
 public:
 	QuadEntity(Scene* scene);
@@ -26,7 +27,7 @@ public:
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
 
-
+	float Shininess = 0.0f;
 	glm::mat4 GetTransform();
 
 };

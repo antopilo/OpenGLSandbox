@@ -183,8 +183,10 @@
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
     <ClInclude Include="src\Rendering\Shaders\Texture.h" />
+    <ClInclude Include="src\Rendering\Vertex.h" />
     <ClInclude Include="src\Scene\Entities\QuadEntity.h" />
     <ClInclude Include="src\Scene\Lighting\Environment.h" />
+    <ClInclude Include="src\Scene\Lighting\Material.h" />
     <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Vendors\glm\common.hpp" />
     <ClInclude Include="src\Vendors\glm\detail\compute_common.hpp" />

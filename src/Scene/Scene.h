@@ -6,7 +6,6 @@ class Scene
 {
 private:
 	Camera* m_Camera;
-	QuadEntity* m_Entity;
 	Environment* m_Environement;
 public:
 	Scene();
@@ -14,7 +13,7 @@ public:
 
 	void Update(Timestep ts);
 	void Draw();
-
+	QuadEntity* m_Entity;
 	Camera* GetCurrentCamera();
 	Environment* GetEnvironment();
 	
