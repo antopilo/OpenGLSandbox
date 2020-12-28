@@ -13,6 +13,15 @@ Camera::Camera(CAMERA_TYPE type, glm::vec3 position) {
 	cameraUp = glm::cross(cameraDirection, cameraRight);
 }
 
+Camera::Camera() {
+	m_Type = PERSPECTIVE;
+	Translation = glm::vec3(0, 0, 0);
+	cameraDirection = glm::vec3(0, 0, 1);
+	up = glm::vec3(0.0f, 1.0f, 0.0f);
+	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+	cameraUp = glm::cross(cameraDirection, cameraRight);
+}
+
 void Camera::SetType(CAMERA_TYPE type)
 {
 	m_Type = type;

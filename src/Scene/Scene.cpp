@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
-
+#include "Entities/Entity.h"
+#include "Entities/Components.h"
 Scene::Scene()
 {
 	m_Camera = new Camera(PERSPECTIVE, glm::vec3(-1, 0, -1));
@@ -9,6 +10,11 @@ Scene::Scene()
 	m_Entities.push_back(new QuadEntity(this));
 	m_Entity = new QuadEntity(this);
 
+	auto cubeEntity = CreateEntity();
+	cubeEntity.AddComponent<CubeComponent>();
+
+	auto camEntity = CreateEntity();
+	cubeEntity.AddComponent<CameraComponent>();
 }
 
 Scene::~Scene() {
@@ -19,13 +25,43 @@ Scene::~Scene() {
 
 void Scene::Update(Timestep ts)
 {
-	m_Camera->Update(ts);
+	auto group = m_Registry.group<TransformComponent>(entt::get<CameraComponent>);
+	for (auto e : group) {
+		auto [transform, cam] = group.get<TransformComponent, CameraComponent>(e);
+
+		cam.Camera.Update(ts);
+	}
+}
+
+Entity Scene::CreateEntity() {
+	Entity entity = { m_Registry.create(), this };
+	entity.AddComponent<TransformComponent>();
+	return entity;
 }
 
 void Scene::Draw()
 {
-	for(auto e : m_Entities)
-		e->Draw(m_Camera->GetPerspective(), m_Camera->GetTransform());
+	Camera* cam = nullptr;
+	{
+		auto view = m_Registry.view<TransformComponent, CameraComponent>();
+		for (auto e : view) {
+			auto [transform, camera] = view.get<TransformComponent, CameraComponent>(e);
+			cam = &camera.Camera;
+			break;
+		}
+	}
+	
+
+	if (cam) {
+		auto view = m_Registry.view<TransformComponent, CubeComponent>();
+		for (auto e : view) {
+			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);
+			cube.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
+		}
+	}
+	
+	//for(auto e : m_Entities)
+	//	e->Draw(m_Camera->GetPerspective(), m_Camera->GetTransform());
 }
 
 void Scene::AddEntity() {

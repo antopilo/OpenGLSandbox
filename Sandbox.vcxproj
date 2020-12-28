@@ -185,6 +185,7 @@
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
     <ClInclude Include="src\Rendering\Shaders\Texture.h" />
     <ClInclude Include="src\Rendering\Vertex.h" />
+    <ClInclude Include="src\Scene\Entities\Components.h" />
     <ClInclude Include="src\Scene\Entities\Entity.h" />
     <ClInclude Include="src\Scene\Entities\QuadEntity.h" />
     <ClInclude Include="src\Scene\Lighting\Environment.h" />

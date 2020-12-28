@@ -41,6 +41,7 @@ private:
 public:
 	float Fov = 90.0f;
 
+	Camera();
 	Camera(CAMERA_TYPE type, glm::vec3 position);
 
 	void SetType(CAMERA_TYPE type);
