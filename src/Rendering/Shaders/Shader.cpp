@@ -168,6 +168,13 @@ void Shader::SetUniform1iv(const std::string& name, int size, int* value)
 	glUniform1iv(addr, size, value);
 }
 
+void Shader::SetUniformMat3f(const std::string& name, glm::mat3 mat)
+{
+	int addr = FindUniformLocation(name);
+	ASSERT(addr != -1);
+	glUniformMatrix3fv(addr, 1, GL_FALSE, &mat[0][0]);
+}
+
 void Shader::SetUniformMat4f(const std::string& name, glm::mat4 mat)
 {
 	int addr = FindUniformLocation(name);

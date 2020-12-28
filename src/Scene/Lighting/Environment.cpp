@@ -1,5 +1,6 @@
 #pragma once
 #include "Environment.h"
+#include <glm\detail\func_geometric.inl>
 
 Environment::Environment() 
 {
@@ -37,7 +38,7 @@ glm::vec3 Environment::GetDirectionalLight()
 
 void Environment::SetDirectionalLight(float x, float y, float z)
 {
-	m_DirectionalLight = glm::vec3(x, y, z);
+	m_DirectionalLight = glm::normalize(glm::vec3(x, y, z));
 }
 
 

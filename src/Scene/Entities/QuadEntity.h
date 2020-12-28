@@ -14,12 +14,12 @@ private:
 	unsigned int EBO;
 	Shader* m_Shader;
 	Scene* m_Scene;
-
+	
 	
 public:
 	QuadEntity(Scene* scene);
 	~QuadEntity();
-
+	std::vector<char> m_Name { 't' };
 	void Update(Timestep ts);
 	void Draw(glm::mat4 projection, glm::mat4 transform);
 
@@ -28,6 +28,10 @@ public:
 	glm::vec3 Scale;
 
 	float Shininess = 0.0f;
-	glm::mat4 GetTransform();
 
+	glm::mat4 GetTransform();
+	glm::mat3 GetNormalTransform();
+
+	std::string GetName() { return m_Name.data(); }
+	//void SetName(const std::string name) { m_Name = name; }
 };

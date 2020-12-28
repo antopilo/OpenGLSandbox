@@ -9,47 +9,47 @@ QuadEntity::QuadEntity(Scene* scene)
     m_Scene = scene;
 
     Vertex vertices[] = {
-        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, -1), 0.0f },
-        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 0, -1), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, -1), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, -1), 0.0f},
-        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 0, -1), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, -1), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, -1), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 0, -1), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, -1), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, -1), 1.0f },
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 0, -1), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, -1), 1.0f },
                                            
-        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, 1), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 0, 1), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, 1), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, 1), 0.0f},
-        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 0, 1), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, 1), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, 1), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 0, 1), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, 1), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 0, 1), 1.0f },
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 0, 1), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 0, 1), 1.0f },
                                            
-        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 1.0f, 0.0f), glm::vec3(-1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 1.0f, 1.0f), glm::vec3(-1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(-1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(-1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(-1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 1.0f, 0.0f), glm::vec3(-1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 1.0f, 0.0f), glm::vec3(-1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 1.0f, 1.0f), glm::vec3(-1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(-1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(-1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(-1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 1.0f, 0.0f), glm::vec3(-1, 0, 0), 1.0f },
                                            
-        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 0.0f, 1.0f), glm::vec3(1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 0.0f, 1.0f), glm::vec3(1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 0.0f, 0.0f), glm::vec3(1, 0, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(1, 0, 0), 0.0f},
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 0.0f, 1.0f), glm::vec3(1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 0.0f, 1.0f), glm::vec3(1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 0.0f, 0.0f), glm::vec3(1, 0, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(1, 0, 0), 1.0f },
                                            
-        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, -1, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, -1, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, -1, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, -1, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, -1, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, -1, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, -1, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, -1, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, -1, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f, -0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, -1, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, -1, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, -1, 0), 1.0f },
                                            
-        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 1, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 1, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 1, 0), 0.0f},
-        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 1, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 1, 0), 0.0f},
-        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 1, 0), 0.0f},
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 1, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f, -0.5f),  glm::vec2( 1.0f, 1.0f), glm::vec3(0, 1, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 1, 0), 1.0f },
+        Vertex{ glm::vec3(0.5f,  0.5f,  0.5f),  glm::vec2( 1.0f, 0.0f), glm::vec3(0, 1, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec2( 0.0f, 0.0f), glm::vec3(0, 1, 0), 1.0f },
+        Vertex{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec2( 0.0f, 1.0f), glm::vec3(0, 1, 0), 1.0f },
     };
 
 	// Setup buffers
@@ -97,10 +97,19 @@ glm::mat4 QuadEntity::GetTransform()
 {
     glm::mat4 transform = glm::mat4(1.0f);
     transform = glm::translate(transform, Translation);
-
-    //transform = glm::rotate(transform, Rotation);
-    //transform = glm::scale(transform, Scale);
+    transform = glm::rotate(transform, Rotation.x, glm::vec3(1, 0 ,0));
+    transform = glm::rotate(transform, Rotation.y, glm::vec3(0, 1, 0));
+    transform = glm::rotate(transform, Rotation.z, glm::vec3(0, 0, 1));
+    transform = glm::scale(transform, Scale);
    
+    return transform;
+}
+
+glm::mat3 QuadEntity::GetNormalTransform() {
+    glm::mat4 transform = glm::mat3(1.0f);
+    transform = glm::rotate(transform, Rotation.x, glm::vec3(1, 0, 0));
+    transform = glm::rotate(transform, Rotation.y, glm::vec3(0, 1, 0));
+    transform = glm::rotate(transform, Rotation.z, glm::vec3(0, 0, 1));
     return transform;
 }
 
@@ -119,7 +128,8 @@ void QuadEntity::Draw(glm::mat4 projection, glm::mat4 transform)
     m_Shader->Bind();
     m_Shader->SetUniformMat4f("u_Projection", projection);
     m_Shader->SetUniformMat4f("u_View", transform);
-    m_Shader->SetUniformMat4f("u_Model", glm::mat4(1.0f));
+    m_Shader->SetUniformMat4f("u_Model", GetTransform());
+
     glm::vec4 ambientColor = m_Scene->GetEnvironment()->GetAmbientColor();
     m_Shader->SetUniform4f("u_AmbientColor", ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
 

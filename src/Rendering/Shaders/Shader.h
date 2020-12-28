@@ -31,6 +31,7 @@ public:
 	void SetUniform1i(const std::string& name, int v0);
 
 	void SetUniform1iv(const std::string& name, int size, int* value);
+	void SetUniformMat3f(const std::string& name, glm::mat3 mat);
 	void SetUniformMat4f(const std::string& name, glm::mat4 mat);
 
 private:

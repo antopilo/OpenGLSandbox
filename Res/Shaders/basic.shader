@@ -14,13 +14,13 @@ out vec3 v_FragPos;
 uniform mat4 u_Projection;
 uniform mat4 u_View;
 uniform mat4 u_Model;
+uniform mat3 u_NormalMatrix;
 
 void main()
 {
-
     v_UVPosition = UVPosition;
     v_TextureId = TextureId;
-    v_Normal = vec3(u_Model * vec4(Normal, 1.0f));
+    v_Normal = mat3(transpose(inverse(u_Model))) * Normal;
     v_FragPos = vec3(u_Model * vec4(VertexPosition, 1.0f));
     gl_Position = u_Projection * u_View * u_Model * vec4(VertexPosition, 1.0f);
 }
@@ -67,8 +67,8 @@ void main()
 
     // Add specular on top of object color.
     vec3 scatteredLight = u_AmbientColor.rgb + u_LightColor.rgb * diffuse;
-    vec3 reflectedLight = u_LightColor.rgb * specular * u_Strength;
-    vec3 rgb = min((scatteredLight.rgb + reflectedLight.rgb), vec3(1.0f));
+    vec3 reflectedLight = vec3(0.9f, 0.0f, 0.1f) * specular * u_Strength;
+    vec3 rgb = min((objectColor.rgb * scatteredLight.rgb + reflectedLight.rgb), vec3(1.0f));
 
     FragColor = vec4(rgb, objectColor.a);
 }
