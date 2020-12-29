@@ -25,10 +25,13 @@ void Renderer::BeginDraw(Camera* camera)
 
     m_Shader->SetUniformMat4f("u_Projection", camera->GetPerspective());
     m_Shader->SetUniformMat4f("u_View", camera->GetTransform());
+    m_Shader->SetUniform3f("u_EyePosition", camera->GetTranslation().x, camera->GetTranslation().y, camera->GetTranslation().z);
 }
 
 void Renderer::EndDraw() {
     
+
+
     m_Lights.clear(); // Clean up lights.
 }
 
@@ -38,4 +41,12 @@ void Renderer::RegisterLight(TransformComponent transform, LightComponent light)
 {
     Light newLight{ transform , light };
     m_Lights.push_back(newLight);
+
+    // What light idx is this?
+    int idx = m_Lights.size();
+    m_Shader->SetUniform1i("LightCount", idx);
+    // Push uniforms in light array.
+    m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", light.Direction.x, light.Direction.y, light.Direction.z);
+    m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Color", light.Color.r, light.Color.g, light.Color.b);
+    m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].Strength", light.Strength);
 }

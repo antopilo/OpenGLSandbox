@@ -16,6 +16,9 @@ Scene::Scene()
 
 	auto camEntity = CreateEntity("Camera");
 	camEntity.AddComponent<CameraComponent>();
+
+	auto lightEntity = CreateEntity("Light");
+	lightEntity.AddComponent<LightComponent>();
 }
 
 Scene::~Scene() {

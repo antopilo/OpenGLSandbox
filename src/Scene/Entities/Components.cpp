@@ -101,17 +101,7 @@ void CubeComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transfo
     //glm::vec4 ambientColor = m_Scene->GetEnvironment()->GetAmbientColor();
     Renderer::m_Shader->SetUniform4f("u_AmbientColor", 0.1f, 0.1f, 0.1f, 1.0f);
 
-    //glm::vec4 lightColor = m_Scene->GetEnvironment()->GetDirectionalLightColor();
-    //Renderer::m_Shader->SetUniform4f("u_LightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-
-    //glm::vec3 lightDir = m_Scene->GetEnvironment()->GetDirectionalLight();
-    //Renderer::m_Shader->SetUniform3f("u_LightDirection", 0.1f, -0.8f, 0.0f);
-
-    //Renderer::m_Shader->SetUniform1f("u_Strength", 10);
     Renderer::m_Shader->SetUniform1f("u_Shininess", 10);
-
-    //glm::vec3 eyePos = m_Scene->GetCurrentCamera()->GetTranslation();
-    Renderer::m_Shader->SetUniform3f("u_EyePosition", 0.0f, 0.0f, 0.0f);
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -121,7 +111,7 @@ LightComponent::LightComponent()
 {
     Color = glm::vec3(1, 1, 1);
     Strength = 10.0f;
-    Direction = glm::vec3(10, 0, 0);
+    Direction = glm::vec3(0.1f, 1, 0);
 }
 
 glm::vec3 LightComponent::GetDirection()
@@ -130,10 +120,10 @@ glm::vec3 LightComponent::GetDirection()
     glm::vec3 defaultDirection(1, 0, 0);
 
     glm::rotate(start, Direction.x, glm::vec3(1, 0, 0));
-    glm::rotate(start, Direction.y, glm::vec3(1, 0, 0));
-    glm::rotate(start, Direction.z, glm::vec3(1, 0, 0));
+    glm::rotate(start, Direction.y, glm::vec3(0, 1, 0));
+    glm::rotate(start, Direction.z, glm::vec3(0, 0, 1));
 
-    return start * glm::vec4(defaultDirection, 1.0f);
+    return glm::vec3(start * glm::vec4(defaultDirection, 1.0f));
 }
 
 void LightComponent::Draw(TransformComponent transformComponent)

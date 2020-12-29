@@ -40,6 +40,7 @@ out vec4 FragColor;
 uniform sampler2D u_Textures[2];
 
 const int MaxLight = 20;
+uniform int LightCount = 0;
 uniform Light Lights[MaxLight];
 
 // Lighting
@@ -65,7 +66,7 @@ void main()
     vec3 reflectedLight = vec3(0, 0, 0);
 
     vec3 eyeDirection = normalize(u_EyePosition - v_FragPos);
-    for (int i = 0; i < MaxLight; i++)
+    for (int i = 0; i < LightCount; i++)
     {
         vec3 HalfVector = normalize(eyeDirection + Lights[i].Direction);
 
@@ -78,6 +79,7 @@ void main()
             specular = 0.0;
         else
             specular = pow(specular, u_Shininess);
+
 
         // Add specular on top of object color.
         scatteredLight += u_AmbientColor.rgb + Lights[i].Color * diffuse;
