@@ -1,9 +1,9 @@
 #include "QuadEntity.h"
 #include <GL\glew.h>
 #include <wtypes.h>
-#include "../../Rendering/Shaders/Texture.h"
 #include "../Scene.h"
 #include "../../Rendering/Vertex.h"
+
 QuadEntity::QuadEntity(Scene* scene)
 {
     m_Scene = scene;
@@ -77,16 +77,6 @@ QuadEntity::QuadEntity(Scene* scene)
 
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 8));
     glEnableVertexAttribArray(3);
-
-    m_Shader = new Shader("Res/Shaders/basic.shader");
-    m_Shader->Bind();
-
-    int samplers[2] = { 0, 1 };
-    m_Shader->SetUniform1iv("u_Textures", 2, samplers);
-    Texture* texture = new Texture("Res/Textures/0.png");
-    texture->Bind(0);
-    Texture* texture2 = new Texture("Res/Textures/1.png");
-    texture->Bind(1);
 
     Translation = glm::vec3(0, 0, 0);
     Rotation    = glm::vec3(0, 0, 0);

@@ -14,10 +14,35 @@ public:
 	}
 
 	template<typename T>
-	void AddComponent() {
-		m_Scene->m_Registry.emplace<T>(m_EntityHandle);
+	T& AddComponent() {
+		T& component = m_Scene->m_Registry.emplace<T>(m_EntityHandle);
+		return component;
+	}
+	
+	template<typename T>
+	void RemoveComponent() {
+		m_Scene->m_Registry.remove<T>(m_EntityHandle);
 	}
 
+	template<typename T>
+	T& GetComponent() {
+		T& component = m_Scene->m_Registry.get<T>(m_EntityHandle);
+		return component;
+	}
+
+	void Destroy() {
+		m_Scene->m_Registry.destroy(m_EntityHandle);
+	}
+
+	bool operator==(const Entity& other) const
+	{
+		return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene;
+	}
+
+	bool operator!=(const Entity& other) const
+	{
+		return !(*this == other);
+	}
 private:
 	entt::entity m_EntityHandle;
 	Scene* m_Scene;

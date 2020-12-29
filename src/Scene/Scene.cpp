@@ -2,24 +2,23 @@
 #include "Scene.h"
 #include "Entities/Entity.h"
 #include "Entities/Components.h"
+
 Scene::Scene()
 {
-	m_Camera = new Camera(PERSPECTIVE, glm::vec3(-1, 0, -1));
 	m_Environement = new Environment();
 
-	m_Entities.push_back(new QuadEntity(this));
-	m_Entity = new QuadEntity(this);
-
-	auto cubeEntity = CreateEntity();
+	auto cubeEntity = CreateEntity("cube1");
 	cubeEntity.AddComponent<CubeComponent>();
+	cubeEntity.GetComponent<TransformComponent>().Translation.x = 2.0f;
 
-	auto camEntity = CreateEntity();
-	cubeEntity.AddComponent<CameraComponent>();
+	auto cubeEntity2 = CreateEntity("cube2");
+	cubeEntity2.AddComponent<CubeComponent>();
+
+	auto camEntity = CreateEntity("Camera");
+	camEntity.AddComponent<CameraComponent>();
 }
 
 Scene::~Scene() {
-	delete m_Camera;
-	delete m_Entity;
 	delete m_Environement;
 }
 
@@ -33,13 +32,52 @@ void Scene::Update(Timestep ts)
 	}
 }
 
-Entity Scene::CreateEntity() {
+void Scene::Draw()
+{
+	// Find the camera of the scene.
+	Camera* cam = nullptr;
+	{
+		auto view = m_Registry.view<TransformComponent, CameraComponent>();
+		for (auto e : view) {
+			auto [transform, camera] = view.get<TransformComponent, CameraComponent>(e);
+			cam = &camera.Camera;
+			break;
+		}
+	}
+
+	// Push lights
+	{
+		auto view = m_Registry.view<TransformComponent, LightComponent>();
+		for (auto l : view) {
+			auto [transform, light] = view.get<TransformComponent, LightComponent>(l);
+			light.Draw(transform);
+		}
+	}
+
+	if (cam) {
+		auto view = m_Registry.view<TransformComponent, CubeComponent>();
+		for (auto e : view) {
+			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);
+			cube.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
+		}
+	}
+
+}
+
+Entity Scene::CreateEntity(const std::string name) {
 	Entity entity = { m_Registry.create(), this };
 	entity.AddComponent<TransformComponent>();
+	NameComponent& nameComponent = entity.AddComponent<NameComponent>();
+	nameComponent.Name = name;
 	return entity;
 }
 
-void Scene::Draw()
+void Scene::DestroyEntity(Entity entity) {
+	entity.Destroy();
+}
+
+// Getter
+Camera* Scene::GetCurrentCamera()
 {
 	Camera* cam = nullptr;
 	{
@@ -50,43 +88,9 @@ void Scene::Draw()
 			break;
 		}
 	}
-	
-
-	if (cam) {
-		auto view = m_Registry.view<TransformComponent, CubeComponent>();
-		for (auto e : view) {
-			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);
-			cube.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
-		}
-	}
-	
-	//for(auto e : m_Entities)
-	//	e->Draw(m_Camera->GetPerspective(), m_Camera->GetTransform());
-}
-
-void Scene::AddEntity() {
-	m_Entities.push_back(new QuadEntity(this));
-}
-
-void Scene::RemoveEntity(int i) {
-	m_Entities.erase(m_Entities.begin() + i);
-}
-
-int Scene::GetEntityCount() {
-	return m_Entities.size();
-}
-
-QuadEntity* Scene::GetEntity(int i) {
-	return m_Entities[i];
-}
-
-// Getter
-Camera* Scene::GetCurrentCamera()
-{
-	return m_Camera;
+	return cam;
 }
 
 Environment* Scene::GetEnvironment() {
-	//m_Environement->m_DirectionalLight = glm::normalize(m_Environement->m_DirectionalLight);
 	return m_Environement;
 }

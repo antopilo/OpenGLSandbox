@@ -161,9 +161,11 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
+    <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Texture.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components.cpp" />
     <ClCompile Include="src\Scene\Entities\Entity.cpp" />
     <ClCompile Include="src\Scene\Entities\QuadEntity.cpp" />
     <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
@@ -182,6 +184,7 @@
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
+    <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
     <ClInclude Include="src\Rendering\Shaders\Texture.h" />
     <ClInclude Include="src\Rendering\Vertex.h" />

@@ -28,10 +28,19 @@ void main()
 #shader fragment
 #version 460 core
 
+struct Light {
+    vec3 Direction;
+    vec3 Color;
+    float Strength;
+};
+
 out vec4 FragColor;
 
 // Textures
 uniform sampler2D u_Textures[2];
+
+const int MaxLight = 20;
+uniform Light Lights[MaxLight];
 
 // Lighting
 uniform vec4 u_AmbientColor;
@@ -52,23 +61,29 @@ void main()
     int index = int(v_TextureId);
     vec4 objectColor = texture(u_Textures[index], v_UVPosition) * vec4(1.0f, 1.0, 1.0f, 1.0f);
 
+    vec3 scatteredLight = vec3(0, 0, 0);
+    vec3 reflectedLight = vec3(0, 0, 0);
+
     vec3 eyeDirection = normalize(u_EyePosition - v_FragPos);
-    vec3 HalfVector = normalize(eyeDirection + u_LightDirection);
-    
-    float diffuse = max(0.0, dot(v_Normal, normalize(u_LightDirection)));
-    float specular = max(0.0, dot(v_Normal, HalfVector));
+    for (int i = 0; i < MaxLight; i++)
+    {
+        vec3 HalfVector = normalize(eyeDirection + Lights[i].Direction);
 
-    // Surfaces facing away from the light (negative dot product)
-    // won't be lit by the directional light.
-    if (diffuse == 0.0)
-        specular = 0.0;
-    else
-        specular = pow(specular, u_Shininess);
+        float diffuse = max(0.0, dot(v_Normal, normalize(Lights[i].Direction)));
+        float specular = max(0.0, dot(v_Normal, HalfVector));
 
-    // Add specular on top of object color.
-    vec3 scatteredLight = u_AmbientColor.rgb + u_LightColor.rgb * diffuse;
-    vec3 reflectedLight = vec3(0.9f, 0.0f, 0.1f) * specular * u_Strength;
+        // Surfaces facing away from the light (negative dot product)
+        // won't be lit by the directional light.
+        if (diffuse == 0.0)
+            specular = 0.0;
+        else
+            specular = pow(specular, u_Shininess);
+
+        // Add specular on top of object color.
+        scatteredLight += u_AmbientColor.rgb + Lights[i].Color * diffuse;
+        reflectedLight += Lights[i].Color * specular * Lights[i].Strength;
+    }
+
     vec3 rgb = min((objectColor.rgb * scatteredLight.rgb + reflectedLight.rgb), vec3(1.0f));
-
     FragColor = vec4(rgb, objectColor.a);
 }
