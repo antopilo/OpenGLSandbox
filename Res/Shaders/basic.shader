@@ -47,6 +47,7 @@ uniform Light Lights[MaxLight];
 uniform vec4 u_AmbientColor;
 uniform vec4 u_LightColor;
 uniform vec3 u_LightDirection;
+
 // Specular
 uniform float u_Shininess;
 uniform float u_Strength;

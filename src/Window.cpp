@@ -8,7 +8,7 @@
 #include <imgui\imgui_impl_glfw.h>
 #include <imgui\imgui_impl_opengl3.h>
 #include "Rendering/Renderer.h"
-
+#include "Scene/Entities/Entity.h"
 
 
 
@@ -103,9 +103,15 @@ glm::vec4 m_Color;
 float x = 0.0f;
 float y = 0.0f;
 float z = 0.0f;
-
+Entity selectedEntity;
+bool init = false;
 void Window::Draw()
 {
+    if (!init) {
+        selectedEntity = m_Scene->GetAllEntities().at(0);
+        init = true;
+    }
+        
     Renderer::BeginDraw(m_Scene->GetCurrentCamera());
 
     // TODO: move to window event.
@@ -152,6 +158,8 @@ void Window::Draw()
         ImGui::End();
     }
 
+    std::vector<Entity> entities = m_Scene->GetAllEntities();
+    
     static int selected = 0;
     {
         //QuadEntity* selectedEntity = m_Scene->GetEntity(selected);
@@ -168,169 +176,59 @@ void Window::Draw()
 
             ImGui::BeginChild("left pane", ImVec2(150, 0), true);
 
-            
-            //for (int e = 0; e < m_Scene->GetEntityCount(); e++) {
-            //    QuadEntity* entity = m_Scene->GetEntity(e);
-            //    if (ImGui::Selectable((std::string(entity->m_Name.data())).c_str(), selected == e)) {
-            //        selected = e;
-            //        selectedEntity = m_Scene->GetEntity(e);
-            //    }
-            //        
-            //}
+            int idx = 0;
+            for (Entity e : entities) {
+                std::string name = e.GetComponent<NameComponent>().Name;
+                if (ImGui::Selectable(name.c_str(), selected == idx)) {
+                    selected = idx;
+                    selectedEntity = e;
+                }
+                if (ImGui::BeginPopupContextItem())
+                {
+                    // your popup code
+                    ImGui::EndPopup();
+                }
+                idx++;
+            }
             ImGui::EndChild();
             
            
         }
-        
-        float test = 0.0f;
-        //ImGui::SameLine();
-        //{
-        //    ImGui::BeginGroup();
-        //    ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-        //    ImGui::Text("MyObject: %d", selected);
-        //    ImGui::Separator();
-        //    if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))
-        //    {
-        //        if (ImGui::BeginTabItem("Properties"))
-        //        {
-        //            //ImGui::InputText("Name:", selectedEntity->m_Name.data(), 12);
-        //            ImGui::Text("Translation");
-        //            {
-        //                //X
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        //                if (ImGui::Button("X", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##X", &selectedEntity->Translation.x, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //                ImGui::SameLine();
-        //                // Y
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        //                if (ImGui::Button("Y", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##Y", &selectedEntity->Translation.y, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //                ImGui::SameLine();
-        //                // Z
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        //                if (ImGui::Button("Z", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##Z", &selectedEntity->Translation.z, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //            }
-        //            ImGui::Text("Rotation");
-        //            {
-        //                //X
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        //                if (ImGui::Button("X", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##RX", &selectedEntity->Rotation.x, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //                ImGui::SameLine();
-        //                // Y
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        //                if (ImGui::Button("Y", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##RY", &selectedEntity->Rotation.y, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //                ImGui::SameLine();
-        //                // Z
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        //                if (ImGui::Button("Z", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##RZ", &selectedEntity->Rotation.z, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //            }
-        //            ImGui::Text("Scale");
-        //            {
-        //                //X
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        //                if (ImGui::Button("X", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##SX", &selectedEntity->Scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //                ImGui::SameLine();
-        //                // Y
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        //                if (ImGui::Button("Y", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##SY", &selectedEntity->Scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //                ImGui::SameLine();
-        //                // Z
-        //                ImGui::PushItemWidth(50);
-        //                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        //                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        //                if (ImGui::Button("Z", ImVec2(20, 20))) {
-        //                    // reset value
-        //                }
-        //                ImGui::PopStyleColor(3);
-        //                ImGui::SameLine();
-        //                ImGui::DragFloat("##SZ", &selectedEntity->Scale.z, 0.1f, 0.0f, 0.0f, "%.2f");
-        //                ImGui::PopItemWidth();
-        //            }
-        //            // Components.
 
-        //            ImGui::EndTabItem();
-        //        }
-        //        if (ImGui::BeginTabItem("Material"))
-        //        {
-        //            ImGui::SliderFloat("Shininess", &selectedEntity->Shininess, 0.0f, 100.0f);
-        //            ImGui::EndTabItem();
-        //        }
-        //        ImGui::EndTabBar();
-        //    }
-        //    ImGui::EndChild();
-        //    ImGui::EndGroup();
-        //}
+        float test = 0.0f;
+        ImGui::SameLine();
+        ImGui::BeginGroup();
+        ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
+        ImGui::Text("MyObject: %d", selected);
+        ImGui::Separator();
+        if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))
+        {
+            if (ImGui::BeginTabItem("Properties"))
+            {
+                //ImGui::InputText("Name:", selectedEntity->m_Name.data(), 12);
+                TransformComponent& component = selectedEntity.GetComponent<TransformComponent>();
+                component.DrawEditor();
+
+                if (selectedEntity.HasComponent<LightComponent>())
+                    selectedEntity.GetComponent<LightComponent>().DrawEditor();
+                if (selectedEntity.HasComponent<CameraComponent>())
+                    selectedEntity.GetComponent<CameraComponent>().DrawEditor();
+                if (selectedEntity.HasComponent<CubeComponent>())
+                    selectedEntity.GetComponent<CubeComponent>().DrawEditor();
+                // Components.
+
+                ImGui::EndTabItem();
+            }
+            //if (ImGui::BeginTabItem("Material"))
+            //{
+            //    ImGui::SliderFloat("Shininess", &selectedEntity->Shininess, 0.0f, 100.0f);
+            //    ImGui::EndTabItem();
+            //}
+            ImGui::EndTabBar();
+        }
+        ImGui::EndChild();
+        ImGui::EndGroup();
+        
 
        
         ImGui::End();

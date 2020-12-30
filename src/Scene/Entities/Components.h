@@ -15,25 +15,34 @@ struct TransformComponent {
 
 	TransformComponent();
 	glm::mat4 GetTransform();
+
+	void DrawEditor();
 };
 
 struct CubeComponent {
 	unsigned int VAO;
 	unsigned int VBO;
 
+	// TODO: Make material system.
+	float Shininess = 1.0f;
+	
 	CubeComponent();
 
     void Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform);
+	void DrawEditor();
 };
 
 struct CameraComponent {
     Camera Camera;
+
+	void DrawEditor();
 };
 
 
 enum LightType {
 	Point, Directional, Spot
 };
+
 struct LightComponent {
 	LightType Type = Directional;
 	glm::vec3 Direction;
@@ -45,4 +54,6 @@ struct LightComponent {
 	glm::vec3 GetDirection();
 
 	void Draw(TransformComponent transformComponent);
+
+	void DrawEditor();
 };

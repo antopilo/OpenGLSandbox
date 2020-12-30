@@ -19,6 +19,7 @@ public:
 	void Update(Timestep ts);
 	void Draw();
 
+	std::vector<Entity> GetAllEntities();
 	Entity CreateEntity(const std::string name);
 	void DestroyEntity(Entity entity);
 	

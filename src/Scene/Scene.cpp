@@ -67,6 +67,15 @@ void Scene::Draw()
 
 }
 
+std::vector<Entity> Scene::GetAllEntities() {
+	std::vector<Entity> allEntities;
+	auto view = m_Registry.view<TransformComponent, NameComponent>();
+	for (auto e : view) {
+		allEntities.push_back(Entity(e, this));
+	}
+	return allEntities;
+}
+
 Entity Scene::CreateEntity(const std::string name) {
 	Entity entity = { m_Registry.create(), this };
 	entity.AddComponent<TransformComponent>();

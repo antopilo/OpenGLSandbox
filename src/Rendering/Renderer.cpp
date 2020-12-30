@@ -45,8 +45,10 @@ void Renderer::RegisterLight(TransformComponent transform, LightComponent light)
     // What light idx is this?
     int idx = m_Lights.size();
     m_Shader->SetUniform1i("LightCount", idx);
+
+    glm::vec3 direction = light.GetDirection();
     // Push uniforms in light array.
-    m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", light.Direction.x, light.Direction.y, light.Direction.z);
+    m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", direction.x, direction.y, direction.z);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Color", light.Color.r, light.Color.g, light.Color.b);
     m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].Strength", light.Strength);
 }

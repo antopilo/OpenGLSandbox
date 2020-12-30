@@ -7,7 +7,7 @@ class Entity
 {
 public:
 	Entity(entt::entity handle, Scene* scene);
-
+	Entity();
 	template<typename T>
 	bool HasComponent() {
 		return m_Scene->m_Registry.has<T>(m_EntityHandle);
