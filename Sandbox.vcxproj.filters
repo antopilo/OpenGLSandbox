@@ -1571,6 +1571,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Res\Shaders\basic.shader" />
+    <None Include="Res\Shaders\shadowMap.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\Textures\0.png">

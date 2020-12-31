@@ -12,6 +12,7 @@ struct Light {
 class Renderer {
 public:
 	static Shader* m_Shader;
+	static Shader* m_ShadowmapShader;
 
 	static void Init();
 

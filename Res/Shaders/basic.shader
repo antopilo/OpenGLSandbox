@@ -90,7 +90,6 @@ void main()
             else
                 specular = pow(specular, u_Shininess);
 
-
             // Add specular on top of object color.
             scatteredLight += u_AmbientColor.rgb + Lights[i].Color * diffuse * Lights[i].Strength;
             reflectedLight += Lights[i].Color * specular * Lights[i].Strength;

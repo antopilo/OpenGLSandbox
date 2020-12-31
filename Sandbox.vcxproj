@@ -543,6 +543,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\Shaders\basic.shader" />
+    <None Include="Res\Shaders\shadowMap.shader" />
     <None Include="src\Vendors\glm\detail\func_common.inl" />
     <None Include="src\Vendors\glm\detail\func_common_simd.inl" />
     <None Include="src\Vendors\glm\detail\func_exponential.inl" />
