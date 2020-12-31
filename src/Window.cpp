@@ -144,17 +144,8 @@ void Window::Draw()
 	} 
 
     {
-        ImGui::Begin("Lighting");
-        ImGui::ColorEdit4("Ambient Color", (float*)&m_Scene->GetEnvironment()->m_AmbientColor);
-        ImGui::Text("Directional Light:");
-        ImGui::SliderFloat("Strength", &m_Scene->GetEnvironment()->m_DirectionalStrength, 0.0f, 100.0f);
-        ImGui::ColorEdit4("Directional Color", (float*)&m_Scene->GetEnvironment()->m_DirectionalLightColor);
-        ImGui::Text("Directional direction:");
-        ImGui::SliderFloat("X", &x, -1.0f, 1.0f);
-        ImGui::SliderFloat("Y", &y, -1.0f, 1.0f);
-        ImGui::SliderFloat("Z", &z, -1.0f, 1.0f);
-        m_Scene->GetEnvironment()->SetDirectionalLight(x, y, z);
-
+        ImGui::Begin("Environment");
+        ImGui::ColorEdit3("Ambient Color", (float*)&m_Scene->GetEnvironment()->m_AmbientColor);
         ImGui::End();
     }
 
@@ -233,8 +224,6 @@ void Window::Draw()
        
         ImGui::End();
     }
-
-    m_Scene->GetEnvironment()->SetDirectionalLight(x, y, z);
 
 	ImGui::Render();
 

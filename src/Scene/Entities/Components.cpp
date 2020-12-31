@@ -3,10 +3,10 @@
 #include <string>
 #include "../../Rendering/Vertex.h"
 #include <GL\glew.h>
-#include "../../Rendering/Renderer.h"
 #include "../../Rendering/Camera.h"
 #include "imgui/imgui.h"
-
+#include "../../Rendering/Renderer.h"
+#include "ImGuiHelper.h"
 TransformComponent::TransformComponent() {
     Translation = glm::vec3(0, 0, 0);
     Rotation = glm::vec3(0, 0, 0);
@@ -25,129 +25,9 @@ glm::mat4 TransformComponent::GetTransform() {
 
 void TransformComponent::DrawEditor()
 {
-    ImGui::Text("Translation");
-    {
-        //X
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        if (ImGui::Button("X", ImVec2(20, 20))) {
-            Translation.x = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##X", &Translation.x, 0.1f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Y
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        if (ImGui::Button("Y", ImVec2(20, 20))) {
-            Translation.y = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##Y", &Translation.y, 0.1f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Z
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        if (ImGui::Button("Z", ImVec2(20, 20))) {
-            Translation.z = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##Z", &Translation.z, 0.1f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-    }
-    ImGui::Text("Rotation");
-    {
-        //X
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        if (ImGui::Button("X", ImVec2(20, 20))) {
-            Rotation.x = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##RX", &Rotation.x, 1.0f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Y
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        if (ImGui::Button("Y", ImVec2(20, 20))) {
-            Rotation.y = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##RY", &Rotation.y, 1.0f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Z
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        if (ImGui::Button("Z", ImVec2(20, 20))) {
-            Rotation.z = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##RZ", &Rotation.z, 1.0f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-    }
-    ImGui::Text("Scale");
-    {
-        //X
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        if (ImGui::Button("X", ImVec2(20, 20))) {
-            Scale.x = 1;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##SX", &Scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Y
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        if (ImGui::Button("Y", ImVec2(20, 20))) {
-            Scale.y = 1;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##SY", &Scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Z
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        if (ImGui::Button("Z", ImVec2(20, 20))) {
-            Scale.z = 1;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##SZ", &Scale.z, 0.1f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-    }
+    ImGuiHelper::DrawVec3("Translation", &Translation);
+    ImGuiHelper::DrawVec3("Rotation", &Rotation);
+    ImGuiHelper::DrawVec3("Scale", &Scale);
 }
 
 void CameraComponent::DrawEditor() {
@@ -228,8 +108,8 @@ void CubeComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transfo
     Renderer::m_Shader->Bind();
     Renderer::m_Shader->SetUniformMat4f("u_Model", transform);
     Renderer::m_Shader->SetUniform1f("u_Shininess", Shininess);
-    //glm::vec4 ambientColor = m_Scene->GetEnvironment()->GetAmbientColor();
-    Renderer::m_Shader->SetUniform4f("u_AmbientColor", 0.1f, 0.1f, 0.1f, 1.0f);
+
+    //Renderer::m_Shader->SetUniform4f("u_AmbientColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -266,49 +146,32 @@ void LightComponent::Draw(TransformComponent transformComponent)
 
 void LightComponent::DrawEditor() {
     ImGui::TextColored(ImGui::GetStyleColorVec4(1),"Light properties");
-
     ImGui::ColorEdit4("Light Color", &Color.r);
-    ImGui::SliderFloat("Strength", &Strength, 0.0f, 20.0f);
-    ImGui::Text("Light Direction");
+    ImGui::SliderFloat("Strength", &Strength, 0.0f, 10.0f);
+
+    const char* types[] = { "Directional", "Point", "Spot"};
+    static const char* current_item = types[Type];
+
+    if (ImGui::BeginCombo("Type", current_item)) // The second parameter is the label previewed before opening the combo.
     {
-        //X
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.16f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-        if (ImGui::Button("X", ImVec2(20, 20))) {
-            Direction.x = 0;
+        for (int n = 0; n < IM_ARRAYSIZE(types); n++)
+        {
+            bool is_selected = (current_item == types[n]); // You can store your selection however you want, outside or inside your objects
+            if (ImGui::Selectable(types[n], is_selected)) {
+                current_item = types[n];
+                Type = (LightType)n;
+            }
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
         }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##RX", &Direction.x, 1.0f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Y
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-        if (ImGui::Button("Y", ImVec2(20, 20))) {
-            Direction.y = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##RY", &Direction.y, 1.0f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        // Z
-        ImGui::PushItemWidth(50);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-        if (ImGui::Button("Z", ImVec2(20, 20))) {
-            Direction.z = 0;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##RZ", &Direction.z, 1.0f, 0.0f, 0.0f, "%.2f");
-        ImGui::PopItemWidth();
+        ImGui::EndCombo();
     }
+
+    if (Type == 1) {
+        ImGui::SliderFloat("Attenuation", &Attenuation, 0.0f, 1.0f);
+        ImGui::SliderFloat("Linear attenuation", &LinearAttenuation, 0.0f, 1.0f);
+        ImGui::SliderFloat("Quadratic attenuation", &QuadraticAttenuation, 0.0f, 1.0f);
+    }
+    ImGuiHelper::DrawVec3("Direction", &Direction);
     //Direction = glm::normalize(Direction);
 }

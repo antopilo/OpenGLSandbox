@@ -40,7 +40,7 @@ struct CameraComponent {
 
 
 enum LightType {
-	Point, Directional, Spot
+	Directional, Point, Spot
 };
 
 struct LightComponent {
@@ -49,6 +49,10 @@ struct LightComponent {
 	glm::vec3 Color;
 	float Strength;
 
+	float Attenuation = 0.0f;
+	float LinearAttenuation = 0.0f;
+	float QuadraticAttenuation = 0.0f;
+
 	LightComponent();
 
 	glm::vec3 GetDirection();
@@ -56,4 +60,7 @@ struct LightComponent {
 	void Draw(TransformComponent transformComponent);
 
 	void DrawEditor();
+
+	void SetType(LightType type);
+
 };

@@ -19,6 +19,12 @@ Scene::Scene()
 
 	auto lightEntity = CreateEntity("Light");
 	lightEntity.AddComponent<LightComponent>();
+
+	auto lightEntity2 = CreateEntity("Light2");
+	lightEntity2.AddComponent<LightComponent>();
+
+	auto lightEntity3 = CreateEntity("Light3");
+	lightEntity3.AddComponent<LightComponent>();
 }
 
 Scene::~Scene() {
@@ -37,6 +43,8 @@ void Scene::Update(Timestep ts)
 
 void Scene::Draw()
 {
+	m_Environement->Push();
+
 	// Find the camera of the scene.
 	Camera* cam = nullptr;
 	{

@@ -1,8 +1,11 @@
 
 #include "Camera.h"
 #include "../Core/Input.h"
+#include <glm\ext\vector_float3.hpp>
+#include <glm\ext\matrix_clip_space.hpp>
+#include <glm\ext\matrix_float4x4.hpp>
 #include <glm\ext\matrix_transform.hpp>
-#include <GLFW/glfw3.h>
+#include <GLFW\glfw3.h>
 
 Camera::Camera(CAMERA_TYPE type, glm::vec3 position) {
 	m_Type = PERSPECTIVE;

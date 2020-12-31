@@ -167,7 +167,6 @@
     <ClCompile Include="src\Sandbox.cpp" />
     <ClCompile Include="src\Scene\Entities\Components.cpp" />
     <ClCompile Include="src\Scene\Entities\Entity.cpp" />
-    <ClCompile Include="src\Scene\Entities\QuadEntity.cpp" />
     <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Vendors\glm\detail\glm.cpp" />
@@ -190,7 +189,7 @@
     <ClInclude Include="src\Rendering\Vertex.h" />
     <ClInclude Include="src\Scene\Entities\Components.h" />
     <ClInclude Include="src\Scene\Entities\Entity.h" />
-    <ClInclude Include="src\Scene\Entities\QuadEntity.h" />
+    <ClInclude Include="src\Scene\Entities\ImGuiHelper.h" />
     <ClInclude Include="src\Scene\Lighting\Environment.h" />
     <ClInclude Include="src\Scene\Lighting\Material.h" />
     <ClInclude Include="src\Scene\Scene.h" />

@@ -1,7 +1,7 @@
 #pragma once
-#include <glm\ext\matrix_float4x4.hpp>
-#include <glm\ext\matrix_clip_space.hpp>
 #include "../Core/Timestep.h"
+#include <glm\vec3.hpp>
+#include <glm\ext\matrix_float4x4.hpp>
 
 enum CAMERA_TYPE {
 	ORTHO,
@@ -19,13 +19,13 @@ private:
 
 	glm::mat4 m_Perspective;
 
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
+	glm::vec3 up; // = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 cameraRight; // = glm::normalize(glm::cross(up, cameraDirection));
+	glm::vec3 cameraUp; // = glm::cross(cameraDirection, cameraRight);
+	glm::vec3 cameraFront; // = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 cameraDirection = glm::normalize(Translation - cameraTarget);
+	glm::vec3 cameraTarget; // = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 cameraDirection; // = glm::normalize(Translation - cameraTarget);
 
 	bool controlled = true;
 	float Speed = 10.0f;
