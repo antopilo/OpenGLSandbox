@@ -89,9 +89,6 @@ void Renderer::BeginDraw(Camera* camera)
     //RenderScene();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-
-
     m_Shader->Bind();
 }
 

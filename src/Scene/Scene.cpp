@@ -21,8 +21,8 @@ Scene::Scene()
 	auto lightEntity = CreateEntity("Light");
 	lightEntity.AddComponent<LightComponent>();
 
-	auto lightEntity2 = CreateEntity("Light2");
-	lightEntity2.AddComponent<LightComponent>();
+	//auto lightEntity2 = CreateEntity("Light2");
+	//lightEntity2.AddComponent<LightComponent>();
 
 	m_Skybox = new Skybox();
 }
@@ -65,9 +65,11 @@ void Scene::Draw()
 			light.Draw(transform);
 		}
 	}
+	m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
+
 
 	if (cam) {
-		m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
+		
 		auto view = m_Registry.view<TransformComponent, CubeComponent>();
 		for (auto e : view) {
 			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);

@@ -56,6 +56,7 @@ uniform vec4 u_LightColor;
 uniform vec3 u_LightDirection;
 
 // Specular
+uniform samplerCube u_Skybox;
 uniform float u_Shininess;
 uniform float u_Strength;
 uniform vec3 u_EyePosition;
@@ -118,6 +119,11 @@ void main()
         }
     }
 
-    vec3 rgb = min((objectColor.rgb * scatteredLight.rgb + reflectedLight.rgb), vec3(1.0f));
+    // reflection
+    vec3 I = normalize(v_FragPos - u_EyePosition);
+    vec3 R = reflect(I, normalize(v_Normal));
+    vec4 reflectColor = vec4(texture(u_Skybox, R).rgb, 1.0);
+
+    vec3 rgb = min((objectColor.rgb * scatteredLight.rgb + (reflectedLight.rgb) + reflectColor.rgb * u_Shininess), vec3(1.0f));
     FragColor = vec4(rgb, objectColor.a);
 }

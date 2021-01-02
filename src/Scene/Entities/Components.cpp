@@ -82,7 +82,7 @@ void CubeComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transfo
     Renderer::m_Shader->Bind();
     Renderer::m_Shader->SetUniformMat4f("u_Model", transform);
     Renderer::m_Shader->SetUniform1f("u_Shininess", Shininess);
-
+    Renderer::m_Shader->SetUniform1i("u_Skybox", 3);
     //Renderer::m_Shader->SetUniform4f("u_AmbientColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
     glBindVertexArray(VAO);
