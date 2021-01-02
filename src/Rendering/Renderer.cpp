@@ -107,12 +107,12 @@ void Renderer::RegisterLight(TransformComponent transform, LightComponent light)
 
     glm::vec3 direction = light.GetDirection();
     // Push uniforms in light array.
-    //m_Shader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].Type", light.Type);
+    m_Shader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].Type", light.Type);
     //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].ConstantAttenuation", light.Attenuation);
     //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].LinearAttenuation", light.LinearAttenuation);
     //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].QuadraticAttenuation", light.QuadraticAttenuation);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Position", transform.Translation.x, transform.Translation.y, transform.Translation.z);
-    //m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", direction.x, direction.y, direction.z);
+    m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", direction.x, direction.y, direction.z);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Color", light.Color.r * light.Strength, light.Color.g * light.Strength, light.Color.b * light.Strength);
     //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].Strength", light.Strength);
 }

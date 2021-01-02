@@ -197,6 +197,7 @@
     <ClInclude Include="src\Scene\Entities\Components.h" />
     <ClInclude Include="src\Scene\Entities\Components\CameraComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\LightComponent.h" />
+    <ClInclude Include="src\Scene\Entities\Components\MeshComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\TransformComponent.h" />
     <ClInclude Include="src\Scene\Entities\Entity.h" />
     <ClInclude Include="src\Scene\Entities\ImGuiHelper.h" />

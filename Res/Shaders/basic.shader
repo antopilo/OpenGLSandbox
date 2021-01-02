@@ -129,11 +129,17 @@ void main()
     vec3 eyeDirection = normalize(u_EyePosition - v_FragPos);
     for (int i = 0; i < LightCount; i++)
     {
-        //PBR
         vec3 L = normalize(Lights[i].Position - v_FragPos);
-        vec3 H = normalize(V + L);
         float distance = length(Lights[i].Position - v_FragPos);
         float attenuation = 1.0 / (distance * distance);
+        
+
+        if (Lights[i].Type == 0) {
+            L = Lights[i].Direction;
+            attenuation = 1.0f;
+        }
+        vec3 H = normalize(V + L);
+        //PBR
         vec3 radiance = Lights[i].Color * attenuation;
 
         // cook-torrance brdf
@@ -152,54 +158,8 @@ void main()
         // add to outgoing radiance Lo
         float NdotL = max(dot(N, L), 0.0);
         Lo += (kD * albedo / PI + specular) * radiance * NdotL;
-        //if (Lights[i].Type == 0) {
-        //    vec3 HalfVector = normalize(eyeDirection + Lights[i].Direction);
-        //
-        //    float diffuse = max(0.0, dot(v_Normal, normalize(Lights[i].Direction)));
-        //    float specular = max(0.0, dot(v_Normal, HalfVector));
-        //
-        //    // Surfaces facing away from the light (negative dot product)
-        //    // won't be lit by the directional light.
-        //    if (diffuse == 0.0)
-        //        specular = 0.0;
-        //    else
-        //        specular = pow(specular, u_Shininess);
-        //
-        //    // Add specular on top of object color.
-        //    scatteredLight += u_AmbientColor.rgb + Lights[i].Color * diffuse * Lights[i].Strength;
-        //    reflectedLight += Lights[i].Color * specular * Lights[i].Strength;
-        //}
-        //else if (Lights[i].Type == 1) {
-        //    vec3 lightDirection = Lights[i].Position - v_ViewPos;
-        //    float lightDistance = length(lightDirection);
-        //    lightDirection = lightDirection / lightDistance;
-        //
-        //    float attenuation = 1.0f /
-        //            (Lights[i].ConstantAttenuation +
-        //            Lights[i].LinearAttenuation * lightDistance +
-        //            Lights[i].QuadraticAttenuation * lightDistance * lightDistance);
-        //
-        //    vec3 halfVector = normalize(lightDirection + eyeDirection);
-        //    float diffuse  = max(0.0, dot(v_Normal, lightDirection));
-        //    float specular = max(0.0, dot(v_Normal, halfVector));
-        //
-        //    if (diffuse == 0.0)
-        //        specular = 0.0;
-        //    else
-        //        specular = pow(specular, u_Shininess)* Lights[i].Strength;
-        //
-        //    scatteredLight += u_AmbientColor.rgb + (Lights[i].Color * diffuse * attenuation);
-        //    reflectedLight += Lights[i].Color * specular * attenuation;
-        //}
+        
     }
-
-    // reflection
-    //vec3 I = normalize(v_FragPos - u_EyePosition);
-    //vec3 R = reflect(I, normalize(v_Normal));
-    //vec4 reflectColor = vec4(texture(u_Skybox, R).rgb, 1.0);
-    //
-    //vec3 rgb = min((objectColor.rgb * scatteredLight.rgb + (reflectedLight.rgb + reflectColor.rgb * u_Shininess)), vec3(1.0f));
-    //FragColor = vec4(rgb, objectColor.a);
 
     //PBR
     vec3 ambient = vec3(0.03) * albedo * ao;

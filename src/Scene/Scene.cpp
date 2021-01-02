@@ -19,9 +19,6 @@ Scene::Scene()
 	cubeEntity3.AddComponent<CubeComponent>();
 	cubeEntity3.GetComponent<TransformComponent>().Translation.x = 0.0f;
 
-	//auto cubeEntity2 = CreateEntity("cube2");
-	//cubeEntity2.AddComponent<CubeComponent>();
-
 	auto camEntity = CreateEntity("Camera");
 	camEntity.AddComponent<CameraComponent>().transformComponent = &camEntity.GetComponent<TransformComponent>();
 
