@@ -1,5 +1,6 @@
 #include "Window.h"
 float m_LastFrameTime = 0.0f;
+
 int main()
 {
 	Window window = Window();

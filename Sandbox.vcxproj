@@ -163,9 +163,14 @@
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
-    <ClCompile Include="src\Rendering\Shaders\Texture.cpp" />
+    <ClCompile Include="src\Rendering\Skybox.cpp" />
+    <ClCompile Include="src\Rendering\Textures\Cubemap.cpp" />
+    <ClCompile Include="src\Rendering\Textures\Texture.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
     <ClCompile Include="src\Scene\Entities\Components.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components\CameraComponent.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components\LightComponent.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components\TransformComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Entity.cpp" />
     <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
@@ -185,9 +190,14 @@
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
-    <ClInclude Include="src\Rendering\Shaders\Texture.h" />
+    <ClInclude Include="src\Rendering\Skybox.h" />
+    <ClInclude Include="src\Rendering\Textures\Cubemap.h" />
+    <ClInclude Include="src\Rendering\Textures\Texture.h" />
     <ClInclude Include="src\Rendering\Vertex.h" />
     <ClInclude Include="src\Scene\Entities\Components.h" />
+    <ClInclude Include="src\Scene\Entities\Components\CameraComponent.h" />
+    <ClInclude Include="src\Scene\Entities\Components\LightComponent.h" />
+    <ClInclude Include="src\Scene\Entities\Components\TransformComponent.h" />
     <ClInclude Include="src\Scene\Entities\Entity.h" />
     <ClInclude Include="src\Scene\Entities\ImGuiHelper.h" />
     <ClInclude Include="src\Scene\Lighting\Environment.h" />
@@ -544,6 +554,7 @@
   <ItemGroup>
     <None Include="Res\Shaders\basic.shader" />
     <None Include="Res\Shaders\shadowMap.shader" />
+    <None Include="Res\Shaders\skybox.shader" />
     <None Include="src\Vendors\glm\detail\func_common.inl" />
     <None Include="src\Vendors\glm\detail\func_common_simd.inl" />
     <None Include="src\Vendors\glm\detail\func_exponential.inl" />

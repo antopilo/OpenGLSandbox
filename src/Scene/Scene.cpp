@@ -11,11 +11,12 @@ Scene::Scene()
 	cubeEntity.AddComponent<CubeComponent>();
 	cubeEntity.GetComponent<TransformComponent>().Translation.x = 2.0f;
 
-	auto cubeEntity2 = CreateEntity("cube2");
-	cubeEntity2.AddComponent<CubeComponent>();
+	//auto cubeEntity2 = CreateEntity("cube2");
+	//cubeEntity2.AddComponent<CubeComponent>();
 
 	auto camEntity = CreateEntity("Camera");
-	camEntity.AddComponent<CameraComponent>();
+	camEntity.AddComponent<CameraComponent>().transformComponent = &camEntity.GetComponent<TransformComponent>();
+	camEntity.AddComponent<LightComponent>();
 
 	auto lightEntity = CreateEntity("Light");
 	lightEntity.AddComponent<LightComponent>();
@@ -23,8 +24,7 @@ Scene::Scene()
 	auto lightEntity2 = CreateEntity("Light2");
 	lightEntity2.AddComponent<LightComponent>();
 
-	auto lightEntity3 = CreateEntity("Light3");
-	lightEntity3.AddComponent<LightComponent>();
+	m_Skybox = new Skybox();
 }
 
 Scene::~Scene() {
@@ -36,7 +36,6 @@ void Scene::Update(Timestep ts)
 	auto group = m_Registry.group<TransformComponent>(entt::get<CameraComponent>);
 	for (auto e : group) {
 		auto [transform, cam] = group.get<TransformComponent, CameraComponent>(e);
-
 		cam.Camera.Update(ts);
 	}
 }
@@ -44,7 +43,6 @@ void Scene::Update(Timestep ts)
 void Scene::Draw()
 {
 	m_Environement->Push();
-
 	// Find the camera of the scene.
 	Camera* cam = nullptr;
 	{
@@ -56,6 +54,9 @@ void Scene::Draw()
 		}
 	}
 
+	// Skybox
+	
+
 	// Push lights
 	{
 		auto view = m_Registry.view<TransformComponent, LightComponent>();
@@ -66,13 +67,13 @@ void Scene::Draw()
 	}
 
 	if (cam) {
+		m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
 		auto view = m_Registry.view<TransformComponent, CubeComponent>();
 		for (auto e : view) {
 			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);
 			cube.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
 		}
 	}
-
 }
 
 std::vector<Entity> Scene::GetAllEntities() {
@@ -81,12 +82,18 @@ std::vector<Entity> Scene::GetAllEntities() {
 	for (auto e : view) {
 		allEntities.push_back(Entity(e, this));
 	}
+
+
+
 	return allEntities;
 }
 
 Entity Scene::CreateEntity(const std::string name) {
 	Entity entity = { m_Registry.create(), this };
+
+	// Must have transform
 	entity.AddComponent<TransformComponent>();
+
 	NameComponent& nameComponent = entity.AddComponent<NameComponent>();
 	nameComponent.Name = name;
 	return entity;

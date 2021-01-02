@@ -2,7 +2,6 @@
 #include "../Core/Timestep.h"
 #include <glm\vec3.hpp>
 #include <glm\ext\matrix_float4x4.hpp>
-
 enum CAMERA_TYPE {
 	ORTHO,
 	PERSPECTIVE

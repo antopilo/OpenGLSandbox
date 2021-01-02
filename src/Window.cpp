@@ -158,7 +158,7 @@ void Window::Draw()
         {
             ImGui::BeginChild("Buttons", ImVec2(150, 20), false);
             if (ImGui::Button("Add")) {
-                //m_Scene->CreateEntity("Entity");
+                m_Scene->CreateEntity("Entity");
             }
             ImGui::SameLine();
             ImGui::Button("Remove");
@@ -199,14 +199,30 @@ void Window::Draw()
                 //ImGui::InputText("Name:", selectedEntity->m_Name.data(), 12);
                 TransformComponent& component = selectedEntity.GetComponent<TransformComponent>();
                 component.DrawEditor();
+                ImGui::Separator();
 
-                if (selectedEntity.HasComponent<LightComponent>())
+                if (selectedEntity.HasComponent<LightComponent>()) {
                     selectedEntity.GetComponent<LightComponent>().DrawEditor();
-                if (selectedEntity.HasComponent<CameraComponent>())
+                    ImGui::Separator();
+                }
+
+                if (selectedEntity.HasComponent<CameraComponent>()) {
                     selectedEntity.GetComponent<CameraComponent>().DrawEditor();
-                if (selectedEntity.HasComponent<CubeComponent>())
+                    ImGui::Separator();
+                }
+                    
+                if (selectedEntity.HasComponent<CubeComponent>()) {
                     selectedEntity.GetComponent<CubeComponent>().DrawEditor();
-                // Components.
+                    ImGui::Separator();
+                }
+                if(ImGui::Button("Add component"))
+                { 
+                    if (ImGui::BeginPopupContextItem())
+                    {
+                        // your popup code
+                        ImGui::EndPopup();
+                    }
+                }
 
                 ImGui::EndTabItem();
             }

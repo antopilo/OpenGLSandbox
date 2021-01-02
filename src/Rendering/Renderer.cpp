@@ -1,15 +1,19 @@
 #include "Renderer.h"
 #include <GL\glew.h>
-#include "Shaders/Texture.h"
 #include "Camera.h"
+#include "Textures/Texture.h"
+#include "Textures/Cubemap.h"
 
 unsigned int depthTexture;
 unsigned int depthFBO;
+
 Shader* Renderer::m_Shader;
+Shader* Renderer::m_SkyboxShader;
+
 void Renderer::Init()
 {
     m_ShadowmapShader = new Shader("Res/Shaders/shadowMap.shader");
-
+    m_SkyboxShader    = new Shader("Res/Shaders/skybox.shader");
     m_Shader = new Shader("Res/Shaders/basic.shader");
     m_Shader->Bind();
 
@@ -21,6 +25,8 @@ void Renderer::Init()
     texture->Bind(0);
     Texture* texture2 = new Texture("Res/Textures/1.png");
     texture->Bind(1);
+
+   
 
 
     // Shadow map.
@@ -82,6 +88,9 @@ void Renderer::BeginDraw(Camera* camera)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     //RenderScene();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
 
     m_Shader->Bind();
 }
