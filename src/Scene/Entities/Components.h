@@ -16,7 +16,10 @@ struct CubeComponent {
 
 	// TODO: Make material system.
 	float Shininess = 1.0f;
-	
+	glm::vec3 albedo;
+	float metallic;
+	float roughness;
+	float ao;
 	CubeComponent();
 
     void Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform);

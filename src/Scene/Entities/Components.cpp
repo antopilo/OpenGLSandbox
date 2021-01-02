@@ -75,14 +75,23 @@ CubeComponent::CubeComponent() {
 
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 8));
     glEnableVertexAttribArray(3);
+
+    albedo = glm::vec3(1.0f, 0.0f, 0.0f);
+    metallic = 1.0f;
+    roughness = 0.0f;
+    ao = 0.0f;
 }
 
 void CubeComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform) {
 
     Renderer::m_Shader->Bind();
     Renderer::m_Shader->SetUniformMat4f("u_Model", transform);
-    Renderer::m_Shader->SetUniform1f("u_Shininess", Shininess);
-    Renderer::m_Shader->SetUniform1i("u_Skybox", 3);
+    //Renderer::m_Shader->SetUniform1f("u_Shininess", Shininess);
+    Renderer::m_Shader->SetUniform3f("albedo", albedo.r, albedo.g, albedo.b);
+    Renderer::m_Shader->SetUniform1f("metallic", metallic);
+    Renderer::m_Shader->SetUniform1f("roughness", roughness);
+    Renderer::m_Shader->SetUniform1f("ao", ao);
+    //Renderer::m_Shader->SetUniform1i("u_Skybox", 3);
     //Renderer::m_Shader->SetUniform4f("u_AmbientColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
     glBindVertexArray(VAO);
@@ -91,6 +100,9 @@ void CubeComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transfo
 
 void CubeComponent::DrawEditor() {
     ImGui::Text("Material");
-    ImGui::SliderFloat("Shininess", &Shininess, 0.0f, 2.0f, "", 1.0f);
+    ImGui::ColorEdit3("Albedo", &albedo.r);
+    ImGui::SliderFloat("Metallic", &metallic, 0.0f, 1.0f, "", 1.0f);
+    ImGui::SliderFloat("Roughness", &roughness, 0.0f, 1.0f, "", 1.0f);
+    ImGui::SliderFloat("AO", &ao, 0.0f, 1.0f, "", 1.0f);
 }
 

@@ -61,6 +61,9 @@ void Scene::Draw()
 		}
 	}
 
+	// Skybox
+	
+
 	// Push lights
 	{
 		auto view = m_Registry.view<TransformComponent, LightComponent>();
@@ -88,6 +91,9 @@ std::vector<Entity> Scene::GetAllEntities() {
 	for (auto e : view) {
 		allEntities.push_back(Entity(e, this));
 	}
+
+
+
 	return allEntities;
 }
 
