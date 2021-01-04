@@ -84,7 +84,7 @@ CubeComponent::CubeComponent() {
 
 void CubeComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform) {
 
-    Renderer::m_Shader->Bind();
+   
     Renderer::m_Shader->SetUniformMat4f("u_Model", transform);
     //Renderer::m_Shader->SetUniform1f("u_Shininess", Shininess);
     Renderer::m_Shader->SetUniform3f("albedo", albedo.r, albedo.g, albedo.b);

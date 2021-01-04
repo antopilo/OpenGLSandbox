@@ -18,6 +18,8 @@ Window::Window()
 
     Init();
     Renderer::Init();
+
+    m_Scene->Init();
 }
 
 Window::~Window()

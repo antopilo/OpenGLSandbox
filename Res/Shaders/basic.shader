@@ -63,9 +63,13 @@ uniform float ao;
 
 // Specular
 uniform samplerCube u_Skybox;
+uniform samplerCube u_IrradianceMap;
 uniform float u_Shininess;
 uniform float u_Strength;
 uniform vec3 u_EyePosition;
+
+// IBL
+uniform samplerCube irradianceMap;
 
 in vec3 v_FragPos;
 in vec3 v_ViewPos;
@@ -110,7 +114,10 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 {
     return F0 + (1.0 - F0) * pow(max(1.0 - cosTheta, 0.0), 5.0);
 }
-
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+{
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(max(1.0 - cosTheta, 0.0), 5.0);
+}
 void main()
 {
     //int index = int(v_TextureId);
@@ -151,6 +158,14 @@ void main()
         vec3 kD = vec3(1.0) - kS;
         kD *= 1.0 - metallic;
 
+        // IBL
+        kS = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
+        kD = 1.0 - kS;
+        vec3 irradiance = texture(u_IrradianceMap, N).rgb;
+        vec3 diffuse = irradiance * albedo;
+        vec3 ambient = (kD * diffuse) * ao;
+
+
         vec3 numerator = NDF * G * F;
         float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
         vec3 specular = numerator / max(denominator, 0.001);
@@ -162,7 +177,12 @@ void main()
     }
 
     //PBR
-    vec3 ambient = vec3(0.03) * albedo * ao;
+
+    // non ibl.
+    // vec3 ambient = vec3(0.03) * albedo * ao;
+    // IBL
+    vec3 ambient = texture(u_IrradianceMap, N).rgb * ao * albedo;
+
     vec3 color = ambient + Lo;
 
     color = color / (color + vec3(1.0));

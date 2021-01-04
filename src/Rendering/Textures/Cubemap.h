@@ -15,6 +15,7 @@ private:
 
 public:
 	CubemapTexture(const std::string& path);
+	void CreateFromHDR();
 	~CubemapTexture();
 
 	void Bind(unsigned int slot = 0) const;

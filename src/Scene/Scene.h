@@ -3,7 +3,7 @@
 #include "Lighting/Environment.h"
 #include <vector>
 #include "entt/entt.hpp"
-#include "../Rendering/Skybox.h"
+#include "../Rendering/SkyboxHDR.h"
 
 class Entity;
 class Scene
@@ -13,11 +13,13 @@ private:
 	Environment* m_Environement;
 	entt::registry m_Registry;
 
-	Skybox* m_Skybox;
+	SkyboxHDR* m_Skybox;
 
 public:
 	Scene();
 	~Scene();
+
+	void Init();
 
 	void Update(Timestep ts);
 	void Draw();

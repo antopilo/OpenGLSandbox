@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Entities/Entity.h"
 #include "Entities/Components.h"
+#include "../Rendering/Renderer.h"
 
 Scene::Scene()
 {
@@ -9,15 +10,15 @@ Scene::Scene()
 
 	auto cubeEntity = CreateEntity("cube1");
 	cubeEntity.AddComponent<CubeComponent>();
-	cubeEntity.GetComponent<TransformComponent>().Translation.x = 2.0f;
-
-	auto cubeEntity2 = CreateEntity("cube2");
-	cubeEntity2.AddComponent<CubeComponent>();
-	cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
-
-	auto cubeEntity3 = CreateEntity("cube3");
-	cubeEntity3.AddComponent<CubeComponent>();
-	cubeEntity3.GetComponent<TransformComponent>().Translation.x = 0.0f;
+	cubeEntity.GetComponent<TransformComponent>().Translation.x = 5.0f;
+	cubeEntity.GetComponent<CubeComponent>().roughness = 0.1f;
+	//auto cubeEntity2 = CreateEntity("cube2");
+	//cubeEntity2.AddComponent<CubeComponent>();
+	//cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
+	//
+	//auto cubeEntity3 = CreateEntity("cube3");
+	//cubeEntity3.AddComponent<CubeComponent>();
+	//cubeEntity3.GetComponent<TransformComponent>().Translation.x = 0.0f;
 
 	auto camEntity = CreateEntity("Camera");
 	camEntity.AddComponent<CameraComponent>().transformComponent = &camEntity.GetComponent<TransformComponent>();
@@ -28,11 +29,15 @@ Scene::Scene()
 	auto lightEntity2 = CreateEntity("Light2");
 	lightEntity2.AddComponent<LightComponent>();
 
-	m_Skybox = new Skybox();
+	
 }
 
 Scene::~Scene() {
 	delete m_Environement;
+}
+
+void Scene::Init() {
+	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/underpass_4k.hdr");
 }
 
 void Scene::Update(Timestep ts)
@@ -68,9 +73,9 @@ void Scene::Draw()
 	}
 	m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
 
-
+	Renderer::m_Shader->Bind();
+	m_Skybox->Push();
 	if (cam) {
-		
 		auto view = m_Registry.view<TransformComponent, CubeComponent>();
 		for (auto e : view) {
 			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);

@@ -12,16 +12,23 @@ private:
 	int m_Width;
 	int m_Height;
 	int m_BPP; // byte per pixel.
+	unsigned int m_CubemapId;
 
 public:
 	HDRTexture(const std::string& path);
 	~HDRTexture();
 
 	void Bind(unsigned int slot = 0) const;
+	void BindCubemap(unsigned int slot = 0) const;
 	void Unbind() const;
 
 	inline int GetWidth() const { return m_Width; }
 	inline int GetHeight() const { return m_Height; }
+
+	void GenerateCubeMap();
+
+	void SetCubemapId(unsigned int id) { m_CubemapId = id; }
+	unsigned int GetCubemapId() { return m_CubemapId; }
 };
 
 

@@ -188,4 +188,3 @@ void Shader::SetUniform1f(const std::string& name, float v0) {
 	glUniform1f(addr, v0);
 }
 
-
