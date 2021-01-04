@@ -93,6 +93,9 @@
     <ClCompile Include="src\Rendering\SkyboxHDR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rendering\Textures\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering\Shaders\Shader.h">
@@ -1199,6 +1202,9 @@
     <ClInclude Include="src\Rendering\SkyboxHDR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\Textures\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Vendors\glm\detail\func_common.inl">
@@ -1618,6 +1624,7 @@
     <None Include="Res\Shaders\basic.shader" />
     <None Include="Res\Shaders\shadowMap.shader" />
     <None Include="Res\Shaders\skybox.shader" />
+    <None Include="Res\Shaders\BRD.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\Textures\0.png">

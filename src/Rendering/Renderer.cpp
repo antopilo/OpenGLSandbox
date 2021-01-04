@@ -9,11 +9,12 @@ unsigned int depthFBO;
 
 Shader* Renderer::m_Shader;
 Shader* Renderer::m_SkyboxShader;
-
+Shader* Renderer::m_BRDShader;
 void Renderer::Init()
 {
     m_ShadowmapShader = new Shader("Res/Shaders/shadowMap.shader");
     m_SkyboxShader    = new Shader("Res/Shaders/skybox.shader");
+    m_BRDShader = new Shader("Res/Shaders/BRD.shader");
     m_Shader = new Shader("Res/Shaders/basic.shader");
     m_Shader->Bind();
 

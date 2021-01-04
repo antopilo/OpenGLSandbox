@@ -13,9 +13,11 @@ private:
 	Environment* m_Environement;
 	entt::registry m_Registry;
 
-	SkyboxHDR* m_Skybox;
+	
 
 public:
+
+	SkyboxHDR* m_Skybox;
 	Scene();
 	~Scene();
 

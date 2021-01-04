@@ -8,13 +8,26 @@ Scene::Scene()
 {
 	m_Environement = new Environment();
 
-	auto cubeEntity = CreateEntity("cube1");
-	cubeEntity.AddComponent<CubeComponent>();
-	cubeEntity.GetComponent<TransformComponent>().Translation.x = 5.0f;
-	cubeEntity.GetComponent<CubeComponent>().roughness = 0.1f;
-	//auto cubeEntity2 = CreateEntity("cube2");
-	//cubeEntity2.AddComponent<CubeComponent>();
-	//cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
+
+	//int i = 0;
+	//for(int x = 0; x < 8; x++)
+	//	for (int y = 0; y < 8; y++) {
+	//		std::string name = "cube" + std::to_string(i);
+	//		auto cubeEntity = CreateEntity(name);
+	//		cubeEntity.AddComponent<CubeComponent>();
+	//		TransformComponent& component = cubeEntity.GetComponent<TransformComponent>();
+	//		component.Translation.x = x * 1.5f;
+	//		component.Translation.y = y * 1.5f;
+	//
+	//		CubeComponent& cube = cubeEntity.GetComponent<CubeComponent>();
+	//		cube.roughness = x / 8;
+	//		cube.metallic  = y / 8;
+	//		i++;
+	//	}
+	
+	auto cubeEntity2 = CreateEntity("cube2");
+	cubeEntity2.AddComponent<CubeComponent>();
+	cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
 	//
 	//auto cubeEntity3 = CreateEntity("cube3");
 	//cubeEntity3.AddComponent<CubeComponent>();
@@ -37,7 +50,7 @@ Scene::~Scene() {
 }
 
 void Scene::Init() {
-	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/underpass_4k.hdr");
+	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/lilienstein_4k.hdr");
 }
 
 void Scene::Update(Timestep ts)

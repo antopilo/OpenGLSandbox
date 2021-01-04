@@ -167,6 +167,7 @@
     <ClCompile Include="src\Rendering\SkyboxHDR.cpp" />
     <ClCompile Include="src\Rendering\Textures\Cubemap.cpp" />
     <ClCompile Include="src\Rendering\Textures\HDR.cpp" />
+    <ClCompile Include="src\Rendering\Textures\Material.cpp" />
     <ClCompile Include="src\Rendering\Textures\Texture.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
     <ClCompile Include="src\Scene\Entities\Components.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="src\Rendering\SkyboxHDR.h" />
     <ClInclude Include="src\Rendering\Textures\Cubemap.h" />
     <ClInclude Include="src\Rendering\Textures\HDR.h" />
+    <ClInclude Include="src\Rendering\Textures\Material.h" />
     <ClInclude Include="src\Rendering\Textures\Texture.h" />
     <ClInclude Include="src\Rendering\Vertex.h" />
     <ClInclude Include="src\Scene\Entities\Components.h" />
@@ -558,6 +560,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\Shaders\basic.shader" />
+    <None Include="Res\Shaders\BRD.shader" />
     <None Include="Res\Shaders\shadowMap.shader" />
     <None Include="Res\Shaders\skybox.shader" />
     <None Include="src\Vendors\glm\detail\func_common.inl" />

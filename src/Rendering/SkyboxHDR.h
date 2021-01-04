@@ -10,13 +10,13 @@ class SkyboxHDR {
 	unsigned int VBO;
 	unsigned int VAO;
 
+public:
 	HDRTexture* m_HDRTexture;
 	unsigned int m_HDRtexture;
 	unsigned int m_Cubemap;
 	unsigned int m_ConvulatedCubemap;
 	unsigned int m_SpecularCubemap;
-
-public:
+	unsigned int m_brdLut;
 	SkyboxHDR();
 	SkyboxHDR(const std::string path);
 	void Draw(glm::mat4 projection, glm::mat4 view);
@@ -26,5 +26,7 @@ public:
 	void CreateHDRCubemap();
 	void CreateConvulatedCubemap();
 	void CreateSpecularCubemaps();
+
+	void CreateBRDLUT();
 
 };

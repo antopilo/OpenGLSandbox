@@ -69,7 +69,7 @@ int Window::Init()
 
 
     glClearColor(0.019f, 0.501f, 1.0f, 1.0f);
-
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     glEnable(GL_DEPTH_TEST);
 
     ImGui::CreateContext();
@@ -243,10 +243,22 @@ void Window::Draw()
         ImGui::End();
     }
 
-	ImGui::Render();
+	
 
 	m_Scene->Draw();
 
+
+    ImGui::Begin("Scene Window");
+
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+    ImGui::GetWindowDrawList()->AddImage(
+        (void*)m_Scene->m_Skybox->m_brdLut, ImVec2(ImGui::GetCursorScreenPos()),
+        ImVec2(ImGui::GetCursorScreenPos().x + 200 / 2, ImGui::GetCursorScreenPos().y + 200 / 2), ImVec2(0, 1), ImVec2(1, 0));
+
+    ImGui::End();
+
+    ImGui::Render();
     Renderer::EndDraw();
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
