@@ -315,6 +315,7 @@ void SkyboxHDR::CreateSpecularCubemaps() {
 
 unsigned int quadVAO = 0;
 unsigned int quadVBO;
+
 void SkyboxHDR::CreateBRDLUT() {
     unsigned int captureFBO, captureRBO;
     glGenFramebuffers(1, &captureFBO);

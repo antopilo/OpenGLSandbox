@@ -10,8 +10,6 @@
 #include "Rendering/Renderer.h"
 #include "Scene/Entities/Entity.h"
 
-
-
 Window::Window() 
 {
     s_Instance = this;
@@ -61,6 +59,7 @@ int Window::Init()
         std::cout << "GLEW initialization failed!";
     }
 
+    glEnable(GL_MULTISAMPLE);
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -213,8 +212,8 @@ void Window::Draw()
                     ImGui::Separator();
                 }
                     
-                if (selectedEntity.HasComponent<CubeComponent>()) {
-                    selectedEntity.GetComponent<CubeComponent>().DrawEditor();
+                if (selectedEntity.HasComponent<MeshComponent>()) {
+                    selectedEntity.GetComponent<MeshComponent>().DrawEditor();
                     ImGui::Separator();
                 }
                 if(ImGui::Button("Add component"))

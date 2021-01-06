@@ -1,0 +1,7 @@
+{
+  "name": "Marble",
+  "albedo": "Res/Textures/PBR/Copper/Color.png",
+  "normal": "Res/Textures/PBR/Marble/normal.jpg",
+  "ao": "Res/Textures/PBR/Marble/ao.jpg",
+  "roughness": "Res/Textures/PBR/Marble/roughness.jpg"
+}

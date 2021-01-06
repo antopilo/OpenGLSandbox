@@ -3,32 +3,41 @@
 #include "Entities/Entity.h"
 #include "Entities/Components.h"
 #include "../Rendering/Renderer.h"
-
+#include "../Core/MaterialManager.h"
 Scene::Scene()
 {
 	m_Environement = new Environment();
 
 
-	//int i = 0;
-	//for(int x = 0; x < 8; x++)
-	//	for (int y = 0; y < 8; y++) {
-	//		std::string name = "cube" + std::to_string(i);
-	//		auto cubeEntity = CreateEntity(name);
-	//		cubeEntity.AddComponent<CubeComponent>();
-	//		TransformComponent& component = cubeEntity.GetComponent<TransformComponent>();
-	//		component.Translation.x = x * 1.5f;
-	//		component.Translation.y = y * 1.5f;
-	//
-	//		CubeComponent& cube = cubeEntity.GetComponent<CubeComponent>();
-	//		cube.roughness = x / 8;
-	//		cube.metallic  = y / 8;
-	//		i++;
-	//	}
-	
+	auto cubeEntity1 = CreateEntity("cube3");
+	cubeEntity1.AddComponent<MeshComponent>();
+	cubeEntity1.GetComponent<TransformComponent>().Translation.x = -3.0f;
+	cubeEntity1.GetComponent<MeshComponent>().SetMaterial("Copper");
+
 	auto cubeEntity2 = CreateEntity("cube2");
-	cubeEntity2.AddComponent<CubeComponent>();
+	cubeEntity2.AddComponent<MeshComponent>();
 	cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
-	//
+	cubeEntity2.GetComponent<MeshComponent>().SetMaterial("Marble");
+	
+
+	auto cubeEntity3 = CreateEntity("cube3");
+	cubeEntity3.AddComponent<MeshComponent>();
+	cubeEntity3.GetComponent<TransformComponent>().Translation.x = -1.0f;
+	cubeEntity3.GetComponent<MeshComponent>().SetMaterial("Gold");
+
+	auto cubeEntity4 = CreateEntity("cube4");
+	cubeEntity4.AddComponent<MeshComponent>();
+	cubeEntity4.GetComponent<TransformComponent>().Translation.x = -7.0f;
+	cubeEntity4.GetComponent<MeshComponent>().SetMaterial("Planks");
+
+	auto cubeEntity5 = CreateEntity("cube5");
+	cubeEntity5.AddComponent<MeshComponent>();
+	cubeEntity5.GetComponent<TransformComponent>().Translation.x = -5.0f;
+	cubeEntity5.GetComponent<MeshComponent>().SetMaterial("Paving");
+
+
+	//MaterialManager::Get()->LoadMaterial("DefaultMaterial");
+
 	//auto cubeEntity3 = CreateEntity("cube3");
 	//cubeEntity3.AddComponent<CubeComponent>();
 	//cubeEntity3.GetComponent<TransformComponent>().Translation.x = 0.0f;
@@ -41,8 +50,6 @@ Scene::Scene()
 
 	auto lightEntity2 = CreateEntity("Light2");
 	lightEntity2.AddComponent<LightComponent>();
-
-	
 }
 
 Scene::~Scene() {
@@ -50,7 +57,7 @@ Scene::~Scene() {
 }
 
 void Scene::Init() {
-	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/lilienstein_4k.hdr");
+	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/ballroom_4k.hdr");
 }
 
 void Scene::Update(Timestep ts)
@@ -84,14 +91,17 @@ void Scene::Draw()
 			light.Draw(transform);
 		}
 	}
+
 	m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
 
 	Renderer::m_Shader->Bind();
+
 	m_Skybox->Push();
+
 	if (cam) {
-		auto view = m_Registry.view<TransformComponent, CubeComponent>();
+		auto view = m_Registry.view<TransformComponent, MeshComponent>();
 		for (auto e : view) {
-			auto [transform, cube] = view.get<TransformComponent, CubeComponent>(e);
+			auto [transform, cube] = view.get<TransformComponent, MeshComponent>(e);
 			cube.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
 		}
 	}

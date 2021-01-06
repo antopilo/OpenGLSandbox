@@ -1,0 +1,8 @@
+{
+  "name": "Gold",
+  "albedo": "Res/Textures/PBR/Gold/Color.jpg",
+  "ao": "Res/Textures/PBR/metal/metal-ao.png",
+  "normal": "Res/Textures/PBR/Gold/Normal.jpg",
+  "metal": "Res/Textures/PBR/Gold/Metalness.jpg",
+  "roughness": "Res/Textures/PBR/Gold/Roughness.jpg"
+}

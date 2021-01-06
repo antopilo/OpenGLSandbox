@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Input.cpp" />
+    <ClCompile Include="src\Core\MaterialManager.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="src\Scene\Entities\Components.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\CameraComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\LightComponent.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components\MeshComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\TransformComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Entity.cpp" />
     <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
@@ -189,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Input.h" />
+    <ClInclude Include="src\Core\MaterialManager.h" />
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
@@ -208,7 +211,6 @@
     <ClInclude Include="src\Scene\Entities\Entity.h" />
     <ClInclude Include="src\Scene\Entities\ImGuiHelper.h" />
     <ClInclude Include="src\Scene\Lighting\Environment.h" />
-    <ClInclude Include="src\Scene\Lighting\Material.h" />
     <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Vendors\entt\config\config.h" />
     <ClInclude Include="src\Vendors\entt\config\version.h" />
@@ -555,10 +557,17 @@
     <ClInclude Include="src\Vendors\imgui\imstb_rectpack.h" />
     <ClInclude Include="src\Vendors\imgui\imstb_textedit.h" />
     <ClInclude Include="src\Vendors\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\Vendors\json\json.hpp" />
     <ClInclude Include="src\Vendors\stb_image\stb_image.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Res\Materials\Copper.material" />
+    <None Include="Res\Materials\DefaultMaterial.material" />
+    <None Include="Res\Materials\Gold.material" />
+    <None Include="Res\Materials\Marble.material" />
+    <None Include="Res\Materials\Paving.material" />
+    <None Include="Res\Materials\Planks.material" />
     <None Include="Res\Shaders\basic.shader" />
     <None Include="Res\Shaders\BRD.shader" />
     <None Include="Res\Shaders\shadowMap.shader" />

@@ -9,6 +9,7 @@ class Entity;
 class Scene
 {
 	friend Entity;
+
 private:
 	Environment* m_Environement;
 	entt::registry m_Registry;

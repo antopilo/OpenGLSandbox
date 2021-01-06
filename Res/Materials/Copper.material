@@ -1,0 +1,8 @@
+{
+  "name": "Copper",
+  "albedo": "Res/Textures/PBR/Copper/Color.png",
+  "ao": "Res/Textures/PBR/metal/metal-ao.png",
+  "normal": "Res/Textures/PBR/Copper/Normal.png",
+  "metal": "Res/Textures/PBR/Copper/Metalness.png",
+  "roughness": "Res/Textures/PBR/Copper/Roughness.png"
+}

@@ -5,29 +5,11 @@
 #include "Components/TransformComponent.h"
 #include "Components/LightComponent.h"
 #include "Components/CameraComponent.h"
-#include "../../Rendering/Textures/Material.h"
+#include "Components/MeshComponent.h"
 
 struct NameComponent {
     std::string Name;
 };
 
-struct CubeComponent {
-	unsigned int VAO;
-	unsigned int VBO;
-
-	// TODO: Make material system.
-	float Shininess = 1.0f;
-	glm::vec3 albedo;
-	float metallic;
-	float roughness;
-	float ao;
-	Material* m_Material;
-
-	CubeComponent();
-
-    void Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform);
-	void RenderSphere();
-	void DrawEditor();
-};
 
 

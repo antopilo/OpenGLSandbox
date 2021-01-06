@@ -96,6 +96,12 @@
     <ClCompile Include="src\Rendering\Textures\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\MaterialManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Entities\Components\MeshComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering\Shaders\Shader.h">
@@ -1004,9 +1010,6 @@
     <ClInclude Include="src\Scene\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene\Lighting\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Scene\Entities\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1203,6 +1206,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Rendering\Textures\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\MaterialManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendors\json\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1625,6 +1634,12 @@
     <None Include="Res\Shaders\shadowMap.shader" />
     <None Include="Res\Shaders\skybox.shader" />
     <None Include="Res\Shaders\BRD.shader" />
+    <None Include="Res\Materials\DefaultMaterial.material" />
+    <None Include="Res\Materials\Marble.material" />
+    <None Include="Res\Materials\Copper.material" />
+    <None Include="Res\Materials\Gold.material" />
+    <None Include="Res\Materials\Paving.material" />
+    <None Include="Res\Materials\Planks.material" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\Textures\0.png">

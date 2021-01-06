@@ -1,0 +1,8 @@
+{
+    "name": "Default Material",
+    "albedo": "Res/Textures/PBR/metal/metal-albedo.png",
+    "normal": "Res/Textures/PBR/metal/metal-Normal-ogl.png",
+    "ao": "Res/Textures/PBR/metal/metal-ao.png",
+    "metal": "Res/Textures/PBR/metal/metal-Metallic.png",
+    "roughness": "Res/Textures/PBR/metal/metal-Roughness.png"
+}
