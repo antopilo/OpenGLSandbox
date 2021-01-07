@@ -27,7 +27,7 @@ private:
 	glm::vec3 cameraDirection; // = glm::normalize(Translation - cameraTarget);
 
 	bool controlled = true;
-	float Speed = 10.0f;
+
 
 	float Yaw = 0;
 	float Pitch = 0;
@@ -37,8 +37,12 @@ private:
 	float mouseLastX = 0;
 	float mouseLastY = 0;
 
+	
+
 public:
-	float Fov = 90.0f;
+	float Fov = 88.0f;
+	float Exposure = 1.0f;
+	float Speed = 1.0f;
 
 	Camera();
 	Camera(CAMERA_TYPE type, glm::vec3 position);

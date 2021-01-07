@@ -1,5 +1,5 @@
 #pragma once
-#include <imgui\imgui.h>
+//#include <imgui\imgui.h>
 #include "LightComponent.h"
 #include "../../../Rendering/Renderer.h"
 #include "../ImGuiHelper.h"
@@ -31,10 +31,10 @@ void LightComponent::DrawEditor() {
     ImGui::TextColored(ImGui::GetStyleColorVec4(1), "Light properties");
     ImGui::ColorEdit4("Light Color", &Color.r);
     ImGui::SliderFloat("Strength", &Strength, 0.0f, 10.0f);
-
+    
     const char* types[] = { "Directional", "Point", "Spot" };
     static const char* current_item = types[Type];
-
+    
     if (ImGui::BeginCombo("Type", current_item)) // The second parameter is the label previewed before opening the combo.
     {
         for (int n = 0; n < IM_ARRAYSIZE(types); n++)
@@ -49,12 +49,12 @@ void LightComponent::DrawEditor() {
         }
         ImGui::EndCombo();
     }
-
+    
     if (Type == 1) {
         ImGui::SliderFloat("Attenuation", &Attenuation, 0.0f, 1.0f);
         ImGui::SliderFloat("Linear attenuation", &LinearAttenuation, 0.0f, 1.0f);
         ImGui::SliderFloat("Quadratic attenuation", &QuadraticAttenuation, 0.0f, 1.0f);
     }
     ImGuiHelper::DrawVec3("Direction", &Direction);
-    //Direction = glm::normalize(Direction);
+    Direction = glm::normalize(Direction);
 }

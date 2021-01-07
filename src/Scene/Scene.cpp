@@ -67,7 +67,6 @@ void Scene::Update(Timestep ts)
 
 void Scene::Draw()
 {
-	m_Environement->Push();
 	// Find the camera of the scene.
 	Camera* cam = nullptr;
 	{
@@ -95,6 +94,9 @@ void Scene::Draw()
 	m_Skybox->Push();
 
 	if (cam) {
+
+		Renderer::m_Shader->SetUniform1f("u_Exposure", cam->Exposure);
+
 		auto view = m_Registry.view<TransformComponent, MeshComponent>();
 		for (auto e : view) {
 			auto [transform, cube] = view.get<TransformComponent, MeshComponent>(e);

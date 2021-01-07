@@ -63,6 +63,7 @@ uniform Light Lights[MaxLight];
 uniform vec3 u_AmbientColor;
 uniform vec4 u_LightColor;
 uniform vec3 u_LightDirection;
+uniform float u_Exposure;
 
 // Material
 uniform vec3  albedo;
@@ -206,8 +207,8 @@ void main()
     // PBR
     if (m_HasDisplacement == 1)
     {
-        vec3 tangentViewPos = transpose(v_TBN) * u_EyePosition;
-        vec3 tangentFragPos = transpose(v_TBN) * v_FragPos;
+        vec3 tangentViewPos = inverse(v_TBN) * u_EyePosition;
+        vec3 tangentFragPos = inverse(v_TBN) * v_FragPos;
         vec3 viewDir = normalize(tangentViewPos - tangentFragPos);
         vec2 texCoords = ParallaxMapping(v_UVPosition, viewDir);
         finalTexCoords = texCoords;
@@ -281,9 +282,6 @@ void main()
         Lo += (kD * finalAlbedo / PI + specular) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
     }
 
-    //PBR
-
-
     /// ambient lighting (we now use IBL as the ambient term)
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, finalRoughness);
 
@@ -307,7 +305,7 @@ void main()
     // HDR tonemapping
     color = color / (color + vec3(1.0));
     // gamma correct
-    color = pow(color, vec3(1.0 / 2.2));
+    color = pow(color, vec3(1.0 / u_Exposure));
 
     FragColor = vec4(color, 1.0);
 }

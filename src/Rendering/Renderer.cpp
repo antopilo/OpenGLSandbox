@@ -29,29 +29,29 @@ void Renderer::Init()
 
   
     // Shadow map.
-    glGenTextures(1, &depthTexture);
-    glBindTexture(GL_TEXTURE_2D, depthTexture);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, 
-        1280, 720, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glGenFramebuffers(1, &depthFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
-
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, depthTexture, 0);
-    glDrawBuffer(GL_NONE);
-    glReadBuffer(GL_NONE);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    //glGenTextures(1, &depthTexture);
+    //glBindTexture(GL_TEXTURE_2D, depthTexture);
+    //
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, 
+    //    1280, 720, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+    //
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    //
+    //glBindTexture(GL_TEXTURE_2D, 0);
+    //
+    //glGenFramebuffers(1, &depthFBO);
+    //glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
+    //
+    //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, depthTexture, 0);
+    //glDrawBuffer(GL_NONE);
+    //glReadBuffer(GL_NONE);
+    //glBindFramebuffer(GL_FRAMEBUFFER, 0);
     //glDrawBuffer(GL_NONE);
 }
 
@@ -68,25 +68,25 @@ void Renderer::BeginDraw(Camera* camera)
 
     // shadow map
 
-    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-    glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    //ConfigureShaderAndMatrices();
-    float near_plane = 1.0f, far_plane = 7.5f;
-    glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-    glm::mat4 lightView = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-    m_ShadowmapShader->Bind();
-    //m_ShadowmapShader->SetUniformMat4f("lightSpaceMatrix", lightSpaceMatrix);
-
-    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-    glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    //RenderScene();
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    //glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+    //glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    ////ConfigureShaderAndMatrices();
+    //float near_plane = 1.0f, far_plane = 7.5f;
+    //glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+    //glm::mat4 lightView = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
+    //    glm::vec3(0.0f, 0.0f, 0.0f),
+    //    glm::vec3(0.0f, 1.0f, 0.0f));
+    //glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+    //m_ShadowmapShader->Bind();
+    ////m_ShadowmapShader->SetUniformMat4f("lightSpaceMatrix", lightSpaceMatrix);
+    //
+    //glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+    //glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    //glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    ////RenderScene();
+    //glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     m_Shader->Bind();
 }

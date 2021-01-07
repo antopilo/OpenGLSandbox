@@ -35,16 +35,19 @@ void Camera::Update(Timestep ts) {
 	float x = Input::GetMouseX();
 	float y = Input::GetMouseY();
 	
-	if (Input::IsKeyPress(GLFW_KEY_ESCAPE)) {
-		controlled = !controlled;
-	
-		if (!controlled)
-			Input::ShowMouse();
-		else
-			Input::HideMouse();
+	if (!controlled && Input::IsMouseButtonPressed(1))
+	{
 		mouseLastX = x;
 		mouseLastY = y;
 	}
+
+	controlled = Input::IsMouseButtonPressed(1);
+
+	if (!controlled)
+		Input::ShowMouse();
+	else
+		Input::HideMouse();	
+
 	if (Input::IsKeyPress(GLFW_KEY_UP))
 		Speed += 0.1f;
 	else if (Input::IsKeyPress(GLFW_KEY_DOWN))

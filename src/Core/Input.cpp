@@ -32,6 +32,8 @@ void Input::HideMouse() {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
+
+
 // TODO: Rename
 bool Input::IsMouseHidden() {
 	auto window = Window::Get()->GetHandle();
