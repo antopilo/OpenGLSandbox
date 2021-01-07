@@ -68,7 +68,7 @@ Material* MaterialManager::LoadMaterial(const std::string materialPath) {
 	if (j.contains("roughness"))
 		newMaterial->SetRoughness(j["roughness"]);
 	if (j.contains("displacement"))
-		newMaterial->SetNormal(j["displacement"]);
+		newMaterial->SetDisplacement(j["displacement"]);
 
 	return newMaterial;
 }

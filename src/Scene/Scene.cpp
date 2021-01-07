@@ -11,29 +11,27 @@ Scene::Scene()
 
 	auto cubeEntity1 = CreateEntity("cube3");
 	cubeEntity1.AddComponent<MeshComponent>();
-	cubeEntity1.GetComponent<TransformComponent>().Translation.x = -3.0f;
-	cubeEntity1.GetComponent<MeshComponent>().SetMaterial("Copper");
+	cubeEntity1.GetComponent<MeshComponent>().SetMaterial("Paving");
 
-	auto cubeEntity2 = CreateEntity("cube2");
-	cubeEntity2.AddComponent<MeshComponent>();
-	cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
-	cubeEntity2.GetComponent<MeshComponent>().SetMaterial("Marble");
-	
-
-	auto cubeEntity3 = CreateEntity("cube3");
-	cubeEntity3.AddComponent<MeshComponent>();
-	cubeEntity3.GetComponent<TransformComponent>().Translation.x = -1.0f;
-	cubeEntity3.GetComponent<MeshComponent>().SetMaterial("Gold");
-
-	auto cubeEntity4 = CreateEntity("cube4");
-	cubeEntity4.AddComponent<MeshComponent>();
-	cubeEntity4.GetComponent<TransformComponent>().Translation.x = -7.0f;
-	cubeEntity4.GetComponent<MeshComponent>().SetMaterial("Planks");
-
-	auto cubeEntity5 = CreateEntity("cube5");
-	cubeEntity5.AddComponent<MeshComponent>();
-	cubeEntity5.GetComponent<TransformComponent>().Translation.x = -5.0f;
-	cubeEntity5.GetComponent<MeshComponent>().SetMaterial("Paving");
+	//auto cubeEntity2 = CreateEntity("cube2");
+	//cubeEntity2.AddComponent<MeshComponent>();
+	//cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
+	//cubeEntity2.GetComponent<MeshComponent>().SetMaterial("Marble");
+	//
+	//auto cubeEntity3 = CreateEntity("cube3");
+	//cubeEntity3.AddComponent<MeshComponent>();
+	//cubeEntity3.GetComponent<TransformComponent>().Translation.x = -1.0f;
+	//cubeEntity3.GetComponent<MeshComponent>().SetMaterial("Gold");
+	//
+	//auto cubeEntity4 = CreateEntity("cube4");
+	//cubeEntity4.AddComponent<MeshComponent>();
+	//cubeEntity4.GetComponent<TransformComponent>().Translation.x = -7.0f;
+	//cubeEntity4.GetComponent<MeshComponent>().SetMaterial("Planks");
+	//
+	//auto cubeEntity5 = CreateEntity("cube5");
+	//cubeEntity5.AddComponent<MeshComponent>();
+	//cubeEntity5.GetComponent<TransformComponent>().Translation.x = -5.0f;
+	//cubeEntity5.GetComponent<MeshComponent>().SetMaterial("Paving");
 
 
 	//MaterialManager::Get()->LoadMaterial("DefaultMaterial");
@@ -47,9 +45,7 @@ Scene::Scene()
 
 	auto lightEntity = CreateEntity("Light");
 	lightEntity.AddComponent<LightComponent>();
-
-	auto lightEntity2 = CreateEntity("Light2");
-	lightEntity2.AddComponent<LightComponent>();
+	lightEntity.GetComponent<TransformComponent>().Translation.y = 1.1f;
 }
 
 Scene::~Scene() {
@@ -57,7 +53,7 @@ Scene::~Scene() {
 }
 
 void Scene::Init() {
-	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/ballroom_4k.hdr");
+	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/station_4k.hdr");
 }
 
 void Scene::Update(Timestep ts)

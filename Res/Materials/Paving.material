@@ -3,5 +3,6 @@
   "albedo": "Res/Textures/PBR/Paving/color.jpg",
   "normal": "Res/Textures/PBR/Paving/normal.jpg",
   "ao": "Res/Textures/PBR/Paving/ao.jpg",
-  "roughness": "Res/Textures/PBR/Paving/roughness.jpg"
+  "roughness": "Res/Textures/PBR/Paving/roughness.jpg",
+  "displacement": "Res/Textures/PBR/Paving/displacement.jpg"
 }

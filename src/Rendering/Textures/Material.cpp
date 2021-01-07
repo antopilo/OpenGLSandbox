@@ -19,32 +19,45 @@ Material::~Material()
 	delete m_Metalness;
 	delete m_Roughness;
 	delete m_Normal;
+	delete m_Displacement;
 }
 
 void Material::Bind() 
 {
 	if (m_Albedo != nullptr) {
-		m_Albedo->Bind(1);
+		m_Albedo->Bind(4);
 		Renderer::m_Shader->SetUniform1i("m_HasAlbedo", 1);
-		Renderer::m_Shader->SetUniform1i("m_Albedo", 1);
+		Renderer::m_Shader->SetUniform1i("m_Albedo", 4);
 	}
 		
 	if (m_AO != nullptr) {
-		m_AO->Bind(2);
+		m_AO->Bind(5);
 		Renderer::m_Shader->SetUniform1i("m_HasAO", 1);
-		Renderer::m_Shader->SetUniform1i("m_AO", 2);
+		Renderer::m_Shader->SetUniform1i("m_AO", 5);
 	}
 		
 	if (m_Metalness != nullptr) {
-		m_Metalness->Bind(3);
+		m_Metalness->Bind(6);
 		Renderer::m_Shader->SetUniform1i("m_HasMetalness", 1);
-		Renderer::m_Shader->SetUniform1i("m_Metalness", 3);
+		Renderer::m_Shader->SetUniform1i("m_Metalness", 6);
 	}
 		
 	if (m_Roughness != nullptr) {
-		m_Roughness->Bind(4);
+		m_Roughness->Bind(7);
 		Renderer::m_Shader->SetUniform1i("m_HasRoughness", 1);
-		Renderer::m_Shader->SetUniform1i("m_Roughness", 4);
+		Renderer::m_Shader->SetUniform1i("m_Roughness", 7);
+	}
+
+	if (m_Normal != nullptr) {
+		m_Normal->Bind(8);
+		Renderer::m_Shader->SetUniform1i("m_HasNormal", 1);
+		Renderer::m_Shader->SetUniform1i("m_Normal", 8);
+	}
+
+	if (m_Displacement != nullptr) {
+		m_Displacement->Bind(9);
+		Renderer::m_Shader->SetUniform1i("m_HasDisplacement", 1);
+		Renderer::m_Shader->SetUniform1i("m_Displacement", 9);
 	}
 }
 
@@ -70,6 +83,11 @@ void Material::SetRoughness(const std::string roughness)
 void Material::SetNormal(const std::string normal)
 {
 	m_Normal = new Texture(normal);
+}
+
+void Material::SetDisplacement(const std::string displacement)
+{
+	m_Displacement = new Texture(displacement);
 }
 
 

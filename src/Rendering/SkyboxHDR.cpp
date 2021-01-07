@@ -103,18 +103,18 @@ void SkyboxHDR::Draw(glm::mat4 projection, glm::mat4 view) {
 
 void SkyboxHDR::Push() {
     //m_Hdr->BindCubemap(5);
-    glActiveTexture(GL_TEXTURE0 + 5);
+    glActiveTexture(GL_TEXTURE0 + 1);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_ConvulatedCubemap);
 
-    glActiveTexture(GL_TEXTURE0 + 6);
+    glActiveTexture(GL_TEXTURE0 + 2);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_SpecularCubemap);
 
-    glActiveTexture(GL_TEXTURE0 + 7);
+    glActiveTexture(GL_TEXTURE0 + 3);
     glBindTexture(GL_TEXTURE_2D, m_brdLut);
     
-    Renderer::m_Shader->SetUniform1i("u_IrradianceMap", 5);
-    Renderer::m_Shader->SetUniform1i("prefilterMap", 6);
-    Renderer::m_Shader->SetUniform1i("brdfLUT", 7);
+    Renderer::m_Shader->SetUniform1i("u_IrradianceMap", 1);
+    Renderer::m_Shader->SetUniform1i("prefilterMap", 2);
+    Renderer::m_Shader->SetUniform1i("brdfLUT", 3);
 }
 
 void SkyboxHDR::CreateHDRCubemap() {

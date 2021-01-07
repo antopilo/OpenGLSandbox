@@ -7,7 +7,7 @@ enum LightType {
 };
 
 struct LightComponent {
-	LightType Type = Directional;
+	LightType Type = Point;
 	glm::vec3 Direction;
 	glm::vec3 Color;
 	float Strength;

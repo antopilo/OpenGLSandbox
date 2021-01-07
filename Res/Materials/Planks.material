@@ -4,5 +4,6 @@
   "normal": "Res/Textures/PBR/Planks/normal.jpg",
   "ao": "Res/Textures/PBR/Planks/ao.jpg",
   "roughness": "Res/Textures/PBR/Planks/roughness.jpg",
-  "metal": "Res/Textures/PBR/Planks/metalness.jpg"
+  "metal": "Res/Textures/PBR/Planks/metalness.jpg",
+  "displacement": "Res/Textures/PBR/Planks/displacement.jpg"
 }

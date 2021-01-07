@@ -13,6 +13,7 @@ public:
 	Texture* m_Metalness;
 	Texture* m_Roughness;
 	Texture* m_Normal;
+	Texture* m_Displacement;
 
 	glm::vec3 m_AlbedoColor;
 
@@ -24,6 +25,8 @@ public:
 	void SetMetalness(const std::string albedo);
 	void SetRoughness(const std::string albedo);
 	void SetNormal(const std::string albedo);
+	void SetDisplacement(const std::string displacement);
+
 	void SetName(const std::string name);
 
 	std::string GetName();

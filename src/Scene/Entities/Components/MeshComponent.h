@@ -9,6 +9,7 @@ private:
 	unsigned int VBO;
 	Material* m_Material;
 
+	void BuildTangents();
 public:
 	MeshComponent();
 
