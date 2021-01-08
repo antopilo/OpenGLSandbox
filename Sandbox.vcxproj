@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLEW\include;$(ProjectDir)Dependencies\GLFW\x64\include;$(ProjectDir)src\Vendors;C:\Dev\OpenGLSandbox\Dependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLEW\include;$(ProjectDir)Dependencies\GLFW\x64\include;$(ProjectDir)src\Vendors;$(ProjectDir)Dependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -162,6 +162,7 @@
     <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\MaterialManager.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
+    <ClCompile Include="src\Rendering\Mesh\Mesh.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
     <ClCompile Include="src\Rendering\Skybox.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="src\Scene\Entities\Components\CameraComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\LightComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\MeshComponent.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components\ModelComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\TransformComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Entity.cpp" />
     <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
@@ -195,6 +197,7 @@
     <ClInclude Include="src\Core\MaterialManager.h" />
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
+    <ClInclude Include="src\Rendering\Mesh\Mesh.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
     <ClInclude Include="src\Rendering\Skybox.h" />
@@ -208,6 +211,7 @@
     <ClInclude Include="src\Scene\Entities\Components\CameraComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\LightComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\MeshComponent.h" />
+    <ClInclude Include="src\Scene\Entities\Components\ModelComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\TransformComponent.h" />
     <ClInclude Include="src\Scene\Entities\Entity.h" />
     <ClInclude Include="src\Scene\Entities\ImGuiHelper.h" />

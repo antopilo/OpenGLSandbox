@@ -60,7 +60,7 @@ int Window::Init()
         std::cout << "GLEW initialization failed!";
     }
 
-    glEnable(GL_MULTISAMPLE);
+    
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -71,7 +71,7 @@ int Window::Init()
     glClearColor(0.019f, 0.501f, 1.0f, 1.0f);
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     glEnable(GL_DEPTH_TEST);
-
+    glEnable(GL_MULTISAMPLE);
     // create viewport
    
 
@@ -202,7 +202,11 @@ void Window::Draw()
                     m_Scene->CreateEntity("Entity");
                 }
                 ImGui::SameLine();
-                ImGui::Button("Remove");
+                if (ImGui::Button("Remove"))
+                {
+                    m_Scene->DestroyEntity(selectedEntity);
+                    selectedEntity = m_Scene->GetAllEntities().at(0);
+                };
 
             ImGui::EndChild();
 
@@ -244,6 +248,7 @@ void Window::Draw()
         if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y))) {
             m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
             ResizeFramebuffer(m_ViewportSize);
+            cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
         }
 
         ImGui::Image((void*)texture, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
@@ -277,6 +282,11 @@ void Window::Draw()
         component.DrawEditor();
         ImGui::Separator();
 
+        if (selectedEntity.HasComponent<NameComponent>()) {
+            selectedEntity.GetComponent<NameComponent>().DrawEditor();
+            ImGui::Separator();
+        }
+
         if (selectedEntity.HasComponent<LightComponent>()) {
             selectedEntity.GetComponent<LightComponent>().DrawEditor();
             ImGui::Separator();
@@ -293,13 +303,20 @@ void Window::Draw()
         }
         if (ImGui::Button("Add component"))
         {
-            if (ImGui::BeginPopupContextItem())
-            {
-                // your popup code
-                ImGui::EndPopup();
-            }
+            ImGui::OpenPopup("add_component_popup");
+            
         }
-
+        if (ImGui::BeginPopup("add_component_popup"))
+        {
+            if (ImGui::MenuItem("Light Component"))
+                selectedEntity.AddComponent<LightComponent>();
+            if (ImGui::MenuItem("Mesh Component"))
+                selectedEntity.AddComponent<MeshComponent>();
+            if (ImGui::MenuItem("Camera Component"))
+                selectedEntity.AddComponent<CameraComponent>();
+            // your popup code
+            ImGui::EndPopup();
+        }
         ImGui::End();
     }
 

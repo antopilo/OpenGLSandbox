@@ -30,7 +30,7 @@ void LightComponent::Draw(TransformComponent transformComponent)
 void LightComponent::DrawEditor() {
     ImGui::TextColored(ImGui::GetStyleColorVec4(1), "Light properties");
     ImGui::ColorEdit4("Light Color", &Color.r);
-    ImGui::SliderFloat("Strength", &Strength, 0.0f, 10.0f);
+    ImGui::SliderFloat("Strength", &Strength, 0.0f, 50.0f);
     
     const char* types[] = { "Directional", "Point", "Spot" };
     static const char* current_item = types[Type];
@@ -50,11 +50,11 @@ void LightComponent::DrawEditor() {
         ImGui::EndCombo();
     }
     
-    if (Type == 1) {
-        ImGui::SliderFloat("Attenuation", &Attenuation, 0.0f, 1.0f);
-        ImGui::SliderFloat("Linear attenuation", &LinearAttenuation, 0.0f, 1.0f);
-        ImGui::SliderFloat("Quadratic attenuation", &QuadraticAttenuation, 0.0f, 1.0f);
-    }
+    //if (Type == 1) {
+    //    ImGui::SliderFloat("Attenuation", &Attenuation, 0.0f, 1.0f);
+    //    ImGui::SliderFloat("Linear attenuation", &LinearAttenuation, 0.0f, 1.0f);
+    //    ImGui::SliderFloat("Quadratic attenuation", &QuadraticAttenuation, 0.0f, 1.0f);
+    //}
     ImGuiHelper::DrawVec3("Direction", &Direction);
     Direction = glm::normalize(Direction);
 }

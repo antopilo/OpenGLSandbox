@@ -12,6 +12,8 @@ class Camera
 private:
 	CAMERA_TYPE m_Type;
 
+	float AspectRatio = 16.0f / 9.0f;
+
 	glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
@@ -27,17 +29,12 @@ private:
 	glm::vec3 cameraDirection; // = glm::normalize(Translation - cameraTarget);
 
 	bool controlled = true;
-
+	bool firstMouse = true;
 
 	float Yaw = 0;
 	float Pitch = 0;
-
-	bool firstMouse = true;
-
 	float mouseLastX = 0;
 	float mouseLastY = 0;
-
-	
 
 public:
 	float Fov = 88.0f;
@@ -49,6 +46,8 @@ public:
 
 	void SetType(CAMERA_TYPE type);
 	void Update(Timestep ts);
+	void OnWindowResize(int x, int y);
+
 
 	glm::vec3 GetTranslation();
 	glm::vec3 GetDirection();

@@ -113,8 +113,8 @@ void SkyboxHDR::Push() {
     glBindTexture(GL_TEXTURE_2D, m_brdLut);
     
     Renderer::m_Shader->SetUniform1i("u_IrradianceMap", 1);
-    Renderer::m_Shader->SetUniform1i("prefilterMap", 6);
-    Renderer::m_Shader->SetUniform1i("brdfLUT", 7);
+    Renderer::m_Shader->SetUniform1i("prefilterMap", 2);
+    Renderer::m_Shader->SetUniform1i("brdfLUT", 3);
 }
 
 void SkyboxHDR::CreateHDRCubemap() {

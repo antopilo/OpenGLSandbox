@@ -7,6 +7,10 @@ Material::Material(const std::string albedo)
 	m_Albedo = new Texture(albedo);
 }
 
+Material::Material()
+{
+}
+
 Material::Material(const glm::vec3 albedoColor)
 {
 	m_AlbedoColor = albedoColor;
@@ -29,11 +33,17 @@ void Material::Bind()
 		Renderer::m_Shader->SetUniform1i("m_HasAlbedo", 1);
 		Renderer::m_Shader->SetUniform1i("m_Albedo", 4);
 	}
+	else {
+		Renderer::m_Shader->SetUniform1i("m_HasAlbedo", 0);
+	}
 		
 	if (m_AO != nullptr) {
 		m_AO->Bind(5);
 		Renderer::m_Shader->SetUniform1i("m_HasAO", 1);
 		Renderer::m_Shader->SetUniform1i("m_AO", 5);
+	}
+	else {
+		Renderer::m_Shader->SetUniform1i("m_HasAO", 0);
 	}
 		
 	if (m_Metalness != nullptr) {
@@ -41,11 +51,17 @@ void Material::Bind()
 		Renderer::m_Shader->SetUniform1i("m_HasMetalness", 1);
 		Renderer::m_Shader->SetUniform1i("m_Metalness", 6);
 	}
+	else {
+		Renderer::m_Shader->SetUniform1i("m_HasMetalness", 0);
+	}
 		
 	if (m_Roughness != nullptr) {
 		m_Roughness->Bind(7);
 		Renderer::m_Shader->SetUniform1i("m_HasRoughness", 1);
 		Renderer::m_Shader->SetUniform1i("m_Roughness", 7);
+	}
+	else {
+		Renderer::m_Shader->SetUniform1i("m_HasRoughness", 0);
 	}
 
 	if (m_Normal != nullptr) {
@@ -53,11 +69,17 @@ void Material::Bind()
 		Renderer::m_Shader->SetUniform1i("m_HasNormal", 1);
 		Renderer::m_Shader->SetUniform1i("m_Normal", 8);
 	}
+	else {
+		Renderer::m_Shader->SetUniform1i("m_HasNormal", 0);
+	}
 
 	if (m_Displacement != nullptr) {
 		m_Displacement->Bind(9);
-		Renderer::m_Shader->SetUniform1i("m_HasDisplacement", 1);
+		Renderer::m_Shader->SetUniform1i("m_HasDisplacement", 0);
 		Renderer::m_Shader->SetUniform1i("m_Displacement", 9);
+	}
+	else {
+		Renderer::m_Shader->SetUniform1i("m_HasDisplacement", 0);
 	}
 }
 
@@ -67,6 +89,7 @@ void Material::SetName(const std::string name)
 }
 
 std::string Material::GetName() { return m_Name; }
+
 
 void Material::SetAO(const std::string ao)
 {

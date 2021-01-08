@@ -10,9 +10,10 @@ Scene::Scene()
 
 
 	auto cubeEntity1 = CreateEntity("cube3");
-	cubeEntity1.AddComponent<MeshComponent>();
-	cubeEntity1.GetComponent<MeshComponent>().SetMaterial("Paving");
-
+	cubeEntity1.AddComponent<ModelComponent>();
+	cubeEntity1.GetComponent<ModelComponent>().LoadModel("Res/Models/Cerberus/Cerberus_LP.FBX");
+	cubeEntity1.GetComponent<TransformComponent>().Rotation.x = -90.0f;
+	cubeEntity1.GetComponent<TransformComponent>().Scale = glm::vec3(0.25f, 0.25f, 0.25f);
 	//auto cubeEntity2 = CreateEntity("cube2");
 	//cubeEntity2.AddComponent<MeshComponent>();
 	//cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
@@ -53,7 +54,7 @@ Scene::~Scene() {
 }
 
 void Scene::Init() {
-	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/station_4k.hdr");
+	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/ballroom_4k.hdr");
 }
 
 void Scene::Update(Timestep ts)
@@ -97,10 +98,10 @@ void Scene::Draw()
 
 		Renderer::m_Shader->SetUniform1f("u_Exposure", cam->Exposure);
 
-		auto view = m_Registry.view<TransformComponent, MeshComponent>();
+		auto view = m_Registry.view<TransformComponent, ModelComponent>();
 		for (auto e : view) {
-			auto [transform, cube] = view.get<TransformComponent, MeshComponent>(e);
-			cube.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
+			auto [transform, model] = view.get<TransformComponent, ModelComponent>(e);
+			model.Draw(cam->GetPerspective(), cam->GetTransform(), transform.GetTransform());
 		}
 	}
 }

@@ -217,7 +217,7 @@ MeshComponent::MeshComponent() {
     glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 14));
     glEnableVertexAttribArray(5);
 
-    m_Material = MaterialManager::Get()->LoadMaterial("DefaultMaterial");
+    m_Material = MaterialManager::Get()->LoadMaterial("Planks");
 
 } 
 

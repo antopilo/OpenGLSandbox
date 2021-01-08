@@ -8,7 +8,7 @@ layout(location = 3) in vec3 Tangent;
 layout(location = 4) in vec3 Bitangent;
 layout(location = 3) in float TextureId;
 
-out vec2 v_UVPosition;
+out flat vec2 v_UVPosition;
 out flat float v_TextureId;
 out flat vec3 v_Normal;
 out vec3 v_FragPos;
@@ -124,14 +124,14 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
 
     // get initial values
     vec2  currentTexCoords = texCoords;
-    float currentDepthMapValue = texture(m_Displacement, currentTexCoords).r;
+    float currentDepthMapValue = 1.0f - texture(m_Displacement, currentTexCoords).r;
 
     while (currentLayerDepth < currentDepthMapValue)
     {
         // shift texture coordinates along direction of P
         currentTexCoords -= deltaTexCoords;
         // get depthmap value at current texture coordinates
-        currentDepthMapValue = texture(m_Displacement, currentTexCoords).r;
+        currentDepthMapValue = 1.0f - texture(m_Displacement, currentTexCoords).r;
         // get depth of next layer
         currentLayerDepth += layerDepth;
     }
@@ -140,7 +140,7 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
 
     // get depth after and before collision for linear interpolation
     float afterDepth = currentDepthMapValue - currentLayerDepth;
-    float beforeDepth = texture(m_Displacement, prevTexCoords).r - currentLayerDepth + layerDepth;
+    float beforeDepth = 1.0f - texture(m_Displacement, prevTexCoords).r - currentLayerDepth + layerDepth;
 
     // interpolation of texture coordinates
     float weight = afterDepth / (afterDepth - beforeDepth);
@@ -200,9 +200,6 @@ void main()
     vec3  finalNormal   = v_Normal;
     vec3 finalAlbedo    = albedo;
     vec2 finalTexCoords = v_UVPosition;
-    //int index = int(v_TextureId);
-    //vec4 objectColor = texture(u_Textures[index], v_UVPosition) * vec4(1.0f, 1.0, 1.0f, 1.0f);
-    //objectColor.r = 1.0f;
 
     // PBR
     if (m_HasDisplacement == 1)
@@ -228,7 +225,6 @@ void main()
         finalNormal = texture(m_Normal, finalTexCoords).rgb;
         finalNormal = finalNormal * 2.0 - 1.0;
         finalNormal = normalize(v_TBN * finalNormal);
-
     }
     
         

@@ -18,18 +18,30 @@ public:
 	glm::vec3 m_AlbedoColor;
 
 	Material(const std::string albedo);
+	Material();
 	Material(const glm::vec3 albedoColor);
 	~Material();
 
-	void SetAO(const std::string albedo);
-	void SetMetalness(const std::string albedo);
-	void SetRoughness(const std::string albedo);
-	void SetNormal(const std::string albedo);
-	void SetDisplacement(const std::string displacement);
+	void Bind();
 
 	void SetName(const std::string name);
-
 	std::string GetName();
 
-	void Bind();
+	void SetAlbedo(const std::string path) { m_Albedo = new Texture(path); }
+	void SetAlbedo(Texture* texture) { m_Albedo = texture; }
+
+	void SetAO(const std::string albedo);
+	void SetAO(Texture* texture) { m_AO = texture; }
+
+	void SetMetalness(const std::string albedo);
+	void SetMetalness(Texture* texture) { m_Metalness = texture; }
+
+	void SetRoughness(const std::string albedo);
+	void SetRoughness(Texture* texture) { m_Roughness = texture; }
+
+	void SetNormal(const std::string albedo);
+	void SetNormal(Texture* texture) { m_Normal = texture; }
+
+	void SetDisplacement(const std::string displacement);
+	void SetDisplacement(Texture* texture) { m_Displacement = texture; }
 };
