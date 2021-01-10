@@ -19,40 +19,6 @@ void Renderer::Init()
     m_Shader->Bind();
 
     int samplers[2] = { 0, 1 };
-    //m_Shader->SetUniform1iv("u_Textures", 2, samplers);
-
-    // Todo mem leak.
-   //Texture* texture = new Texture("Res/Textures/0.png");
-   //texture->Bind(0);
-   //Texture* texture2 = new Texture("Res/Textures/1.png");
-   //texture->Bind(1);
-
-  
-    // Shadow map.
-    //glGenTextures(1, &depthTexture);
-    //glBindTexture(GL_TEXTURE_2D, depthTexture);
-    //
-    //glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, 
-    //    1280, 720, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-    //
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //
-    //glBindTexture(GL_TEXTURE_2D, 0);
-    //
-    //glGenFramebuffers(1, &depthFBO);
-    //glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
-    //
-    //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, depthTexture, 0);
-    //glDrawBuffer(GL_NONE);
-    //glReadBuffer(GL_NONE);
-    //glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    //glDrawBuffer(GL_NONE);
 }
 
 const int SHADOW_WIDTH = 1280;

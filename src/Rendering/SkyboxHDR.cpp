@@ -45,6 +45,9 @@ glm::vec3 SkyboxHDR::vertices[36]{
        glm::vec3(0.5f,  0.5f,  0.5f) ,
        glm::vec3(-0.5f, 0.5f,  0.5f) ,
        glm::vec3(-0.5f, 0.5f, -0.5f)
+       
+       
+      
 };
 
 SkyboxHDR::SkyboxHDR(const std::string path) {

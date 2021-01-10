@@ -1,9 +1,11 @@
 #include "ModelComponent.h"
 #include "../../../Rendering/Textures/Material.h"
 #include "../../../Rendering/Renderer.h"
-
+#include "../../../Core/TextureManager.h"
 void ModelComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform)
 {
+    Renderer::m_Shader->SetUniformMat4f("u_View", view);
+    Renderer::m_Shader->SetUniformMat4f("u_Projection", projection);
     Renderer::m_Shader->SetUniformMat4f("u_Model", transform);
     for (auto m : meshes) {
         m.Draw(projection, view, transform);
@@ -13,7 +15,8 @@ void ModelComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transf
 void ModelComponent::LoadModel(std::string path)
 {
     Assimp::Importer import;
-    const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+    import.SetPropertyFloat("PP_GSN_MAX_SMOOTHING_ANGLE", 90);
+    const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
@@ -96,7 +99,6 @@ Mesh ModelComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-        Material* newMaterial = new Material("Res/Models/Cerberus/Textures/Cerberus_A.tga");
         //newMaterial->SetAlbedo(LoadMaterialTextures(material, aiTextureType_DIFFUSE).at(0));
         //new Texture()
         //if(material->GetTextureCount(aiTextureType_METALNESS) > 0)
@@ -108,10 +110,25 @@ Mesh ModelComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
         //newMaterial->SetDisplacement(&LoadMaterialTextures(material, aiTextureType_DISPLACEMENT).at(0));
 
         //newMaterial->SetMetalness(new Texture("Res/Models/Cerberus/Textures/Cerberus_M.tga"));
-        newMaterial->SetNormal(new Texture("Res/Models/Cerberus/Textures/Cerberus_N.tga"));
-        newMaterial->SetRoughness(new Texture("Res/Models/Cerberus/Textures/Cerberus_R.tga"));
-        newMaterial->SetMetalness(new Texture("Res/Models/Cerberus/Textures/Cerberus_M.tga"));
-        newMaterial->SetAO(new Texture("Res/Models/Cerberus/Textures/Raw/Cerberus_AO.tga"));
+
+        aiString str;
+        material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
+        Material* newMaterial = new Material(TextureManager::Get()->GetTexture(directory + str.C_Str()));
+
+        material->GetTexture(aiTextureType_NORMALS, 0, &str);
+        newMaterial->SetNormal(TextureManager::Get()->GetTexture(directory + str.C_Str()));
+
+        material->GetTexture(aiTextureType_METALNESS, 0, &str);
+        newMaterial->SetMetalness(TextureManager::Get()->GetTexture(directory + str.C_Str()));
+
+        material->GetTexture(aiTextureType_DIFFUSE_ROUGHNESS, 0, &str);
+        newMaterial->SetRoughness(TextureManager::Get()->GetTexture(directory + str.C_Str()));
+
+        material->GetTexture(aiTextureType_AMBIENT_OCCLUSION, 0, &str);
+        newMaterial->SetAO(TextureManager::Get()->GetTexture(directory + str.C_Str()));
+        //newMaterial->SetRoughness(TextureManager::Get()->GetTexture("Res/Models/Cerberus/Textures/Cerberus_R.tga"));
+        //newMaterial->SetMetalness(TextureManager::Get()->GetTexture("Res/Models/Cerberus/Textures/Cerberus_M.tga"));
+        //newMaterial->SetAO(TextureManager::Get()->GetTexture("Res/Models/Cerberus/Textures/Raw/Cerberus_AO.tga"));
         //std::vector<Texture> diffuseMaps = ;
         //textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         //

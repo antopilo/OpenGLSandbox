@@ -7,9 +7,9 @@ Material::Material(const std::string albedo)
 	m_Albedo = new Texture(albedo);
 }
 
-Material::Material()
-{
-}
+//Material::Material()
+//{
+//}
 
 Material::Material(const glm::vec3 albedoColor)
 {
@@ -43,6 +43,7 @@ void Material::Bind()
 		Renderer::m_Shader->SetUniform1i("m_AO", 5);
 	}
 	else {
+		Renderer::m_Shader->SetUniform1f("ao", 1.0f);
 		Renderer::m_Shader->SetUniform1i("m_HasAO", 0);
 	}
 		
@@ -52,6 +53,7 @@ void Material::Bind()
 		Renderer::m_Shader->SetUniform1i("m_Metalness", 6);
 	}
 	else {
+		Renderer::m_Shader->SetUniform1f("metallic", 0.1f);
 		Renderer::m_Shader->SetUniform1i("m_HasMetalness", 0);
 	}
 		
@@ -61,6 +63,7 @@ void Material::Bind()
 		Renderer::m_Shader->SetUniform1i("m_Roughness", 7);
 	}
 	else {
+		Renderer::m_Shader->SetUniform1f("roughness", 0.9f);
 		Renderer::m_Shader->SetUniform1i("m_HasRoughness", 0);
 	}
 

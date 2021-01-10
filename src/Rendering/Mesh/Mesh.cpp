@@ -55,27 +55,7 @@ void Mesh::setupMesh()
 
 void Mesh::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform)
 {
-    unsigned int diffuseNr = 1;
-    unsigned int specularNr = 1;
-    for (unsigned int i = 0; i < m_Textures.size(); i++)
-    {
-        //
-        //
-        //glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-        //// retrieve texture number (the N in diffuse_textureN)
-        //std::string number;
-        //std::string name = m_Textures[i].type;
-        //if (name == "texture_diffuse")
-        //    number = std::to_string(diffuseNr++);
-        //else if (name == "texture_specular")
-        //    number = std::to_string(specularNr++);
-        //
-        //Renderer::m_Shader->SetUniform1f(("material." + name + number).c_str(), i);
-        //
-        //m_Textures[i].Bind(5 + i);
-    }
-    //glActiveTexture(GL_TEXTURE0);
-
+    
     m_Material->Bind();
     // draw mesh
     glBindVertexArray(VAO);

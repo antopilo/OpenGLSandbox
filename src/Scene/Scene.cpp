@@ -11,9 +11,9 @@ Scene::Scene()
 
 	auto cubeEntity1 = CreateEntity("cube3");
 	cubeEntity1.AddComponent<ModelComponent>();
-	cubeEntity1.GetComponent<ModelComponent>().LoadModel("Res/Models/Cerberus/Cerberus_LP.FBX");
-	cubeEntity1.GetComponent<TransformComponent>().Rotation.x = -90.0f;
-	cubeEntity1.GetComponent<TransformComponent>().Scale = glm::vec3(0.25f, 0.25f, 0.25f);
+	cubeEntity1.GetComponent<ModelComponent>().LoadModel("Res/Models/Sponza/Sponza.gltf");
+	//cubeEntity1.GetComponent<TransformComponent>().Rotation.x = -90.0f;
+	cubeEntity1.GetComponent<TransformComponent>().Scale = glm::vec3(0.1f, 0.1f, 0.1f);
 	//auto cubeEntity2 = CreateEntity("cube2");
 	//cubeEntity2.AddComponent<MeshComponent>();
 	//cubeEntity2.GetComponent<TransformComponent>().Translation.x = 1.0f;
@@ -91,9 +91,9 @@ void Scene::Draw()
 	m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
 
 	Renderer::m_Shader->Bind();
-
+	
 	m_Skybox->Push();
-
+	Renderer::m_Shader->SetUniform1i("u_ShowNormal", 0);
 	if (cam) {
 
 		Renderer::m_Shader->SetUniform1f("u_Exposure", cam->Exposure);

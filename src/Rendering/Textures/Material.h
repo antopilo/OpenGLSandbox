@@ -18,7 +18,7 @@ public:
 	glm::vec3 m_AlbedoColor;
 
 	Material(const std::string albedo);
-	Material();
+	Material(Texture* texture) { m_Albedo = texture; }
 	Material(const glm::vec3 albedoColor);
 	~Material();
 

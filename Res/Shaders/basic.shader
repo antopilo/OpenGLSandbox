@@ -10,11 +10,13 @@ layout(location = 3) in float TextureId;
 
 out flat vec2 v_UVPosition;
 out flat float v_TextureId;
-out flat vec3 v_Normal;
+out vec3 v_Normal;
 out vec3 v_FragPos;
 out vec3 v_ViewPos;
 out mat3 v_TBN;
-
+out mat3 v_WTBN;
+out vec3 v_Tangent;
+out vec3 v_Bitangent;
 uniform mat4 u_Projection;
 uniform mat4 u_View;
 uniform mat4 u_Model;
@@ -22,18 +24,23 @@ uniform mat3 u_NormalMatrix;
 
 void main()
 {
-    vec3 T = normalize(vec3(u_Model * vec4(Tangent, 0.0)));
-    vec3 B = normalize(vec3(u_Model * vec4(Bitangent, 0.0)));
-    vec3 N = normalize(vec3(u_Model * vec4(Normal, 0.0)));
-    mat3 TBN = mat3(T, B, N);
-    v_TBN = TBN;
+    mat3 normalMatrix = mat3(transpose(inverse(u_Model)));
+    v_Normal = vec3(vec4(Normal, 1.0f));
+
+    vec3 N = normalize((u_Model * vec4(Normal, 0.0f)).xyz);
+    vec3 T = normalize((u_Model * vec4(Tangent, 0.0f)).xyz);
+    vec3 B = normalize((u_Model * vec4(Bitangent, 0.0f)).xyz);
+    v_TBN = mat3(T, B, N);
+
+    v_Tangent = T;
+    v_Bitangent = B;
 
     v_UVPosition = UVPosition;
     v_TextureId = TextureId;
-    v_Normal = mat3(transpose(inverse(u_Model))) * Normal;
+
+    gl_Position = u_Projection * u_View * u_Model * vec4(VertexPosition, 1.0f);
     v_FragPos = vec3(u_Model * vec4(VertexPosition, 1.0f));
     v_ViewPos = VertexPosition;
-    gl_Position = u_Projection * u_View * u_Model * vec4(VertexPosition, 1.0f);
 }
 
 #shader fragment
@@ -58,6 +65,9 @@ uniform sampler2D u_Textures[2];
 const int MaxLight = 20;
 uniform int LightCount = 0;
 uniform Light Lights[MaxLight];
+
+// Debug
+uniform int u_ShowNormal;
 
 // Lighting
 uniform vec3 u_AmbientColor;
@@ -103,6 +113,10 @@ in vec2 v_UVPosition;
 in flat vec3 v_Normal;
 in mat3 v_TBN;
 in flat float v_TextureId;
+
+in vec3 v_Tangent;
+in vec3 v_Bitangent;
+
 
 float PI = 3.141592653589793f;
 float height_scale = 0.03f;
@@ -213,8 +227,14 @@ void main()
             discard;
     }
 
-    if (m_HasAlbedo == 1)
+    if (m_HasAlbedo == 1) {
         finalAlbedo = texture(m_Albedo, finalTexCoords).rgb;
+        if (texture(m_Albedo, finalTexCoords).a == 0)
+            discard;
+    }
+        
+
+        
     if (m_HasRoughness == 1)
         finalRoughness = texture(m_Roughness, finalTexCoords).r;
     if (m_HasMetalness == 1)
@@ -224,7 +244,7 @@ void main()
     if (m_HasNormal == 1) {
         finalNormal = texture(m_Normal, finalTexCoords).rgb;
         finalNormal = finalNormal * 2.0 - 1.0;
-        finalNormal = normalize(v_TBN * finalNormal);
+        finalNormal = v_TBN * normalize(finalNormal);
     }
     
         
@@ -303,5 +323,9 @@ void main()
     // gamma correct
     color = pow(color, vec3(1.0 / u_Exposure));
 
+    if (u_ShowNormal == 1) {
+        color = finalNormal;
+    }
+    
     FragColor = vec4(color, 1.0);
 }

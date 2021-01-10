@@ -72,6 +72,7 @@ int Window::Init()
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_MULTISAMPLE);
+    //glEnable(GL_CULL_FACE);
     // create viewport
    
 
@@ -135,7 +136,8 @@ void Window::Draw()
         init = true;
     }
         
-    Renderer::BeginDraw(m_Scene->GetCurrentCamera());
+    Camera* cam = m_Scene->GetCurrentCamera();
+    Renderer::BeginDraw(cam);
 
     // TODO: move to window event.
    
@@ -145,7 +147,7 @@ void Window::Draw()
 	ImGui_ImplGlfw_NewFrame();
 
 
-    Camera* cam = m_Scene->GetCurrentCamera();
+   
 
 	ImGui::NewFrame();
 
