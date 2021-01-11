@@ -281,7 +281,7 @@ void main()
             attenuation = 1.0f;
         }
 
-        float shadow = ShadowCalculation(Lights[0].LightTransform * vec4(v_FragPos, 1.0f), Lights[0].ShadowMap, N, Lights[0].Direction);
+        float shadow = ShadowCalculation(Lights[i].LightTransform * vec4(v_FragPos, 1.0f), Lights[i].ShadowMap, N, Lights[i].Direction);
         
         vec3 H = normalize(V + L);
         vec3 radiance = Lights[i].Color * attenuation * (1.0f - shadow);

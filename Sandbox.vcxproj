@@ -199,6 +199,7 @@
     <ClInclude Include="src\Core\TextureManager.h" />
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
+    <ClInclude Include="src\Rendering\Framebuffer.h" />
     <ClInclude Include="src\Rendering\Mesh\Mesh.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />

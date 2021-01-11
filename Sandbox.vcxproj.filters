@@ -1235,6 +1235,9 @@
     <ClInclude Include="src\Core\TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\Framebuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Vendors\glm\detail\func_common.inl">

@@ -4,31 +4,19 @@
 #include "../../../Rendering/Renderer.h"
 #include "../ImGuiHelper.h"
 #include <GL\glew.h>
+
 LightComponent::LightComponent()
 {
     Color = glm::vec3(1, 1, 1);
     Strength = 10.0f;
     Direction = glm::vec3(0.1f, 1, 0);
 
-	// Create FBO
-	glGenFramebuffers(1, &m_Framebuffer);
+    m_Framebuffer = new FrameBuffer(false, glm::vec2(4096, 4096), GL_DEPTH_ATTACHMENT);
+    m_Framebuffer->SetTexture(new Texture(glm::vec2(4096, 4096), GL_DEPTH_COMPONENT));
 
-	// Create shadow map texture...
-	glGenTextures(1, &m_Shadowmap);
-	glBindTexture(GL_TEXTURE_2D, m_Shadowmap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-        4096, 4096, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    m_Framebuffer->SetDrawBuffer(GL_NONE);
+    m_Framebuffer->SetReadBuffer(GL_NONE);
 
-	// Attach texture to frame buffer 
-	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_Shadowmap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 glm::mat4 LightComponent::GetProjection()
@@ -50,9 +38,7 @@ glm::vec3 LightComponent::GetDirection()
 
 void LightComponent::BeginDrawShadow()
 {
-    glViewport(0, 0, 4096, 4096);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
-    glClear(GL_DEPTH_BUFFER_BIT);
+    m_Framebuffer->Bind();
     Renderer::m_ShadowmapShader->Bind();
     // Render scene...
 
@@ -60,7 +46,7 @@ void LightComponent::BeginDrawShadow()
 
 void LightComponent::EndDrawShadow()
 {
-    glViewport(0, 0, 1280, 720);
+    m_Framebuffer->Unbind();
 }
 
 void LightComponent::DrawShadow()

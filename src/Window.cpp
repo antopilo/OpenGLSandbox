@@ -10,6 +10,7 @@
 #include <imgui\imgui_impl_glfw.h>
 #include <imgui\imgui_impl_opengl3.h>
 
+
 Window::Window() 
 {
     s_Instance = this;
@@ -75,44 +76,20 @@ int Window::Init()
     //glEnable(GL_CULL_FACE);
     // create viewport
    
+    m_Framebuffer = new FrameBuffer(true, glm::vec2(1920, 1080), GL_COLOR_ATTACHMENT0);
+    m_Framebuffer->SetTexture(new Texture(glm::vec2(1920, 1080), GL_RGB));
 
-    glGenFramebuffers(1, &m_Framebuffer);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_Framebuffer);
-
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1920, 1080, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-
-    glGenRenderbuffers(1, &m_RenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_RenderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1920, 1080);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderBuffer);
-
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
     ImGui::CreateContext();
-    //
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    //
-    //// Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    ////ImGui::StyleColorsClassic();
-    //
-    //// Setup Platform/Renderer bindings
+
     ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-
     m_Scene = new Scene();
-    // TODO MOVE THIS TO SOMEWHERE APPROPRIATE
 
-    
     return 0;
 }
 
@@ -129,6 +106,7 @@ float y = 0.0f;
 float z = 0.0f;
 Entity selectedEntity;
 bool init = false;
+
 void Window::Draw()
 {
     if (!init) {
@@ -153,7 +131,6 @@ void Window::Draw()
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-    //ImGui::DockSpace
     ImGui::DockSpaceOverViewport(viewport, dockspace_flags);
 
     static int selected = 0;
@@ -208,41 +185,37 @@ void Window::Draw()
 	ImGui::Begin("ShadowMap");
 	{
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y)))
-		{
-			m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-			//ResizeFramebuffer(m_ViewportSize);
-			//cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
-		}
-		if (selectedEntity.HasComponent<LightComponent>())
-			ImGui::Image((void*)selectedEntity.GetComponent<LightComponent>().m_Shadowmap, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
+		//if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y)))
+		//{
+		//	m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
+		//	//ResizeFramebuffer(m_ViewportSize);
+		//	//cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
+		//}
+		//if (selectedEntity.HasComponent<LightComponent>())
+		//	ImGui::Image((void*)selectedEntity.GetComponent<LightComponent>().m_Shadowmap, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 	}
     
-	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_Framebuffer->Bind();
 	m_Scene->Draw();
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	m_Framebuffer->Unbind();
 
     ImGui::Begin("Viewport");
     {
-        ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y))) 
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+
+        // If viewport is resized
+        if (m_Framebuffer->GetSize() != viewportPanelSize)
         {
-            
-            m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-            ResizeFramebuffer(m_ViewportSize);
-            cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
+            // Update FBO size and camera aspect ratio.
+            m_Framebuffer->UpdateSize(viewportPanelSize);
+            cam->OnWindowResize(viewportPanelSize.x, viewportPanelSize.y);
         }
 
-        ImGui::Image((void*)texture, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::Image((void*)m_Framebuffer->GetTexture()->GetID(), regionAvail, ImVec2(0, 1), ImVec2(1, 0));
         ImGui::End();
     }
-
-
-    //}
-	
-   
 
     ImGui::Begin("Materials");
     {
@@ -317,30 +290,4 @@ void Window::Draw()
     glfwSwapBuffers(m_Window);
     glfwPollEvents();
 
-}
-
-void Window::ResizeFramebuffer(glm::vec2 size)
-{
-    glDeleteFramebuffers(1, &m_Framebuffer);
-    glDeleteRenderbuffers(1, &m_RenderBuffer);
-    glDeleteTextures(1, &texture);
-
-    glGenFramebuffers(1, &m_Framebuffer);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_Framebuffer);
-
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, size.x, size.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-
-    glGenRenderbuffers(1, &m_RenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_RenderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.x, size.y);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderBuffer);
-
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
-    glViewport(0, 0, size.x, size.y);
 }

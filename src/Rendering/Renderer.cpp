@@ -84,8 +84,8 @@ void Renderer::RegisterLight(TransformComponent transform, LightComponent light,
     // Push uniforms in light array.
     m_Shader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].Type", light.Type);
 
-	glActiveTexture(GL_TEXTURE0 + 11);
-	glBindTexture(GL_TEXTURE_2D, light.m_Shadowmap);
+    light.m_Framebuffer->GetTexture()->Bind(11);
+
     m_Shader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].ShadowMap", 11);
     m_Shader->SetUniformMat4f("Lights[" + std::to_string(idx - 1) + "].LightTransform", light.GetProjection() * lightView);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Position", transform.Translation.x, transform.Translation.y, transform.Translation.z);

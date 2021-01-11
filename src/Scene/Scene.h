@@ -14,8 +14,6 @@ private:
 	Environment* m_Environement;
 	entt::registry m_Registry;
 
-	
-
 public:
 
 	SkyboxHDR* m_Skybox;

@@ -2,6 +2,7 @@
 #include <glm\ext\vector_float3.hpp>
 #include "TransformComponent.h"
 #include "../Rendering/Camera.h"
+#include "../../../Rendering/Framebuffer.h"
 enum LightType {
 	Directional, Point, Spot
 };
@@ -12,8 +13,7 @@ struct LightComponent {
 	glm::vec3 Color;
 	float Strength;
 
-	unsigned int m_Framebuffer;
-	unsigned int m_Shadowmap;
+	FrameBuffer* m_Framebuffer;
 
 	bool CastShadows = true;
 	float Attenuation = 0.0f;

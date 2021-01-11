@@ -32,9 +32,38 @@ Texture::Texture(const std::string& path) {
 		std::cout << "Error: failed to load texture: " << path << std::endl;
 }
 
+// Empty texture not from file.
+Texture::Texture(glm::vec2 size, GLenum format)
+{
+	m_Format = format;
+
+	glGenTextures(1, &m_RendererId);
+	glBindTexture(GL_TEXTURE_2D, m_RendererId);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+void Texture::Resize(glm::vec2 size)
+{
+	glDeleteTextures(1, &m_RendererId);
+
+	glGenTextures(1, &m_RendererId);
+	glBindTexture(GL_TEXTURE_2D, m_RendererId);
+	glTexImage2D(GL_TEXTURE_2D, 0, m_Format, size.x, size.y, 0, m_Format, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
 Texture::~Texture() {
 	glDeleteTextures(1, &m_RendererId);
 }
+
+void Texture::AttachToFramebuffer(GLenum attachment)
+{
+	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, attachment, GL_TEXTURE_2D, m_RendererId, 0);
+}
+
 
 void Texture::Bind(unsigned int slot) const {
 	glActiveTexture(GL_TEXTURE0 + slot);

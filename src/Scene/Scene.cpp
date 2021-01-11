@@ -21,6 +21,8 @@ Scene::Scene()
 
 	auto lightEntity = CreateEntity("Light");
 	lightEntity.AddComponent<LightComponent>();
+	lightEntity.GetComponent<LightComponent>().Direction.x = -90.0f;
+	lightEntity.GetComponent<LightComponent>().Type = Directional;
 	lightEntity.GetComponent<TransformComponent>().Translation.y = 1.1f;
 }
 
