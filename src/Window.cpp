@@ -139,15 +139,9 @@ void Window::Draw()
     Camera* cam = m_Scene->GetCurrentCamera();
     Renderer::BeginDraw(cam);
 
-    // TODO: move to window event.
-   
-
     // TODO: Move to separate UI layer.
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
-
-
-   
 
 	ImGui::NewFrame();
 
@@ -161,38 +155,6 @@ void Window::Draw()
     ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
     //ImGui::DockSpace
     ImGui::DockSpaceOverViewport(viewport, dockspace_flags);
-    //if (ImGui::Begin("Master Window"/*, nullptr, ImGuiWindowFlags_MenuBar*/))
-    //{
-    //    ImGui::TextUnformatted("DockSpace below");
-    //
-    //    // Declare Central dockspace
-    //    int dockspaceID = ImGui::GetID("HUB_DockSpace");
-    //    ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode/*|ImGuiDockNodeFlags_NoResize*/);
-    //}
-    //ImGui::End();
-	//{
-	//	ImGui::Begin("Debugging!");                          // Create a window called "Hello, world!" and append into it.
-
-	//	ImGui::Text("Camera:");
- //       std::string msg = "X: " + std::to_string(cam->GetTranslation().x) + " Y:" + std::to_string(cam->GetTranslation().y) + " Z:" + std::to_string(cam->GetTranslation().z);
-
-	//	ImGui::Text("Position:");
- //       ImGui::Text(msg.c_str());
-	//	// Direction
-	//	ImGui::Text("Direction:");
- //       msg = "X: " + std::to_string(cam->GetDirection().x) + " Y:" + std::to_string(cam->GetDirection().y) + " Z:" + std::to_string(cam->GetDirection().z);
- //       ImGui::Text(msg.c_str());
-
-
-	//	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	//	ImGui::End();
-	//} 
-
- //   {
- //       ImGui::Begin("Environment");
- //       ImGui::ColorEdit3("Ambient Color", (float*)&m_Scene->GetEnvironment()->m_AmbientColor);
- //       ImGui::End();
- //   }
 
     static int selected = 0;
     {
@@ -200,15 +162,15 @@ void Window::Draw()
         ImGui::Begin("Scene");
         {
             ImGui::BeginChild("Buttons", ImVec2(300, 20), false);
-                if (ImGui::Button("Add")) {
-                    m_Scene->CreateEntity("Entity");
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Remove"))
-                {
-                    m_Scene->DestroyEntity(selectedEntity);
-                    selectedEntity = m_Scene->GetAllEntities().at(0);
-                };
+            if (ImGui::Button("Add")) {
+                m_Scene->CreateEntity("Entity");
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Remove"))
+            {
+                m_Scene->DestroyEntity(selectedEntity);
+                selectedEntity = m_Scene->GetAllEntities().at(0);
+            };
 
             ImGui::EndChild();
 
@@ -226,28 +188,48 @@ void Window::Draw()
                 }
                 idx++;
             }
-           
         }
-        
-
        
         ImGui::End();
     }
 
     bool show = true;
+
     int id = 0;
-    //ImGui::ShowDemoWindow(&show);
-    //ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-    //ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    m_Scene->Draw();
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//glCullFace(GL_FRONT);
+    m_Scene->DrawShadows();
+    //glCullFace(GL_BACK);
+    // Drawing to texture.
+
+
+
+	//if (selectedEntity.HasComponent<LightComponent>()) {
+	ImGui::Begin("ShadowMap");
+	{
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y)))
+		{
+			m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
+			//ResizeFramebuffer(m_ViewportSize);
+			//cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
+		}
+		if (selectedEntity.HasComponent<LightComponent>())
+			ImGui::Image((void*)selectedEntity.GetComponent<LightComponent>().m_Shadowmap, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::End();
+	}
+    
+	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_Scene->Draw();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     ImGui::Begin("Viewport");
     {
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y))) {
+        if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y))) 
+        {
+            
             m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
             ResizeFramebuffer(m_ViewportSize);
             cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
@@ -256,6 +238,10 @@ void Window::Draw()
         ImGui::Image((void*)texture, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
         ImGui::End();
     }
+
+
+    //}
+	
    
 
     ImGui::Begin("Materials");
@@ -321,19 +307,6 @@ void Window::Draw()
         }
         ImGui::End();
     }
-
-    //ImGui::Begin("Scene Window");
-    //
-    //ImVec2 pos = ImGui::GetCursorScreenPos();
-    //
-    //ImGui::GetWindowDrawList()->AddImage(
-    //    (void*)m_Scene->m_Skybox->m_brdLut, ImVec2(ImGui::GetCursorScreenPos()),
-    //    ImVec2(ImGui::GetCursorScreenPos().x + 200 / 2, ImGui::GetCursorScreenPos().y + 200 / 2), ImVec2(0, 1), ImVec2(1, 0));
-    //
-    //ImGui::End();
-
-   
-
 
     ImGui::Render();
     Renderer::EndDraw();

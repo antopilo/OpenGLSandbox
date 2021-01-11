@@ -41,7 +41,7 @@ void Mesh::setupMesh()
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 8));
     glEnableVertexAttribArray(3);
 
-    // Bitangent
+    // Bi tangent
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(GL_FLOAT) * 11));
     glEnableVertexAttribArray(4);
 
@@ -53,7 +53,7 @@ void Mesh::setupMesh()
     glBindVertexArray(0);
 }
 
-void Mesh::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform)
+void Mesh::Draw()
 {
     
     m_Material->Bind();

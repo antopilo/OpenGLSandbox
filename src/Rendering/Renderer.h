@@ -1,7 +1,7 @@
 #pragma once
 #include "Shaders/Shader.h"
 #include "../Scene/Entities/Components.h"
-class Camera;
+
 
 // DTO for light data.
 struct Light {
@@ -23,6 +23,5 @@ public:
 
 	// Lights
 	static std::vector<Light> m_Lights;
-	static void RegisterLight(TransformComponent transform, LightComponent light);
-
+	static void RegisterLight(TransformComponent transform, LightComponent light, Camera* cam);
 };

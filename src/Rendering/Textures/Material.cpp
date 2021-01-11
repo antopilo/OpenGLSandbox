@@ -2,6 +2,13 @@
 #include <glm\ext\vector_float4.hpp>
 #include "../Renderer.h"
 
+Texture* Material::m_DefaultAlbedo;
+Texture* Material::m_DefaultAO;
+Texture* Material::m_DefaultNormal;
+Texture* Material::m_DefaultRoughness;
+Texture* Material::m_DefaultMetalness;
+Texture* Material::m_DefaultDisplacement;
+
 Material::Material(const std::string albedo) 
 {
 	m_Albedo = new Texture(albedo);
@@ -14,6 +21,19 @@ Material::Material(const std::string albedo)
 Material::Material(const glm::vec3 albedoColor)
 {
 	m_AlbedoColor = albedoColor;
+
+	if (m_DefaultAlbedo == nullptr)
+		m_DefaultAlbedo = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
+	if (m_DefaultAO == nullptr)
+		m_DefaultAO = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
+	if (m_DefaultNormal == nullptr)
+		m_DefaultNormal = TextureManager::Get()->GetTexture("Res/Textures/default/defaultNormal.png");
+	if (m_DefaultDisplacement == nullptr)
+		m_DefaultDisplacement = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
+	if (m_DefaultRoughness == nullptr)
+		m_DefaultRoughness = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
+	if (m_DefaultMetalness == nullptr)
+		m_DefaultMetalness = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
 }
 
 Material::~Material() 
@@ -28,62 +48,47 @@ Material::~Material()
 
 void Material::Bind() 
 {
-	if (m_Albedo != nullptr) {
+	// Albedo
+	if (m_Albedo != nullptr)
 		m_Albedo->Bind(4);
-		Renderer::m_Shader->SetUniform1i("m_HasAlbedo", 1);
-		Renderer::m_Shader->SetUniform1i("m_Albedo", 4);
-	}
-	else {
-		Renderer::m_Shader->SetUniform1i("m_HasAlbedo", 0);
-	}
-		
-	if (m_AO != nullptr) {
+	else
+		m_DefaultAlbedo->Bind(4);
+	Renderer::m_Shader->SetUniform1i("m_Albedo", 4);
+
+	// AO
+	if (m_AO != nullptr)
 		m_AO->Bind(5);
-		Renderer::m_Shader->SetUniform1i("m_HasAO", 1);
-		Renderer::m_Shader->SetUniform1i("m_AO", 5);
-	}
-	else {
-		Renderer::m_Shader->SetUniform1f("ao", 1.0f);
-		Renderer::m_Shader->SetUniform1i("m_HasAO", 0);
-	}
-		
-	if (m_Metalness != nullptr) {
+	else
+		m_DefaultAO->Bind(5);
+	Renderer::m_Shader->SetUniform1i("m_AO", 5);
+
+	// Metallic
+	if (m_Metalness != nullptr) 
 		m_Metalness->Bind(6);
-		Renderer::m_Shader->SetUniform1i("m_HasMetalness", 1);
-		Renderer::m_Shader->SetUniform1i("m_Metalness", 6);
-	}
-	else {
-		Renderer::m_Shader->SetUniform1f("metallic", 0.1f);
-		Renderer::m_Shader->SetUniform1i("m_HasMetalness", 0);
-	}
-		
-	if (m_Roughness != nullptr) {
+	else 
+		m_DefaultMetalness->Bind(6);
+	Renderer::m_Shader->SetUniform1i("m_Metalness", 6);
+
+	// Roughness
+	if (m_Roughness != nullptr)
 		m_Roughness->Bind(7);
-		Renderer::m_Shader->SetUniform1i("m_HasRoughness", 1);
-		Renderer::m_Shader->SetUniform1i("m_Roughness", 7);
-	}
-	else {
-		Renderer::m_Shader->SetUniform1f("roughness", 0.9f);
-		Renderer::m_Shader->SetUniform1i("m_HasRoughness", 0);
-	}
+	else
+		m_DefaultRoughness->Bind(7);
+	Renderer::m_Shader->SetUniform1i("m_Roughness", 7);
 
-	if (m_Normal != nullptr) {
+	// Normal
+	if (m_Normal != nullptr)
 		m_Normal->Bind(8);
-		Renderer::m_Shader->SetUniform1i("m_HasNormal", 1);
-		Renderer::m_Shader->SetUniform1i("m_Normal", 8);
-	}
-	else {
-		Renderer::m_Shader->SetUniform1i("m_HasNormal", 0);
-	}
+	else
+		m_DefaultNormal->Bind(8);
+	Renderer::m_Shader->SetUniform1i("m_Normal", 8);
 
-	if (m_Displacement != nullptr) {
+	// Displacement
+	if (m_Displacement != nullptr)
 		m_Displacement->Bind(9);
-		Renderer::m_Shader->SetUniform1i("m_HasDisplacement", 0);
-		Renderer::m_Shader->SetUniform1i("m_Displacement", 9);
-	}
-	else {
-		Renderer::m_Shader->SetUniform1i("m_HasDisplacement", 0);
-	}
+	else
+		m_DefaultDisplacement->Bind(9);
+	Renderer::m_Shader->SetUniform1i("m_Displacement", 9);
 }
 
 void Material::SetName(const std::string name) 

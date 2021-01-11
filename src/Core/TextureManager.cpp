@@ -1,4 +1,5 @@
 #include "TextureManager.h"
+#include "../Rendering/Textures/Texture.h"
 
 TextureManager* TextureManager::s_Instance;
 std::map<std::string, Texture*> TextureManager::m_Registry;

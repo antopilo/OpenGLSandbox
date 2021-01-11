@@ -14,7 +14,7 @@ public:
         //loadModel(path);
     }
     void LoadModel(std::string path);
-    void Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform);
+    void Draw();
 private:
     // model data
     std::vector<Mesh> meshes;

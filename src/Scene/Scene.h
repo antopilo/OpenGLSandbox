@@ -25,6 +25,8 @@ public:
 	void Init();
 
 	void Update(Timestep ts);
+
+	void DrawShadows();
 	void Draw();
 
 	std::vector<Entity> GetAllEntities();

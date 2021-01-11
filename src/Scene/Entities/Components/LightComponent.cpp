@@ -3,11 +3,37 @@
 #include "LightComponent.h"
 #include "../../../Rendering/Renderer.h"
 #include "../ImGuiHelper.h"
+#include <GL\glew.h>
 LightComponent::LightComponent()
 {
     Color = glm::vec3(1, 1, 1);
     Strength = 10.0f;
     Direction = glm::vec3(0.1f, 1, 0);
+
+	// Create FBO
+	glGenFramebuffers(1, &m_Framebuffer);
+
+	// Create shadow map texture...
+	glGenTextures(1, &m_Shadowmap);
+	glBindTexture(GL_TEXTURE_2D, m_Shadowmap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+        4096, 4096, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// Attach texture to frame buffer 
+	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_Shadowmap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+glm::mat4 LightComponent::GetProjection()
+{
+    return glm::ortho(-25.0f, 25.0f, -25.0f, 25.0f, -50.0f, 50.0f);
 }
 
 glm::vec3 LightComponent::GetDirection()
@@ -22,9 +48,34 @@ glm::vec3 LightComponent::GetDirection()
     return glm::vec3(start * glm::vec4(defaultDirection, 1.0f));
 }
 
-void LightComponent::Draw(TransformComponent transformComponent)
+void LightComponent::BeginDrawShadow()
 {
-    Renderer::RegisterLight(transformComponent, *this);
+    glViewport(0, 0, 4096, 4096);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    Renderer::m_ShadowmapShader->Bind();
+    // Render scene...
+
+}
+
+void LightComponent::EndDrawShadow()
+{
+    glViewport(0, 0, 1280, 720);
+}
+
+void LightComponent::DrawShadow()
+{
+    if (Type != Directional)
+        return;
+
+    Renderer::m_ShadowmapShader->Bind();
+}
+
+void LightComponent::Draw(TransformComponent transformComponent, Camera* cam)
+{
+    Renderer::RegisterLight(transformComponent, *this, cam);
+
+
 }
 
 void LightComponent::DrawEditor() {
@@ -56,5 +107,5 @@ void LightComponent::DrawEditor() {
     //    ImGui::SliderFloat("Quadratic attenuation", &QuadraticAttenuation, 0.0f, 1.0f);
     //}
     ImGuiHelper::DrawVec3("Direction", &Direction);
-    Direction = glm::normalize(Direction);
+    //Direction = glm::normalize(Direction);
 }

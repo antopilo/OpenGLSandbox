@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Core/TextureManager.h"
 #include "Texture.h"
 #include <glm\ext\vector_float3.hpp>
 
@@ -14,6 +15,13 @@ public:
 	Texture* m_Roughness;
 	Texture* m_Normal;
 	Texture* m_Displacement;
+
+	static Texture* m_DefaultAlbedo;
+	static Texture* m_DefaultAO;
+	static Texture* m_DefaultMetalness;
+	static Texture* m_DefaultRoughness;
+	static Texture* m_DefaultNormal;
+	static Texture* m_DefaultDisplacement;
 
 	glm::vec3 m_AlbedoColor;
 

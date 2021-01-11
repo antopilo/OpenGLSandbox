@@ -1670,5 +1670,11 @@
     <Image Include="Res\Textures\1.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Res\Textures\default\Default.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Textures\default\defaultNormal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

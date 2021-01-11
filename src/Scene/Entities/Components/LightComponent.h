@@ -1,7 +1,7 @@
 #pragma once
 #include <glm\ext\vector_float3.hpp>
-#include "../Components.h"
-
+#include "TransformComponent.h"
+#include "../Rendering/Camera.h"
 enum LightType {
 	Directional, Point, Spot
 };
@@ -12,15 +12,28 @@ struct LightComponent {
 	glm::vec3 Color;
 	float Strength;
 
+	unsigned int m_Framebuffer;
+	unsigned int m_Shadowmap;
+
+	bool CastShadows = true;
 	float Attenuation = 0.0f;
 	float LinearAttenuation = 0.0f;
 	float QuadraticAttenuation = 0.0f;
 
 	LightComponent();
 
+	glm::mat4 GetProjection();
+
+	glm::mat4 GetLightTransform();
+
 	glm::vec3 GetDirection();
 
-	void Draw(TransformComponent transformComponent);
+	void BeginDrawShadow();
+
+	void EndDrawShadow();
+	void DrawShadow();
+
+	void Draw(TransformComponent transformComponent, Camera* cam);
 
 	void DrawEditor();
 

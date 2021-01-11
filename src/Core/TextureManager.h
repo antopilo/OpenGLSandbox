@@ -1,7 +1,9 @@
 #pragma once
 #include <map>
 #include <string>
-#include "../Rendering/Textures/Texture.h"
+
+
+class Texture;
 
 class TextureManager
 {

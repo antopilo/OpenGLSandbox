@@ -2,13 +2,11 @@
 #include "../../../Rendering/Textures/Material.h"
 #include "../../../Rendering/Renderer.h"
 #include "../../../Core/TextureManager.h"
-void ModelComponent::Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform)
+void ModelComponent::Draw()
 {
-    Renderer::m_Shader->SetUniformMat4f("u_View", view);
-    Renderer::m_Shader->SetUniformMat4f("u_Projection", projection);
-    Renderer::m_Shader->SetUniformMat4f("u_Model", transform);
+
     for (auto m : meshes) {
-        m.Draw(projection, view, transform);
+        m.Draw();
     }
 }
 
@@ -98,20 +96,8 @@ Mesh ModelComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     if (mesh->mMaterialIndex >= 0)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-
-        //newMaterial->SetAlbedo(LoadMaterialTextures(material, aiTextureType_DIFFUSE).at(0));
-        //new Texture()
-        //if(material->GetTextureCount(aiTextureType_METALNESS) > 0)
-        //    newMaterial->SetMetalness(LoadMaterialTextures(material, aiTextureType_METALNESS).at(0));
-        //if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
-        //    newMaterial->SetRoughness(LoadMaterialTextures(material, aiTextureType_DIFFUSE_ROUGHNESS).at(0));
-        //if (material->GetTextureCount(aiTextureType_AMBIENT) > 0)
-        //    newMaterial->SetAO(LoadMaterialTextures(material, aiTextureType_AMBIENT_OCCLUSION).at(0));
-        //newMaterial->SetDisplacement(&LoadMaterialTextures(material, aiTextureType_DISPLACEMENT).at(0));
-
-        //newMaterial->SetMetalness(new Texture("Res/Models/Cerberus/Textures/Cerberus_M.tga"));
-
         aiString str;
+
         material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
         Material* newMaterial = new Material(TextureManager::Get()->GetTexture(directory + str.C_Str()));
 
@@ -124,29 +110,14 @@ Mesh ModelComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
         material->GetTexture(aiTextureType_DIFFUSE_ROUGHNESS, 0, &str);
         newMaterial->SetRoughness(TextureManager::Get()->GetTexture(directory + str.C_Str()));
 
+		material->GetTexture(aiTextureType_DISPLACEMENT, 0, &str);
+		newMaterial->SetDisplacement(TextureManager::Get()->GetTexture(directory + str.C_Str()));
+
         material->GetTexture(aiTextureType_AMBIENT_OCCLUSION, 0, &str);
         newMaterial->SetAO(TextureManager::Get()->GetTexture(directory + str.C_Str()));
-        //newMaterial->SetRoughness(TextureManager::Get()->GetTexture("Res/Models/Cerberus/Textures/Cerberus_R.tga"));
-        //newMaterial->SetMetalness(TextureManager::Get()->GetTexture("Res/Models/Cerberus/Textures/Cerberus_M.tga"));
-        //newMaterial->SetAO(TextureManager::Get()->GetTexture("Res/Models/Cerberus/Textures/Raw/Cerberus_AO.tga"));
-        //std::vector<Texture> diffuseMaps = ;
-        //textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        //
-        //std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS);
-        //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-        //
-        //std::vector<Texture> metalMaps = LoadMaterialTextures(material, aiTextureType_METALNESS);
-        //textures.insert(textures.end(), metalMaps.begin(), metalMaps.end());
-        //
-        //std::vector<Texture> roughnessMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE_ROUGHNESS);
-        //textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
-        //
-        //std::vector<Texture> aoMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT_OCCLUSION);
-        //textures.insert(textures.end(), aoMaps.begin(), aoMaps.end());
+
         return Mesh(vertices, indices, newMaterial);
     }
-
-   
 }
 
 std::vector<Texture*> ModelComponent::LoadMaterialTextures(aiMaterial* mat, aiTextureType type)
@@ -157,7 +128,6 @@ std::vector<Texture*> ModelComponent::LoadMaterialTextures(aiMaterial* mat, aiTe
         aiString str;
         mat->GetTexture(type, i, &str);
         std::string fixedStr = std::string(str.C_Str());
-        //std::string newfixedStr = fixedStr.replace(fixedStr.find("\\"), fixedStr.end(), "\\", "/");
 
         Texture* texture = new Texture(directory + fixedStr);
         textures.push_back(texture);

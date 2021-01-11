@@ -19,7 +19,7 @@ public:
 	Material* m_Material;
 
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* material);
-	void Draw(glm::mat4 projection, glm::mat4 view, glm::mat4 transform);
+	void Draw();
 private:
 	//  render data
 	unsigned int VAO, VBO, EBO;

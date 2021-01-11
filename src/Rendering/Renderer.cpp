@@ -32,8 +32,12 @@ void Renderer::BeginDraw(Camera* camera)
     m_Shader->SetUniformMat4f("u_View", camera->GetTransform());
     m_Shader->SetUniform3f("u_EyePosition", camera->GetTranslation().x, camera->GetTranslation().y, camera->GetTranslation().z);
 
+    // oh jesus
+
+    // its not done just speculation lmfao
     // shadow map
 
+    // Shadow map init here....
     //glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     //glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
     //glClear(GL_DEPTH_BUFFER_BIT);
@@ -63,7 +67,7 @@ void Renderer::EndDraw() {
 
 // List of all lights queued to be used for rendering this frame.
 std::vector<Light> Renderer::m_Lights;
-void Renderer::RegisterLight(TransformComponent transform, LightComponent light)
+void Renderer::RegisterLight(TransformComponent transform, LightComponent light, Camera* cam)
 {
     Light newLight{ transform , light };
     m_Lights.push_back(newLight);
@@ -73,11 +77,17 @@ void Renderer::RegisterLight(TransformComponent transform, LightComponent light)
     m_Shader->SetUniform1i("LightCount", idx);
 
     glm::vec3 direction = light.GetDirection();
+    
+	glm::vec3 pos = transform.Translation;
+	glm::mat4 lightView = glm::lookAt(pos, pos - direction, glm::vec3(0.0f, 1.0f, 0.0f));
+
     // Push uniforms in light array.
     m_Shader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].Type", light.Type);
-    //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].ConstantAttenuation", light.Attenuation);
-    //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].LinearAttenuation", light.LinearAttenuation);
-    //m_Shader->SetUniform1f("Lights[" + std::to_string(idx - 1) + "].QuadraticAttenuation", light.QuadraticAttenuation);
+
+	glActiveTexture(GL_TEXTURE0 + 11);
+	glBindTexture(GL_TEXTURE_2D, light.m_Shadowmap);
+    m_Shader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].ShadowMap", 11);
+    m_Shader->SetUniformMat4f("Lights[" + std::to_string(idx - 1) + "].LightTransform", light.GetProjection() * lightView);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Position", transform.Translation.x, transform.Translation.y, transform.Translation.z);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", direction.x, direction.y, direction.z);
     m_Shader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Color", light.Color.r * light.Strength, light.Color.g * light.Strength, light.Color.b * light.Strength);
