@@ -10,7 +10,6 @@ layout(location = 1) in vec2 UVPosition;
 layout(location = 2) in vec3 Normal;
 layout(location = 3) in vec3 Tangent;
 layout(location = 4) in vec3 Bitangent;
-layout(location = 3) in float TextureId;
 
 out flat vec2 v_UVPosition;
 out flat float v_TextureId;
@@ -41,7 +40,6 @@ void main()
     v_Bitangent = B;
 
     v_UVPosition = UVPosition;
-    v_TextureId = TextureId;
 
     gl_Position = u_Projection * u_View * u_Model * vec4(VertexPosition, 1.0f);
     v_FragPos = vec3(u_Model * vec4(VertexPosition, 1.0f));
@@ -126,7 +124,7 @@ in vec3 v_Tangent;
 in vec3 v_Bitangent;
 
 const float PI = 3.141592653589793f; // mark this as static const wait idk if you can do that in glsl
-float height_scale = 0.03f;
+float height_scale = 0.02f;
 
 vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir) // nice never done this // its easy Af its basicalyy returns a uv coords . that u use everywhere
 {
@@ -145,14 +143,14 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir) // nice never done this // it
 
     // get initial values
     vec2  currentTexCoords = texCoords;
-    float currentDepthMapValue = 1.0f - texture(m_Displacement, currentTexCoords).r;
+    float currentDepthMapValue = texture(m_Displacement, currentTexCoords).r;
 
     while (currentLayerDepth < currentDepthMapValue)
     {
         // shift texture coordinates along direction of P
         currentTexCoords -= deltaTexCoords;
         // get depthmap value at current texture coordinates
-        currentDepthMapValue = 1.0f - texture(m_Displacement, currentTexCoords).r;
+        currentDepthMapValue = texture(m_Displacement, currentTexCoords).r;
         // get depth of next layer
         currentLayerDepth += layerDepth;
     }
@@ -161,7 +159,7 @@ vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir) // nice never done this // it
 
     // get depth after and before collision for linear interpolation
     float afterDepth = currentDepthMapValue - currentLayerDepth;
-    float beforeDepth = 1.0f - texture(m_Displacement, prevTexCoords).r - currentLayerDepth + layerDepth;
+    float beforeDepth = texture(m_Displacement, prevTexCoords).r - currentLayerDepth + layerDepth;
 
     // interpolation of texture coordinates
     float weight = afterDepth / (afterDepth - beforeDepth);

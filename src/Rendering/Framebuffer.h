@@ -2,6 +2,7 @@
 #include "glm/vec2.hpp"
 #include <GL\glew.h>
 #include "Textures/Texture.h"
+#include <vector>
 
 class FrameBuffer
 {
@@ -13,6 +14,7 @@ private:
 	glm::vec2 m_Size;
 
 	Texture* m_Texture;
+
 	GLenum m_TextureAttachment;
 
 public:
@@ -41,10 +43,7 @@ public:
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	}
 
-	~FrameBuffer()
-	{
-		delete m_Texture;
-	}
+	~FrameBuffer() { delete m_Texture; }
 
 	Texture* GetTexture() const { return m_Texture; }
 
@@ -52,6 +51,7 @@ public:
 	{
 		m_Texture = texture;
 
+		// Attach texture to the framebuffer.
 		Bind();
 		m_Texture->AttachToFramebuffer(m_TextureAttachment);
 		Unbind();
@@ -69,10 +69,7 @@ public:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	glm::vec2 GetSize() const
-	{
-		return m_Size;
-	}
+	glm::vec2 GetSize() const { return m_Size; }
 
 	void UpdateSize(glm::vec2 size)
 	{
@@ -99,8 +96,6 @@ public:
 
 		// Unbind.
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
-		//glViewport(0, 0, m_Size.x, m_Size.y);
 	}
 
 	void SetDrawBuffer(GLenum draw)

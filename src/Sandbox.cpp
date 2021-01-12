@@ -12,6 +12,7 @@ int main()
 		m_LastFrameTime = time;
 
 		Window::Get()->Update(timestep);
+
 		Window::Get()->Draw();
 	}
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include "entt/entt.hpp"
 #include "../Rendering/SkyboxHDR.h"
+#include "../Rendering/GBuffer.h"
 
 class Entity;
 class Scene
@@ -25,6 +26,7 @@ public:
 	void Update(Timestep ts);
 
 	void DrawShadows();
+	void DrawGBuffer();
 	void Draw();
 
 	std::vector<Entity> GetAllEntities();

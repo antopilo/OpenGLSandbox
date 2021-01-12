@@ -1238,6 +1238,9 @@
     <ClInclude Include="src\Rendering\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\GBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Vendors\glm\detail\func_common.inl">
@@ -1665,6 +1668,8 @@
     <None Include="Res\Materials\Paving.material" />
     <None Include="Res\Materials\Planks.material" />
     <None Include="src\Vendors\imgui\imgui\examples\example_emscripten_opengl3\shell_minimal.html" />
+    <None Include="Res\Shaders\gbuffer.shader" />
+    <None Include="Res\Shaders\deferred.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\Textures\0.png">

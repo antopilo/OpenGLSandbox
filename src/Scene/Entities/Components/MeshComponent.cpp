@@ -76,7 +76,6 @@ void MeshComponent::RenderSphere() {
         std::vector<glm::vec3> positions;
         std::vector<glm::vec2> uv;
         std::vector<glm::vec3> normals;
-        std::vector<float> textureId;
         std::vector<unsigned int> indices;
 
         const unsigned int X_SEGMENTS = 64;
@@ -95,7 +94,6 @@ void MeshComponent::RenderSphere() {
                 positions.push_back(glm::vec3(xPos, yPos, zPos));
                 uv.push_back(glm::vec2(xSegment, ySegment));
                 normals.push_back(glm::vec3(xPos, yPos, zPos));
-                textureId.push_back(0);
             }
         }
 
@@ -128,7 +126,7 @@ void MeshComponent::RenderSphere() {
             data.push_back(positions[i].x);
             data.push_back(positions[i].y);
             data.push_back(positions[i].z);
-            data.push_back(textureId[i]);
+
             if (uv.size() > 0)
             {
                 data.push_back(uv[i].x);

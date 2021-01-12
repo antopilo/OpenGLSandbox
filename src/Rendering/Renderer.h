@@ -15,6 +15,9 @@ public:
 	static Shader* m_ShadowmapShader;
 	static Shader* m_SkyboxShader;
 	static Shader* m_BRDShader;
+	static Shader* m_GBufferShader;
+	static Shader* m_DeferredShader;
+
 	static void Init();
 
 	// Drawing states

@@ -54,41 +54,42 @@ void Material::Bind()
 	else
 		m_DefaultAlbedo->Bind(4);
 	Renderer::m_Shader->SetUniform1i("m_Albedo", 4);
-
+	Renderer::m_GBufferShader->SetUniform1i("m_Albedo", 4);
 	// AO
 	if (m_AO != nullptr)
 		m_AO->Bind(5);
 	else
 		m_DefaultAO->Bind(5);
 	Renderer::m_Shader->SetUniform1i("m_AO", 5);
-
+	Renderer::m_GBufferShader->SetUniform1i("m_AO", 5);
 	// Metallic
 	if (m_Metalness != nullptr) 
 		m_Metalness->Bind(6);
 	else 
 		m_DefaultMetalness->Bind(6);
 	Renderer::m_Shader->SetUniform1i("m_Metalness", 6);
-
+	Renderer::m_GBufferShader->SetUniform1i("m_Metalness", 6);
 	// Roughness
 	if (m_Roughness != nullptr)
 		m_Roughness->Bind(7);
 	else
 		m_DefaultRoughness->Bind(7);
 	Renderer::m_Shader->SetUniform1i("m_Roughness", 7);
-
+	Renderer::m_GBufferShader->SetUniform1i("m_Roughness", 7);
 	// Normal
 	if (m_Normal != nullptr)
 		m_Normal->Bind(8);
 	else
 		m_DefaultNormal->Bind(8);
 	Renderer::m_Shader->SetUniform1i("m_Normal", 8);
-
+	Renderer::m_GBufferShader->SetUniform1i("m_Normal", 8);
 	// Displacement
 	if (m_Displacement != nullptr)
 		m_Displacement->Bind(9);
 	else
 		m_DefaultDisplacement->Bind(9);
 	Renderer::m_Shader->SetUniform1i("m_Displacement", 9);
+	//Renderer::m_Shader->SetUniform1i("m_Displacement", 9);
 }
 
 void Material::SetName(const std::string name) 

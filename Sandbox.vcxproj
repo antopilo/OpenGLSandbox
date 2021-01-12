@@ -200,6 +200,7 @@
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Framebuffer.h" />
+    <ClInclude Include="src\Rendering\GBuffer.h" />
     <ClInclude Include="src\Rendering\Mesh\Mesh.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
@@ -578,6 +579,8 @@
     <None Include="Res\Materials\Planks.material" />
     <None Include="Res\Shaders\basic.shader" />
     <None Include="Res\Shaders\BRD.shader" />
+    <None Include="Res\Shaders\deferred.shader" />
+    <None Include="Res\Shaders\gbuffer.shader" />
     <None Include="Res\Shaders\shadowMap.shader" />
     <None Include="Res\Shaders\skybox.shader" />
     <None Include="src\Vendors\glm\detail\func_common.inl" />

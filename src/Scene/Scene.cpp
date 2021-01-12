@@ -26,13 +26,16 @@ Scene::Scene()
 	lightEntity.GetComponent<TransformComponent>().Translation.y = 1.1f;
 }
 
+
 Scene::~Scene() {
 	delete m_Environement;
 }
 
+
 void Scene::Init() {
 	m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/lilienstein_4k.hdr");
 }
+
 
 // update entities and some components.
 void Scene::Update(Timestep ts)
@@ -43,6 +46,7 @@ void Scene::Update(Timestep ts)
 		cam.Camera.Update(ts);
 	}
 }
+
 
 void Scene::DrawShadows()
 {
@@ -68,8 +72,7 @@ void Scene::DrawShadows()
 		for (auto e : modelView)
 		{
 			auto [transform, model] = modelView.get<TransformComponent, ModelComponent>(e);
-			//glm::mat4 lightView = glm::lookAt(light.GetDirection(), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-			
+
 			glm::vec3 pos = lightTransform.Translation;
 			glm::mat4 lightView = glm::lookAt(pos, pos - light.GetDirection(), glm::vec3(0.0f, 1.0f, 0.0f));
 			Renderer::m_ShadowmapShader->SetUniformMat4f("lightSpaceMatrix", light.GetProjection() * lightView);
@@ -82,8 +85,36 @@ void Scene::DrawShadows()
 	}
 }
 
+void Scene::DrawGBuffer()
+{
+	Renderer::m_GBufferShader->Bind();
+	Camera* cam = nullptr;
+	{
+		auto view = m_Registry.view<TransformComponent, CameraComponent>();
+		for (auto e : view) {
+			auto [transform, camera] = view.get<TransformComponent, CameraComponent>(e);
+			cam = &camera.Camera;
+			break;
+		}
+	}
+	if (cam)
+	{
+		auto view = m_Registry.view<TransformComponent, ModelComponent>();
+		for (auto e : view) {
+			auto [transform, model] = view.get<TransformComponent, ModelComponent>(e);
+			Renderer::m_GBufferShader->SetUniformMat4f("u_View", cam->GetTransform());
+			Renderer::m_GBufferShader->SetUniformMat4f("u_Projection", cam->GetPerspective());
+			Renderer::m_GBufferShader->SetUniformMat4f("u_Model", transform.GetTransform());
+			model.Draw();
+		}
+	}
+}
+
 void Scene::Draw()
 {
+	// GBUFFER
+	
+
 	Renderer::m_Shader->Bind();
 
 	// Find the camera of the scene.
@@ -161,6 +192,7 @@ void Scene::Draw()
 	}
 }
 
+
 std::vector<Entity> Scene::GetAllEntities() {
 	std::vector<Entity> allEntities;
 	auto view = m_Registry.view<TransformComponent, NameComponent>();
@@ -169,6 +201,7 @@ std::vector<Entity> Scene::GetAllEntities() {
 	}
 	return allEntities;
 }
+
 
 Entity Scene::CreateEntity(const std::string name) {
 	Entity entity = { m_Registry.create(), this };

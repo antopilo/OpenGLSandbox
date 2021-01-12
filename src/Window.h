@@ -12,6 +12,7 @@ private:
 	GLFWwindow* m_Window;
 
 	FrameBuffer* m_Framebuffer;
+	GBuffer* m_GBuffer;
 	Scene* m_Scene;
 
 	int Width, Height;
@@ -25,7 +26,6 @@ public:
 	void Update(Timestep ts);
 	void Draw();
 
-	void ResizeFramebuffer(glm::vec2 size);
 
 	GLFWwindow* GetHandle();
 };

@@ -79,6 +79,7 @@ int Window::Init()
     m_Framebuffer = new FrameBuffer(true, glm::vec2(1920, 1080), GL_COLOR_ATTACHMENT0);
     m_Framebuffer->SetTexture(new Texture(glm::vec2(1920, 1080), GL_RGB));
 
+    m_GBuffer = new GBuffer(glm::vec2(1920, 1080));
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -109,7 +110,8 @@ bool init = false;
 
 void Window::Draw()
 {
-    if (!init) {
+    if (!init) 
+    {
         selectedEntity = m_Scene->GetAllEntities().at(0);
         init = true;
     }
@@ -181,25 +183,89 @@ void Window::Draw()
 
 
 
-	//if (selectedEntity.HasComponent<LightComponent>()) {
-	ImGui::Begin("ShadowMap");
-	{
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		//if (m_ViewportSize != (glm::vec2(viewportPanelSize.x, viewportPanelSize.y)))
-		//{
-		//	m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-		//	//ResizeFramebuffer(m_ViewportSize);
-		//	//cam->OnWindowResize(m_ViewportSize.x, m_ViewportSize.y);
-		//}
-		//if (selectedEntity.HasComponent<LightComponent>())
-		//	ImGui::Image((void*)selectedEntity.GetComponent<LightComponent>().m_Shadowmap, viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
-		ImGui::End();
-	}
     
-	m_Framebuffer->Bind();
-	m_Scene->Draw();
-	m_Framebuffer->Unbind();
+    ImGui::Begin("ShadowMap");
+    {
 
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+
+        if (selectedEntity.HasComponent<LightComponent>())
+            ImGui::Image((void*)selectedEntity.GetComponent<LightComponent>().m_Framebuffer->GetTexture()->GetID(), regionAvail, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::End();
+        
+    }
+
+
+
+    m_GBuffer->Bind();
+        m_Scene->DrawGBuffer();
+    m_GBuffer->Unbind();
+
+    ImGui::Begin("depth");
+    {
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+
+    
+        ImGui::Image((void*)m_GBuffer->gDepth, regionAvail, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::End();
+    }
+
+    ImGui::Begin("Albedo");
+    {
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+
+        // If viewport is resized
+        if (m_GBuffer->GetSize() != viewportPanelSize)
+        {
+            // Update FBO size and camera aspect ratio.
+            //m_Framebuffer->UpdateSize(viewportPanelSize);
+            //cam->OnWindowResize(viewportPanelSize.x, viewportPanelSize.y);
+        }
+
+        ImGui::Image((void*)m_GBuffer->gAlbedo, regionAvail, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::End();
+    }
+
+    ImGui::Begin("Material");
+    {
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+    
+        // If viewport is resized
+        if (m_GBuffer->GetSize() != viewportPanelSize)
+        {
+            // Update FBO size and camera aspect ratio.
+            //m_Framebuffer->UpdateSize(viewportPanelSize);
+            //cam->OnWindowResize(viewportPanelSize.x, viewportPanelSize.y);
+        }
+    
+        ImGui::Image((void*)m_GBuffer->gMaterial, regionAvail, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::End();
+    }
+
+    ImGui::Begin("Normal");
+    {
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+
+        // If viewport is resized
+        if (m_GBuffer->GetSize() != viewportPanelSize)
+        {
+            // Update FBO size and camera aspect ratio.
+            //m_Framebuffer->UpdateSize(viewportPanelSize);
+            //cam->OnWindowResize(viewportPanelSize.x, viewportPanelSize.y);
+        }
+
+        ImGui::Image((void*)m_GBuffer->gNormal, regionAvail, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::End();
+    }
+
+    m_Framebuffer->Bind();
+    m_Scene->Draw();
+    m_Framebuffer->Unbind();
     ImGui::Begin("Viewport");
     {
         ImVec2 regionAvail = ImGui::GetContentRegionAvail();
