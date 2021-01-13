@@ -48,6 +48,7 @@ void Scene::Update(Timestep ts)
 }
 
 
+
 void Scene::DrawShadows()
 {
 	Camera* cam = nullptr;
@@ -108,6 +109,36 @@ void Scene::DrawGBuffer()
 			model.Draw();
 		}
 	}
+}
+
+void Scene::DrawDeferred()
+{
+	// Find the camera of the scene.
+	Camera* cam = nullptr;
+	{
+		auto view = m_Registry.view<TransformComponent, CameraComponent>();
+		for (auto e : view) {
+			auto [transform, camera] = view.get<TransformComponent, CameraComponent>(e);
+			cam = &camera.Camera;
+			break;
+		}
+	}
+
+	{
+		auto view = m_Registry.view<TransformComponent, LightComponent>();
+		for (auto l : view) {
+			auto [transform, light] = view.get<TransformComponent, LightComponent>(l);
+			light.DrawDeferred(transform, cam);
+		}
+	}
+
+	//m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
+	m_Skybox->Push();
+	glm::vec3 camPos = cam->GetTranslation();
+	Renderer::m_DeferredShader->SetUniform1f("u_Exposure", cam->Exposure);
+	Renderer::m_DeferredShader->SetUniform3f("u_EyePosition", camPos.x, camPos.y, camPos.z);
+	Renderer::m_DeferredShader->SetUniformMat4f("u_View", cam->GetTransform());
+	Renderer::m_DeferredShader->SetUniformMat4f("u_Projection", cam->GetPerspective());
 }
 
 void Scene::Draw()

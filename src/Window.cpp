@@ -9,8 +9,18 @@
 #include "Scene/Entities/Entity.h"
 #include <imgui\imgui_impl_glfw.h>
 #include <imgui\imgui_impl_opengl3.h>
+unsigned int vbo;
+unsigned int vao;
 
+float vertices[] = {
+       1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
+       1.0f, -1.0f, 0.0f,   1.0f, 0.0f,
+      -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
 
+       1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
+      -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+      -1.0f,  1.0f, 0.0f,  0.0f, 1.0f
+};
 Window::Window() 
 {
     s_Instance = this;
@@ -76,10 +86,30 @@ int Window::Init()
     //glEnable(GL_CULL_FACE);
     // create viewport
    
+    m_DeferredFrambuffer = new FrameBuffer(false, glm::vec2(1920, 1080), GL_COLOR_ATTACHMENT0);
+    m_DeferredFrambuffer->SetTexture(new Texture(glm::vec2(1920, 1080), GL_RGB));
+
     m_Framebuffer = new FrameBuffer(true, glm::vec2(1920, 1080), GL_COLOR_ATTACHMENT0);
     m_Framebuffer->SetTexture(new Texture(glm::vec2(1920, 1080), GL_RGB));
 
     m_GBuffer = new GBuffer(glm::vec2(1920, 1080));
+
+    // Temporary quad vbo for deferred.
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+    glEnableVertexAttribArray(1);
+
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -181,8 +211,7 @@ void Window::Draw()
     //glCullFace(GL_BACK);
     // Drawing to texture.
 
-
-
+   
     
     ImGui::Begin("ShadowMap");
     {
@@ -201,6 +230,23 @@ void Window::Draw()
     m_GBuffer->Bind();
         m_Scene->DrawGBuffer();
     m_GBuffer->Unbind();
+
+    DrawQuad();
+
+    ImGui::Begin("Deferred output");
+    {
+
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        glm::vec2 viewportPanelSize = glm::vec2(regionAvail.x, regionAvail.y);
+
+
+        ImGui::Image((void*)m_DeferredFrambuffer->GetTexture()->GetID(), regionAvail, ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::End();
+
+    }
+
+    // Draw rect
+    Renderer::m_DeferredShader->Bind();
 
     ImGui::Begin("depth");
     {
@@ -356,4 +402,37 @@ void Window::Draw()
     glfwSwapBuffers(m_Window);
     glfwPollEvents();
 
+}
+
+
+
+void Window::DrawQuad()
+{
+    Renderer::m_DeferredShader->Bind();
+
+    m_DeferredFrambuffer->Bind();
+    
+    m_Scene->DrawDeferred();
+
+    glActiveTexture(GL_TEXTURE0 + 5);
+    glBindTexture(GL_TEXTURE_2D, m_GBuffer->gAlbedo);
+
+    glActiveTexture(GL_TEXTURE0 + 6);
+    glBindTexture(GL_TEXTURE_2D, m_GBuffer->gNormal);
+
+    glActiveTexture(GL_TEXTURE0 + 7);
+    glBindTexture(GL_TEXTURE_2D, m_GBuffer->gMaterial);
+
+    glActiveTexture(GL_TEXTURE0 + 8);
+    glBindTexture(GL_TEXTURE_2D, m_GBuffer->gDepth);
+
+    Renderer::m_DeferredShader->SetUniform1i("m_Albedo", 5);
+    Renderer::m_DeferredShader->SetUniform1i("m_Depth", 8);
+    Renderer::m_DeferredShader->SetUniform1i("m_Normal", 6);
+    Renderer::m_DeferredShader->SetUniform1i("m_Material", 7);
+
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    m_DeferredFrambuffer->Unbind();
 }

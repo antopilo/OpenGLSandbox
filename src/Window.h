@@ -15,7 +15,11 @@ private:
 	GBuffer* m_GBuffer;
 	Scene* m_Scene;
 
+	FrameBuffer* m_DeferredFrambuffer;
+
 	int Width, Height;
+
+
 public:
 	Window();
 	~Window();
@@ -26,6 +30,7 @@ public:
 	void Update(Timestep ts);
 	void Draw();
 
+	void DrawQuad();
 
 	GLFWwindow* GetHandle();
 };

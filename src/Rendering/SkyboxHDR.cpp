@@ -118,6 +118,10 @@ void SkyboxHDR::Push() {
     Renderer::m_Shader->SetUniform1i("u_IrradianceMap", 1);
     Renderer::m_Shader->SetUniform1i("prefilterMap", 2);
     Renderer::m_Shader->SetUniform1i("brdfLUT", 3);
+
+    Renderer::m_DeferredShader->SetUniform1i("u_IrradianceMap", 1);
+    Renderer::m_DeferredShader->SetUniform1i("u_PrefilterMap", 2);
+    Renderer::m_DeferredShader->SetUniform1i("u_BrdfLUT", 3);
 }
 
 void SkyboxHDR::CreateHDRCubemap() {

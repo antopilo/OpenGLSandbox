@@ -19,6 +19,7 @@ void Renderer::Init()
     m_SkyboxShader    = new Shader("Res/Shaders/skybox.shader");
     m_BRDShader = new Shader("Res/Shaders/BRD.shader");
     m_GBufferShader = new Shader("Res/Shaders/gbuffer.shader");
+    m_DeferredShader = new Shader("Res/Shaders/deferred.shader");
     m_Shader = new Shader("Res/Shaders/basic.shader");
     m_Shader->Bind();
 }
@@ -64,4 +65,26 @@ void Renderer::RegisterLight(TransformComponent transform, LightComponent light,
     m_Shader->SetUniform3f   ("Lights[" + std::to_string(idx - 1) + "].Position"      , transform.Translation.x, transform.Translation.y, transform.Translation.z);
     m_Shader->SetUniform3f   ("Lights[" + std::to_string(idx - 1) + "].Direction"     , direction.x, direction.y, direction.z);
     m_Shader->SetUniform3f   ("Lights[" + std::to_string(idx - 1) + "].Color"         , light.Color.r * light.Strength, light.Color.g * light.Strength, light.Color.b * light.Strength);
+}
+
+void Renderer::RegisterDeferredLight(TransformComponent transform, LightComponent light, Camera* cam)
+{
+    m_Lights.push_back({ transform , light });
+
+    // What light idx is this?
+    int idx = m_Lights.size();
+
+    glm::vec3 direction = light.GetDirection();
+    glm::vec3 pos = transform.Translation;
+    glm::mat4 lightView = glm::lookAt(pos, pos - direction, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    light.m_Framebuffer->GetTexture()->Bind(11);
+
+    m_DeferredShader->SetUniform1i("LightCount", idx);
+    m_DeferredShader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].Type", light.Type);
+    m_DeferredShader->SetUniform1i("Lights[" + std::to_string(idx - 1) + "].ShadowMap", 11);
+    m_DeferredShader->SetUniformMat4f("Lights[" + std::to_string(idx - 1) + "].LightTransform", light.GetProjection() * lightView);
+    m_DeferredShader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Position", transform.Translation.x, transform.Translation.y, transform.Translation.z);
+    m_DeferredShader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Direction", direction.x, direction.y, direction.z);
+    m_DeferredShader->SetUniform3f("Lights[" + std::to_string(idx - 1) + "].Color", light.Color.r * light.Strength, light.Color.g * light.Strength, light.Color.b * light.Strength);
 }

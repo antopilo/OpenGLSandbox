@@ -27,6 +27,7 @@ public:
 
 	void DrawShadows();
 	void DrawGBuffer();
+	void DrawDeferred();
 	void Draw();
 
 	std::vector<Entity> GetAllEntities();

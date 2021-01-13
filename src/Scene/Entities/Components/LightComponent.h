@@ -34,7 +34,7 @@ struct LightComponent {
 	void DrawShadow();
 
 	void Draw(TransformComponent transformComponent, Camera* cam);
-
+	void DrawDeferred(TransformComponent transformComponent, Camera* cam);
 	void DrawEditor();
 
 	void SetType(LightType type);

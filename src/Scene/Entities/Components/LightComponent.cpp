@@ -64,6 +64,11 @@ void LightComponent::Draw(TransformComponent transformComponent, Camera* cam)
 
 }
 
+void LightComponent::DrawDeferred(TransformComponent transformComponent, Camera* cam)
+{
+    Renderer::RegisterDeferredLight(transformComponent, *this, cam);
+}
+
 void LightComponent::DrawEditor() {
     ImGui::TextColored(ImGui::GetStyleColorVec4(1), "Light properties");
     ImGui::ColorEdit4("Light Color", &Color.r);
