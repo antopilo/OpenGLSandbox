@@ -21,8 +21,6 @@ private:
 	glm::mat4 m_Perspective;
 
 	glm::vec3 up; // = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraRight; // = glm::normalize(glm::cross(up, cameraDirection));
-	glm::vec3 cameraUp; // = glm::cross(cameraDirection, cameraRight);
 	glm::vec3 cameraFront; // = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	glm::vec3 cameraTarget; // = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -37,6 +35,8 @@ private:
 	float mouseLastY = 0;
 
 public:
+	glm::vec3 cameraRight; // = glm::normalize(glm::cross(up, cameraDirection));
+	glm::vec3 cameraUp; // = glm::cross(cameraDirection, cameraRight);
 	float Fov = 88.0f;
 	float Exposure = 1.0f;
 	float Speed = 1.0f;
@@ -53,4 +53,5 @@ public:
 	glm::vec3 GetDirection();
 	glm::mat4 GetPerspective();
 	glm::mat4 GetTransform();
+	glm::mat4 GetTransformRotation();
 };

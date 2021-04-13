@@ -152,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Dev\OpenGLSandbox\Dependencies\GLFW\x64\lib-vc2019;C:\Dev\OpenGLSandbox\Dependencies\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Dev\OpenGLSandbox\Dependencies\GLFW\x64\lib-vc2019;C:\Dev\OpenGLSandbox\Dependencies\GLEW\lib\Release\x64;C:\Dev\OpenGLSandbox\Dependencies\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
@@ -164,6 +164,7 @@
     <ClCompile Include="src\Core\TextureManager.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Rendering\ProceduralSky.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
     <ClCompile Include="src\Rendering\Skybox.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="src\Rendering\Framebuffer.h" />
     <ClInclude Include="src\Rendering\GBuffer.h" />
     <ClInclude Include="src\Rendering\Mesh\Mesh.h" />
+    <ClInclude Include="src\Rendering\ProceduralSky.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
     <ClInclude Include="src\Rendering\Skybox.h" />
@@ -598,6 +600,7 @@
     <None Include="Res\Materials\Marble.material" />
     <None Include="Res\Materials\Paving.material" />
     <None Include="Res\Materials\Planks.material" />
+    <None Include="Res\Shaders\atmospheric_sky.shader" />
     <None Include="Res\Shaders\basic.shader" />
     <None Include="Res\Shaders\BRD.shader" />
     <None Include="Res\Shaders\deferred.shader" />
@@ -749,6 +752,9 @@
     <Image Include="Res\Textures\1.png" />
     <Image Include="Res\Textures\default\Default.png" />
     <Image Include="Res\Textures\default\defaultNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

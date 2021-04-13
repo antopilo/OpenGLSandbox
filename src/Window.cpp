@@ -9,6 +9,7 @@
 #include "Scene/Entities/Entity.h"
 #include <imgui\imgui_impl_glfw.h>
 #include <imgui\imgui_impl_opengl3.h>
+#include "Scene/Entities/ImGuiHelper.h"
 unsigned int vbo;
 unsigned int vao;
 
@@ -155,7 +156,7 @@ void Window::Draw()
     }
     
     Camera* cam = m_Scene->GetCurrentCamera();
-    Renderer::BeginDraw(cam);
+    
     
     // TODO: Move to separate UI layer.
 	ImGui_ImplOpenGL3_NewFrame();
@@ -211,12 +212,11 @@ void Window::Draw()
     }
     
     bool show = true;
-    
     int id = 0;
     
-	//glCullFace(GL_FRONT);
-    m_Scene->DrawShadows();
-    //glCullFace(GL_BACK);
+	//
+    //m_Scene->DrawShadows();
+    //
     // Drawing to texture.
     
     
@@ -235,11 +235,11 @@ void Window::Draw()
     
     
     
-    m_GBuffer->Bind();
-    m_Scene->DrawGBuffer();
-    m_GBuffer->Unbind();
-    //
-    DrawQuad();
+    //m_GBuffer->Bind();
+    //m_Scene->DrawGBuffer();
+    //m_GBuffer->Unbind();
+    ////
+    //DrawQuad();
     
     ImGui::Begin("Deferred output");
     {
@@ -254,7 +254,7 @@ void Window::Draw()
     }
     
     // Draw rect
-    Renderer::m_DeferredShader->Bind();
+    //Renderer::m_DeferredShader->Bind();
     
     ImGui::Begin("depth");
     {
@@ -317,9 +317,14 @@ void Window::Draw()
         ImGui::End();
     }
     
+    Renderer::BeginDraw(m_Scene->GetCurrentCamera());
+    glCullFace(GL_FRONT);
+    m_Scene->DrawShadows();
+    glCullFace(GL_BACK);
     m_Framebuffer->Bind();
     m_Scene->Draw();
     m_Framebuffer->Unbind();
+
     ImGui::Begin("Viewport");
     {
         ImVec2 regionAvail = ImGui::GetContentRegionAvail();
@@ -356,6 +361,26 @@ void Window::Draw()
         ImGui::End();
     }
     
+    ImGui::Begin("Sky");
+    {
+        ImGuiHelper::DrawVec3("Sun Direction", &m_Scene->m_ProceduralSky->SunDirection);
+        m_Scene->m_ProceduralSky->SunDirection = glm::normalize(m_Scene->m_ProceduralSky->SunDirection);
+
+        ImGui::DragFloat("Sun Intensity", &m_Scene->m_ProceduralSky->SunIntensity);
+
+        //ImGui::DragFloat("AtmosphereRadius", &m_Scene->m_ProceduralSky->AtmosphereRadius);
+        //ImGui::DragFloat("SurfaceRadius", &m_Scene->m_ProceduralSky->SurfaceRadius);
+        ImGuiHelper::DrawVec3("RayleighScattering", &m_Scene->m_ProceduralSky->RayleighScattering);
+        //m_Scene->m_ProceduralSky->RayleighScattering = glm::normalize(m_Scene->m_ProceduralSky->RayleighScattering);
+        //
+        ImGuiHelper::DrawVec3("MieScattering", &m_Scene->m_ProceduralSky->MieScattering);
+        //m_Scene->m_ProceduralSky->MieScattering = glm::normalize(m_Scene->m_ProceduralSky->MieScattering);
+        
+
+        //ImGuiHelper::DrawVec3("CenterPoint", &m_Scene->m_ProceduralSky->CenterPoint);
+        //m_Scene->m_ProceduralSky->CenterPoint = glm::normalize(m_Scene->m_ProceduralSky->CenterPoint);
+        ImGui::End();
+    }
     ImGui::Begin("Propreties");
     {
         //ImGui::InputText("Name:", selectedEntity->m_Name.data(), 12);

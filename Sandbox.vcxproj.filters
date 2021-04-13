@@ -135,6 +135,9 @@
     <ClCompile Include="src\Scene\Entities\Components\QuakeMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rendering\ProceduralSky.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering\Shaders\Shader.h">
@@ -1304,6 +1307,9 @@
     <ClInclude Include="src\Vendors\libmap\h\vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\ProceduralSky.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Vendors\glm\detail\func_common.inl">
@@ -1733,6 +1739,7 @@
     <None Include="src\Vendors\imgui\imgui\examples\example_emscripten_opengl3\shell_minimal.html" />
     <None Include="Res\Shaders\gbuffer.shader" />
     <None Include="Res\Shaders\deferred.shader" />
+    <None Include="Res\Shaders\atmospheric_sky.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\Textures\0.png">
@@ -1747,5 +1754,8 @@
     <Image Include="Res\Textures\default\defaultNormal.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
 </Project>

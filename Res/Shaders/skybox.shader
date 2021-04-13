@@ -22,6 +22,7 @@ out vec4 FragColor;
 in vec3 TexCoords;
 in vec3 LocalPos;
 
+uniform int isProcedural;
 uniform int isHDR;
 uniform int convulate;
 uniform sampler2D equirectangularMap;

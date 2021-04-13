@@ -17,6 +17,7 @@ public:
 	static Shader* m_BRDShader;
 	static Shader* m_GBufferShader;
 	static Shader* m_DeferredShader;
+	static Shader* m_ProceduralSkyShader;
 
 	static void Init();
 

@@ -5,6 +5,7 @@
 #include "entt/entt.hpp"
 #include "../Rendering/SkyboxHDR.h"
 #include "../Rendering/GBuffer.h"
+#include "../Rendering/ProceduralSky.h"
 
 class Entity;
 class Scene
@@ -18,6 +19,7 @@ private:
 public:
 
 	SkyboxHDR* m_Skybox;
+	ProceduralSky* m_ProceduralSky;
 	Scene();
 	~Scene();
 

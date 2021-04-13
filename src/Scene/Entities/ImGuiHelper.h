@@ -18,7 +18,7 @@ public:
         }
         ImGui::PopStyleColor(3);
         ImGui::SameLine();
-        ImGui::DragFloat(("##" + label + "x").c_str(), &vec->x, 0.1f, 0.0f, 0.0f, "%.2f");
+        ImGui::DragFloat(("##" + label + "x").c_str(), &vec->x, 0.01f, 0.0f, 0.0f, "%.5f");
         ImGui::PopItemWidth();
         ImGui::SameLine();
         // Y
@@ -31,7 +31,7 @@ public:
         }
         ImGui::PopStyleColor(3);
         ImGui::SameLine();
-        ImGui::DragFloat(("##" + label + "y").c_str(), &vec->y, 0.1f, 0.0f, 0.0f, "%.2f");
+        ImGui::DragFloat(("##" + label + "y").c_str(), &vec->y, 0.01f, 0.0f, 0.0f, "%.5f");
         ImGui::PopItemWidth();
         ImGui::SameLine();
         // Z
@@ -44,7 +44,7 @@ public:
         }
         ImGui::PopStyleColor(3);
         ImGui::SameLine();
-        ImGui::DragFloat(("##" + label + "z").c_str(), &vec->z, 0.1f, 0.0f, 0.0f, "%.2f");
+        ImGui::DragFloat(("##" + label + "z").c_str(), &vec->z, 0.01f, 0.0f, 0.0f, "%.5f");
         ImGui::PopItemWidth();
 	}
 };

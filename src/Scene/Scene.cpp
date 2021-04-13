@@ -37,6 +37,7 @@ Scene::~Scene() {
 
 void Scene::Init() {
 	//m_Skybox = new SkyboxHDR("Res/Textures/Skyboxes/HDR/lilienstein_4k.hdr");
+	m_ProceduralSky = new ProceduralSky();
 }
 
 
@@ -170,8 +171,10 @@ void Scene::Draw()
 {
 	// GBUFFER
 	
-    
-	Renderer::m_Shader->Bind();
+
+	
+
+	
     
 	// Find the camera of the scene.
 	Camera* cam = nullptr;
@@ -183,7 +186,11 @@ void Scene::Draw()
 			break;
 		}
 	}
-    
+	glDisable(GL_DEPTH_TEST);
+	m_ProceduralSky->Draw(cam);
+	glEnable(GL_DEPTH_TEST);
+	Renderer::m_Shader->Bind();
+
 	// Push lights
 	{
 		auto view = m_Registry.view<TransformComponent, LightComponent>();
@@ -197,6 +204,8 @@ void Scene::Draw()
 	if (m_Skybox != nullptr)
 		m_Skybox->Draw(cam->GetPerspective(), cam->GetTransform());
     
+	
+
 	Renderer::m_Shader->Bind();
 	if (m_Skybox != nullptr)
 		m_Skybox->Push();

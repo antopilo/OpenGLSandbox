@@ -127,7 +127,7 @@ void Camera::Update(Timestep ts) {
 	cameraDirection.y = sin(glm::radians(Pitch));
 	cameraDirection.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	cameraFront = glm::normalize(cameraDirection);
-	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+	cameraRight = glm::normalize(glm::cross(up, cameraFront));
 }
 
 void Camera::OnWindowResize(int x, int y)
@@ -159,6 +159,11 @@ glm::mat4 Camera::GetTransform()
 	glm::mat4 tr = lookAt(Translation, Translation + cameraFront, cameraUp);
 	return tr;
 
+}
+
+glm::mat4 Camera::GetTransformRotation()
+{
+	return lookAt(glm::vec3(), cameraFront, cameraUp);
 }
 
 

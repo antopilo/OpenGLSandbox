@@ -12,7 +12,7 @@ Shader* Renderer::m_SkyboxShader;
 Shader* Renderer::m_BRDShader;
 Shader* Renderer::m_GBufferShader;
 Shader* Renderer::m_DeferredShader;
-
+Shader* Renderer::m_ProceduralSkyShader;
 void Renderer::Init()
 {
     m_ShadowmapShader = new Shader("Res/Shaders/shadowMap.shader");
@@ -20,6 +20,7 @@ void Renderer::Init()
     m_BRDShader = new Shader("Res/Shaders/BRD.shader");
     m_GBufferShader = new Shader("Res/Shaders/gbuffer.shader");
     m_DeferredShader = new Shader("Res/Shaders/deferred.shader");
+    m_ProceduralSkyShader = new Shader("Res/Shaders/atmospheric_sky.shader");
     m_Shader = new Shader("Res/Shaders/basic.shader");
     m_Shader->Bind();
 }
