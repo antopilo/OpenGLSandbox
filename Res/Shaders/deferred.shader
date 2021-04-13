@@ -1,11 +1,5 @@
 #shader vertex
 #version 460 core
-// Have you ever seen Godot shader. The whole engine has ONE monolithic shader.
-// Also, how do you want me to split this in multiple shaders lmao.
-// Click upper right Round thing
-// DO CODE REVIEW yep
-// im following u daddy
-
 layout(location = 0) in vec3 VertexPosition;
 layout(location = 1) in vec2 UVPosition;
 
@@ -245,6 +239,7 @@ void main()
     color = color / (color + vec3(1.0));
     // gamma correct
     color = pow(color, vec3(1.0 / u_Exposure));
-    //color.r = 1.0f;
+
+	
     FragColor = vec4(color, 1.0); // so If i wanted to implement other stuff like SSR and bloom. I would need another render texture? using this same shader?
 }

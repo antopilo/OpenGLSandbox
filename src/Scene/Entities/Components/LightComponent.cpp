@@ -21,7 +21,7 @@ LightComponent::LightComponent()
 
 glm::mat4 LightComponent::GetProjection()
 {
-    return glm::ortho(-25.0f, 25.0f, -25.0f, 25.0f, -50.0f, 50.0f);
+    return glm::ortho(-25.0f, 25.0f, -25.0f, 25.0f, -25.0f, 25.0f);
 }
 
 glm::vec3 LightComponent::GetDirection()

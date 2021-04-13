@@ -24,6 +24,7 @@ Material::Material(const glm::vec3 albedoColor)
 
 	if (m_DefaultAlbedo == nullptr)
 		m_DefaultAlbedo = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
+	m_Albedo = m_DefaultAlbedo;
 	if (m_DefaultAO == nullptr)
 		m_DefaultAO = TextureManager::Get()->GetTexture("Res/Textures/default/Default.png");
 	if (m_DefaultNormal == nullptr)

@@ -1,0 +1,44 @@
+todos:
+
+(UI):
+- Add UI layer
+- Add UI rendering
+- Add Basic text rendering
+- 
+
+(Skybox):
+- Toggle skybox
+- Ambient light toggle
+- Sky color
+- Sky simulation?
+- Sun light?
+- Sky transitions
+- Clouds?
+
+(script):
+- add mono
+- create basic API.
+
+(light):
+- Toggle for volumetric
+- Volumetric volumes
+- toggle shadows
+- Shadow per lights
+
+(trenchbroom):
+- Add texture references
+- Add PBR system
+- Rebuilding
+- Live reload?
+- Separate entities?
+- Collisions?
+- Lights.
+- Collision generation
+
+(physics):
+- Add Bullet
+- Add rigid body(box)
+- Add mesh.
+
+(sounds):
+- add fmod.

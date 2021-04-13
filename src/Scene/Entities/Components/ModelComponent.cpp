@@ -2,9 +2,9 @@
 #include "../../../Rendering/Textures/Material.h"
 #include "../../../Rendering/Renderer.h"
 #include "../../../Core/TextureManager.h"
+
 void ModelComponent::Draw()
 {
-
     for (auto m : meshes) {
         m.Draw();
     }

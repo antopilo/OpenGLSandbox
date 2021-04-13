@@ -124,7 +124,7 @@ in vec3 v_Tangent;
 in vec3 v_Bitangent;
 
 const float PI = 3.141592653589793f; // mark this as static const wait idk if you can do that in glsl
-float height_scale = 0.02f;
+float height_scale = 0.00f;
 
 vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir) // nice never done this // its easy Af its basicalyy returns a uv coords . that u use everywhere
 {
@@ -224,7 +224,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap, vec3 normal
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    float bias = max(0.005 * (1.0 - dot(normal, lightDir)), 0.0005);
 
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
@@ -240,6 +240,58 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap, vec3 normal
     return shadow;
 }
 
+
+const float G_SCATTERING = 0.5f;
+// Mie scaterring approximated with Henyey-Greenstein phase function.
+float ComputeScattering(float lightDotView)
+{
+    float result = 1.0f - G_SCATTERING * G_SCATTERING;
+    result /= (4.0f * PI * pow(1.0f + G_SCATTERING * G_SCATTERING - (2.0f * G_SCATTERING) * lightDotView, 1.5f));
+    return result;
+}
+
+const float NB_STEPS = 150.0f;
+vec3 ComputeVolumetric(vec3 FragPos, mat4 LightTransform, vec3 LightColor, sampler2D shadowMap, vec3 LightDirection)
+{
+    // world space frag position.
+    vec3 startPosition = u_EyePosition;             // Camera Position
+    vec3 rayVector = FragPos - startPosition;  // Ray Direction
+
+    float rayLength = length(rayVector);            // Length of the raymarched
+
+    float stepLength = rayLength / NB_STEPS;        // Step length
+    vec3 rayDirection = rayVector / rayLength;
+    vec3 step = rayDirection * stepLength;          // Normalized to step length direction
+
+    vec3 currentPosition = startPosition;           // First step position
+    vec3 accumFog = vec3(0.0f, 0.0f, 0.0f);         // accumulative color
+
+    // Raymarching
+    for (int i = 0; i < NB_STEPS; i++)
+    {
+        vec4 fragPosLightSpace = LightTransform * vec4(currentPosition, 1.0f);
+        // perform perspective divide
+        vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+        // transform to [0,1] range
+        projCoords = projCoords * 0.5 + 0.5;
+
+        float currentDepth = projCoords.z;
+
+        // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+        vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+        
+        float closestDepth = texture(shadowMap, projCoords.xy).r;
+
+        if(closestDepth > currentDepth)
+            accumFog += (ComputeScattering(dot(rayDirection, LightDirection)).xxx * LightColor);
+
+        currentPosition += step;
+    }
+    accumFog /= NB_STEPS;
+
+    return accumFog;
+}
+
 void main()
 {
     // Parallax UV offset.
@@ -252,7 +304,7 @@ void main()
     vec3 finalAlbedo = texture(m_Albedo, finalTexCoords).rgb;
     float finalRoughness = texture(m_Roughness, finalTexCoords).r;
     float finalMetalness = texture(m_Metalness, finalTexCoords).r;
-    float finalAO        = texture(m_AO, finalTexCoords).r;
+    float finalAO        = mix(texture(m_AO, finalTexCoords).r, 0.0f, 0.0f);
 
     vec3  finalNormal   = texture(m_Normal, finalTexCoords).rgb;
     finalNormal = finalNormal * 2.0 - 1.0;
@@ -267,20 +319,24 @@ void main()
     // reflectance equation
     vec3 Lo = vec3(0.0);
     vec3 eyeDirection = normalize(u_EyePosition - v_FragPos);
+
+    vec3 Fog = vec3(0.0);
     for (int i = 0; i < LightCount; i++)
     {
         vec3 L = normalize(Lights[i].Position - v_FragPos);
 
         float distance = length(Lights[i].Position - v_FragPos);
         float attenuation = 1.0 / (distance * distance);
-        
+        float shadow = 0.0f;
+
         if (Lights[i].Type == 0) {
             L = Lights[i].Direction;
             attenuation = 1.0f;
+            Fog += ComputeVolumetric(v_FragPos, Lights[i].LightTransform, Lights[i].Color, Lights[i].ShadowMap, Lights[i].Direction);
+            shadow = ShadowCalculation(Lights[i].LightTransform * vec4(v_FragPos, 1.0f), Lights[i].ShadowMap, N, Lights[i].Direction);
+
         }
 
-        float shadow = ShadowCalculation(Lights[i].LightTransform * vec4(v_FragPos, 1.0f), Lights[i].ShadowMap, N, Lights[i].Direction);
-        
         vec3 H = normalize(V + L);
         vec3 radiance = Lights[i].Color * attenuation * (1.0f - shadow);
 
@@ -311,8 +367,6 @@ void main()
         Lo += (kD * finalAlbedo / PI + specular) * radiance * NdotL;// note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
     }
 
-  
- 
 
     /// ambient lighting (we now use IBL as the ambient term)
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, finalRoughness);
@@ -321,42 +375,26 @@ void main()
     vec3 kD = 1.0 - kS;
     kD *= 1.0 - finalMetalness;
 
-    vec3 irradiance = texture(u_IrradianceMap, N).rgb;
+    vec3 irradiance = mix(texture(u_IrradianceMap, N).rgb, vec3(0.01f), 0.9f);
     vec3 diffuse = irradiance * finalAlbedo;
 
     // sample both the pre-filter map and the BRDF lut and combine them together as per the Split-Sum approximation to get the IBL specular part.
     const float MAX_REFLECTION_LOD = 4.0;
-    vec3 prefilteredColor = textureLod(prefilterMap, R, finalRoughness * MAX_REFLECTION_LOD).rgb;
+    vec3 prefilteredColor = mix(textureLod(prefilterMap, R, finalRoughness * MAX_REFLECTION_LOD).rgb, vec3(1.0f), 0.99f);
     vec2 brdf = texture(brdfLUT, vec2(max(dot(N, V), 0.0), finalRoughness)).rg;
     vec3 specular = prefilteredColor * (F * brdf.x + brdf.y);
 
     vec3 ambient = (kD * diffuse + specular) * finalAO;
     vec3 color = ambient + Lo;
 
+    color += Fog;
     // HDR tonemapping
     color = color / (color + vec3(1.0));
     // gamma correct
     color = pow(color, vec3(1.0 / u_Exposure));
-    // Im already rendering to a texture
-    // Cant I just copy the texture I just rendered to and flip it and put it in the places that needs reflection.
-    // Ok well, that might be a new reflection system I just invented right now at the moment. 
-    // cant SSR be used on something else than floors nice. I was confusing it with planar reflection
-    // So todo list:
-    // refact shader and better material system
-    // SSR - relies on deferred shading btw yes you are forward. If you do not know if you are forward or deferred, you are definitely forward. xD following
-    // am I forward?
-    // I have 2 steps
-    // Skybox 
-    // Geometry Follow me.
-   
+
+    //ComputeVolumetric
     color = mix(color, finalNormal, u_ShowNormal);
 
     FragColor = vec4(color, 1.0); // so If i wanted to implement other stuff like SSR and bloom. I would need another render texture? using this same shader?
-}// SCREEN SPACE REFLECTION
-// nah screen space reflections work with data already on the screen
-// so you can't reflect stuff that hasn't already been rendered
-// in a pass after the lighting pass; so after this one
-// you get a reflection vector and ray march the depth buffer
-// then you sample from the already lit image
-// ssr can be used on everything; as long as whatever it should be rendering is on screen, it will show up as a reflection
-// Yes.
+}

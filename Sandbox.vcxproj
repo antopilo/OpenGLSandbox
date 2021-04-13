@@ -102,7 +102,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLEW\include;$(ProjectDir)Dependencies\GLFW\x64\include;$(ProjectDir)src\Vendors;$(ProjectDir)Dependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -178,6 +178,7 @@
     <ClCompile Include="src\Scene\Entities\Components\LightComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\MeshComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\ModelComponent.cpp" />
+    <ClCompile Include="src\Scene\Entities\Components\QuakeMap.cpp" />
     <ClCompile Include="src\Scene\Entities\Components\TransformComponent.cpp" />
     <ClCompile Include="src\Scene\Entities\Entity.cpp" />
     <ClCompile Include="src\Scene\Lighting\Environment.cpp" />
@@ -190,6 +191,12 @@
     <ClCompile Include="src\Vendors\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Vendors\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\Vendors\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Vendors\libmap\c\geo_generator.c" />
+    <ClCompile Include="src\Vendors\libmap\c\map_data.c" />
+    <ClCompile Include="src\Vendors\libmap\c\map_parser.c" />
+    <ClCompile Include="src\Vendors\libmap\c\matrix.c" />
+    <ClCompile Include="src\Vendors\libmap\c\surface_gatherer.c" />
+    <ClCompile Include="src\Vendors\libmap\c\vector.c" />
     <ClCompile Include="src\Vendors\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
@@ -216,6 +223,7 @@
     <ClInclude Include="src\Scene\Entities\Components\LightComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\MeshComponent.h" />
     <ClInclude Include="src\Scene\Entities\Components\ModelComponent.h" />
+    <ClInclude Include="src\Scene\Entities\Components\QuakeMap.h" />
     <ClInclude Include="src\Scene\Entities\Components\TransformComponent.h" />
     <ClInclude Include="src\Scene\Entities\Entity.h" />
     <ClInclude Include="src\Scene\Entities\ImGuiHelper.h" />
@@ -567,6 +575,19 @@
     <ClInclude Include="src\Vendors\imgui\imstb_textedit.h" />
     <ClInclude Include="src\Vendors\imgui\imstb_truetype.h" />
     <ClInclude Include="src\Vendors\json\json.hpp" />
+    <ClInclude Include="src\Vendors\libmap\h\brush.h" />
+    <ClInclude Include="src\Vendors\libmap\h\entity.h" />
+    <ClInclude Include="src\Vendors\libmap\h\entity_geometry.h" />
+    <ClInclude Include="src\Vendors\libmap\h\face.h" />
+    <ClInclude Include="src\Vendors\libmap\h\geo_generator.h" />
+    <ClInclude Include="src\Vendors\libmap\h\libmap.h" />
+    <ClInclude Include="src\Vendors\libmap\h\libmap_math.h" />
+    <ClInclude Include="src\Vendors\libmap\h\map_data.h" />
+    <ClInclude Include="src\Vendors\libmap\h\map_parser.h" />
+    <ClInclude Include="src\Vendors\libmap\h\matrix.h" />
+    <ClInclude Include="src\Vendors\libmap\h\platform.h" />
+    <ClInclude Include="src\Vendors\libmap\h\surface_gatherer.h" />
+    <ClInclude Include="src\Vendors\libmap\h\vector.h" />
     <ClInclude Include="src\Vendors\stb_image\stb_image.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>

@@ -1,0 +1,70 @@
+// Game: Generic
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_def" "builtin:Generic.fgd"
+"_tb_textures" "textures/PBR;textures/Skyboxes;textures/default"
+// brush 0
+{
+( -352 -160 80 ) ( -352 -160 -16 ) ( -352 -32 -16 ) default/defaultNormal 0 0 0 1 1
+( -32 -640 -16 ) ( -160 -640 -16 ) ( -160 -640 80 ) default/defaultNormal 0 0 0 1 1
+( -32 -160 -16 ) ( -32 -32 -16 ) ( -160 -32 -16 ) default/defaultNormal 0 0 0 1 1
+( -32 -160 0 ) ( -160 -160 0 ) ( -160 -32 0 ) default/defaultNormal 0 0 0 1 1
+( -160 368 -16 ) ( -32 368 -16 ) ( -32 368 80 ) default/defaultNormal 0 0 0 1 1
+( 672 -32 80 ) ( 672 -32 -16 ) ( 672 -160 -16 ) default/defaultNormal 0 0 0 1 1
+}
+// brush 1
+{
+( -96 32 0 ) ( -80 16 96 ) ( -80 -16 96 ) default/defaultNormal 0 0 0 1 1
+( -48 -16 96 ) ( -32 -32 0 ) ( -96 -32 0 ) default/defaultNormal 0 0 0 1 1
+( -96 -32 0 ) ( -32 -32 0 ) ( -32 32 0 ) default/defaultNormal 0 0 0 1 1
+( -48 16 96 ) ( -48 -16 96 ) ( -80 -16 96 ) default/defaultNormal 0 0 0 1 1
+( -32 32 0 ) ( -48 16 96 ) ( -80 16 96 ) default/defaultNormal 0 0 0 1 1
+( -32 32 0 ) ( -32 -32 0 ) ( -48 -16 96 ) default/defaultNormal 0 0 0 1 1
+}
+// brush 2
+{
+( -80 16 96 ) ( -64 32 192 ) ( -64 -32 192 ) default/defaultNormal 0 0 0 1 1
+( -64 -32 192 ) ( -48 -16 96 ) ( -80 -16 96 ) default/defaultNormal 0 0 0 1 1
+( -80 -16 96 ) ( -48 -16 96 ) ( -48 16 96 ) default/defaultNormal 0 0 0 1 1
+( -80 16 96 ) ( -48 16 96 ) ( -64 32 192 ) default/defaultNormal 0 0 0 1 1
+( -48 16 96 ) ( -48 -16 96 ) ( -64 -32 192 ) default/defaultNormal 0 0 0 1 1
+}
+// brush 3
+{
+( -352 -640 0 ) ( -352 -639 0 ) ( -352 -640 1 ) default/defaultNormal 0 0 0 1 1
+( -352 -640 0 ) ( -352 -640 1 ) ( -351 -640 0 ) default/defaultNormal 0 0 0 1 1
+( -352 -640 0 ) ( -351 -640 0 ) ( -352 -639 0 ) default/defaultNormal 0 0 0 1 1
+( 672 -592 144 ) ( 672 -591 144 ) ( 673 -592 144 ) default/defaultNormal 0 0 0 1 1
+( 672 -592 16 ) ( 673 -592 16 ) ( 672 -592 17 ) default/defaultNormal 0 0 0 1 1
+( 672 -592 16 ) ( 672 -592 17 ) ( 672 -591 16 ) default/defaultNormal 0 0 0 1 1
+}
+// brush 4
+{
+( 608 -592 0 ) ( 608 -591 0 ) ( 608 -592 1 ) default/defaultNormal 0 0 0 1 1
+( 608 -592 0 ) ( 608 -592 1 ) ( 609 -592 0 ) default/defaultNormal 0 0 0 1 1
+( 608 -592 0 ) ( 609 -592 0 ) ( 608 -591 0 ) default/defaultNormal 0 0 0 1 1
+( 672 336 144 ) ( 672 337 144 ) ( 673 336 144 ) default/defaultNormal 0 0 0 1 1
+( 672 336 16 ) ( 673 336 16 ) ( 672 336 17 ) default/defaultNormal 0 0 0 1 1
+( 672 336 16 ) ( 672 336 17 ) ( 672 337 16 ) default/defaultNormal 0 0 0 1 1
+}
+// brush 5
+{
+( -320 336 0 ) ( -320 337 0 ) ( -320 336 1 ) default/defaultNormal 0 0 0 1 1
+( -288 336 0 ) ( -288 336 1 ) ( -287 336 0 ) default/defaultNormal 0 0 0 1 1
+( -288 336 0 ) ( -287 336 0 ) ( -288 337 0 ) default/defaultNormal 0 0 0 1 1
+( 624 368 144 ) ( 624 369 144 ) ( 625 368 144 ) default/defaultNormal 0 0 0 1 1
+( 624 368 16 ) ( 625 368 16 ) ( 624 368 17 ) default/defaultNormal 0 0 0 1 1
+( 672 368 16 ) ( 672 368 17 ) ( 672 369 16 ) default/defaultNormal 0 0 0 1 1
+}
+// brush 6
+{
+( -352 -208 160 ) ( -352 -207 160 ) ( -352 -208 161 ) default/defaultNormal 0 0 0 1 1
+( -352 -592 160 ) ( -352 -592 161 ) ( -351 -592 160 ) default/defaultNormal 0 0 0 1 1
+( -352 -208 0 ) ( -351 -208 0 ) ( -352 -207 0 ) default/defaultNormal 0 0 0 1 1
+( -320 0 144 ) ( -320 1 144 ) ( -319 0 144 ) default/defaultNormal 0 0 0 1 1
+( -320 368 176 ) ( -319 368 176 ) ( -320 368 177 ) default/defaultNormal 0 0 0 1 1
+( -320 0 176 ) ( -320 0 177 ) ( -320 1 176 ) default/defaultNormal 0 0 0 1 1
+}
+}

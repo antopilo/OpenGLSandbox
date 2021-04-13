@@ -7,7 +7,7 @@
 #include "Components/CameraComponent.h"
 #include "Components/MeshComponent.h"
 #include "Components/ModelComponent.h"
-
+#include "Components/QuakeMap.h"
 #include <imgui/imgui.h>
 
 
